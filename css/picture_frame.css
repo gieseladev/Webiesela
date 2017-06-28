@@ -1,0 +1,70 @@
+@charset "utf-8";
+.centered {
+	position: relative;
+	margin: auto;
+	top: 0;
+	max-height: 100vh;
+	display: block;
+	z-index: 4;
+	height: 100vh;
+	text-align: center;
+}
+.cover {
+	position: relative;
+	margin: auto;
+	width: 20vw;
+	padding-top: 15vh;
+}
+@media (orientation: portrait) and (max-aspect-ratio: 5/6){
+	.cover {
+		width: 80vw;
+		padding-top: 5vh;
+		padding-bottom: 10vh;
+	}
+}
+.cover img {
+	width: 100%;
+	margin: auto;
+}
+.cover #cover {
+	border-radius: 10%;
+	border: 3px solid #E0E0E0;
+	-webkit-box-shadow: 2px 4px 20px 3px #3C3C3C;
+	box-shadow: 2px 4px 20px 3px #3C3C3C;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	/*transform: rotateY(0deg); do this using JavaScript
+	transition: transform .5s linear;*/
+}
+.cover #paused {
+	position: absolute;
+	z-index: 5;
+	width: 50%;
+	transform: translate(50%, 50%);
+	opacity: 0.8;
+	visibility: visible;
+}
+.song_information {
+	position: relative;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+	color: #FFFFFF;
+	font-size: 5vh;
+	text-shadow: 0px 0px 12px #000000;
+	display: inline-block;
+	padding-top: 5vw;
+}
+@media (orientation: portrait) and (max-aspect-ratio: 5/6){
+	.song_information {
+		font-size: 3vh;
+	}
+}
+.song_information p {
+	margin: 0px;	
+}
+.song_name {
+	font-size: 170%;
+}
+.artist_name {
+	color: #C0C0C0;
+}
