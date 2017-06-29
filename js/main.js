@@ -3,18 +3,26 @@ var websocket = null;
 var token = getCookie("token");
 
 var user = null;
+var current_page = "loading_screen";
 
 function init() {
     "use strict";
+	//window.removeEventListener("load", init, false);
     doConnect();
 }
 
 function loadPage(page_name, on_ready) {
 	"use strict";
+	if (current_page === page_name) { // no need to reload current site
+		return false;
+	}
+	console.log("[PAGE] switching from " + current_page + " to " + page_name + "...");
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState === 4 && this.status === 200) {
 			document.getElementById("window").innerHTML = this.responseText;
+			current_page = page_name;
+			console.log("[PAGE] successfully loaded " + page_name);
 			on_ready();
 		}
 	};
@@ -47,7 +55,9 @@ function onOpen( /*evt*/ ) {
 
     if (token !== "") {
         console.log("[WEBSOCKET] found token in cookies, asking for init information");
-        getInformation();
+		loadPage("picture_frame", function() {
+        	getInformation();
+		});
     } else {
         console.log("[WEBSOCKET] no token, requesting registration");
 		loadPage("register_screen", function() {
@@ -143,12 +153,17 @@ function onError(evt) {
     "use strict";
     console.log("[WEBSOCKET] Error " + evt + ". Reconnecting in " + timeout_ms / 1000 + " seconds");
     websocket.close();
-    setTimeout(doConnect, timeout_ms);
-    timeout_ms *= 2;
+	
+	loadPage("loading_screen", function () { //switch back to the loading screen and connect again
+		setTimeout(doConnect, timeout_ms);
+		timeout_ms *= 2;
+	});
 }
 
 function doSend(message) {
     "use strict";
     websocket.send(message);
 }
-window.addEventListener("load", init, false);
+
+//window.addEventListener("load", init, false);
+init();
