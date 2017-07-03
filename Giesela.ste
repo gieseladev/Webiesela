@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<site SitePrefVersionMajor="12" SitePrefVersionMinor="0">
+    <localinfo sitename="Giesela" showdiscoverrelatedfilesmsg="TRUE" ftporrdsserver="FALSE" mediaqueryfile="" localroot="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5C" assetfolder="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5CjQueryAssets%5C" webfontsfolder="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Cwebfonts%5C" edgeassetsfolder="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Canimation_assets%5C" csspreprocessorsoutputuseoption="sameFolder" csspreprocessorscompassuseoption="compassConfigFile" csspreprocessorsbourbonuseoption="" csspreprocessorsbourbonneatuseoption="bourbonNeatBuiltInFiles" csspreprocessorsbourbonbittersuseoption="bourbonBittersBuiltInFiles" csspreprocessorsoutputfolder="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Ccss%5C" csspreprocessorsoutputsegmentfrom="" csspreprocessorsoutputsegmentto="" csspreprocessorsinputfolder="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5C" csspreprocessorsbourbonpath="C:%5CProgram%20Files%5CAdobe%5CAdobe%20Dreamweaver%20CC%202017%5CConfiguration%5CSassFrameworks%5Cbourbon" csspreprocessorsneatpath="C:%5CProgram%20Files%5CAdobe%5CAdobe%20Dreamweaver%20CC%202017%5CConfiguration%5CSassFrameworks%5Cneat" csspreprocessorsbitterspath="C:%5CProgram%20Files%5CAdobe%5CAdobe%20Dreamweaver%20CC%202017%5CConfiguration%5CSassFrameworks%5Cbase" csspreprocessorenableautocompilation="TRUE" csspreprocessorenablestrictmath="FALSE" csspreprocessorenablestrictunits="FALSE" csspreprocessorrewriteurls="FALSE" csspreprocessorcreatesourcecomments="FALSE" csspreprocessorsaasoutputstyle="nested" csspreprocessorsasssourcemap="FALSE" csspreprocessorlesssourcemap="FALSE" csspreprocessorusecompass="FALSE" csspreprocessorsuseconfigfileforcompass="FALSE" csspreprocessoruserelativeassests="FALSE" csspreprocessorsrubybasedconfigfile="" csspreprocessorshtmlpathforcompass="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Chtml%5C" csspreprocessorsimagesdirectoryforcompass="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Cimages%5C" csspreprocessorsgeneratedimagesdirectoryforcompass="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Cgeneratedimages%5C" csspreprocessorsfontsdirectoryforcompass="C:%5CUsers%5Csiku2%5COneDrive%5CDocuments%5CGitHub%5CWebiesela%5Cfonts%5C" advancedsettingphpversionnumber="PHP%205.6" imagefolder="" spacerfilepath="" refreshlocal="TRUE" rewritedocrellinks="FALSE" cache="TRUE" httpaddress="http://ftp.giesela.org/public_html/" relativeTo="DOCUMENT" caseSensitiveLinks="FALSE" curserver="webserver"/>
+    <designnotes usedesignnotes="TRUE" sharedesignnotes="FALSE"/>
+    <sitemap homepage="" pagesperrow="200" columnwidth="125" showdependentfiles="FALSE" showpagetitles="FALSE" showhiddenfiles="FALSE"/>
+    <fileviewcolumns sharecolumns="FALSE">
+        <column name="Local%20Files" align="left" show="TRUE" share="FALSE" builtin="TRUE" localwidth="185" remotewidth="180"/>
+        <column name="Notes" align="center" show="FALSE" share="FALSE" builtin="TRUE" localwidth="56" remotewidth="56"/>
+        <column name="Size" align="right" show="FALSE" share="FALSE" builtin="TRUE" localwidth="-2" remotewidth="-2"/>
+        <column name="Type" align="left" show="FALSE" share="FALSE" builtin="TRUE" localwidth="80" remotewidth="80"/>
+        <column name="Modified" align="left" show="FALSE" share="FALSE" builtin="TRUE" localwidth="122" remotewidth="122"/>
+        <column name="Checked%20Out%20By" align="left" show="FALSE" share="FALSE" builtin="TRUE" localwidth="-1" remotewidth="-1"/>
+</fileviewcolumns>
+    <serverlist>
+        <server servermodel="" servertype="remoteServer" weburl="http://ftp.giesela.org/public_html/" connectionsmigrated="FALSE" serverobjectsversion="1" defaultdoctype="HTML" accesstype="ftp" host="ftp.giesela.org" remoteroot="public_html/" name="2CO" maintainSyncInfo="TRUE" autoUpload="FALSE" autoSaveDependentFiles="FALSE" autoPushToTestingServer="TRUE" user="master@giesela.org" pw="51784775587E463C3D2C" savePW="TRUE" passphrase="" savepassphrase="FALSE" enablecheckin="FALSE" checkoutname="" checkoutwhenopen="TRUE" emailaddress="" identityfile="" identityfileabsolutepath="" usedefaultauthmethod="TRUE" usefirewall="FALSE" usepasv="TRUE" useSFTP="FALSE" useFTPS="FALSE" useImplicitFTPS="FALSE" encryptOnlyCommandChannel="FALSE" authenticationMode="TRUSTED_CERTIFICATE" useIPv6="FALSE" useftpoptimization="TRUE" usealternaterename="FALSE" pathNameCharacterSet="utf-8"/>
+</serverlist>
+    <cloaking enabled="TRUE" patterns="FALSE">
+        <cloakedfolder folder="dw_php_codehinting.config"/>
+        <cloakedfolder folder="_designs/"/>
+        <cloakedfolder folder=".gitattributes"/>
+        <cloakedfolder folder="wip.html"/>
+        <cloakedpattern pattern=".fla"/>
+        <cloakedpattern pattern=".psd"/>
+        <cloakedpattern pattern=".less"/>
+        <cloakedpattern pattern=".sass"/>
+        <cloakedpattern pattern=".scss"/>
+        <cloakedpattern pattern=".map"/>
+</cloaking>
+    <contributorintegration enabled="FALSE"/>
+</site>
