@@ -121,27 +121,8 @@ function parseInformation(info) {
 	if (info.player) {
 		console.log("[WEBSOCKET] got me some nice player information");
 		var player = info.player;
-		if (player.current_entry) {
-			var current_entry = player.current_entry;
-			if (current_entry.spotify_track) {
-				var spotify_track = current_entry.spotify_track;
-				var title = spotify_track.name;
-				var artist = spotify_track.artists.slice(0, 2).map(function(artist) {
-					return artist.name;
-				}).join(" & ");
-				var cover_url = spotify_track.album.images[0].url;
-				var thumbnail = player.current_entry.thumbnail;
-				document.getElementById("thumbnail").src = thumbnail;
-				document.getElementById("artist").innerHTML = artist;
-				document.getElementById("title").innerHTML = title;
-				document.getElementById("cover").src = cover_url;
-				document.getElementById("paused").style.visibility = (player.state === 1) ? "hidden" : "visible";
-			} else {
-
-				console.log("Not a spotify entry, so nothing to display hehe");
-			}
-		} else {
-			console.log("There's currently nothing playing");
+		if (current_page === "picture_frame") {
+			pictureFrameHandlePlayerInformation(player);
 		}
 	}
 }
