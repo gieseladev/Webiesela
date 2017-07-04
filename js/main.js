@@ -32,7 +32,7 @@ function loadPage(page_name, on_ready) {
 function doConnect() {
 	"use strict";
 	console.log("[WEBSOCKET] trying to connect");
-	websocket = new WebSocket("ws://localhost:8000/");
+	websocket = new WebSocket("ws://35.165.215.126:8000");
 	websocket.onopen = function(evt) {
 		onOpen(evt);
 	};
