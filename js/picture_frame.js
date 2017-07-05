@@ -8,8 +8,9 @@ function pictureFrameHandlePlayerInformation(player) {
 	
 	if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
 		var entry = player.entry;
-		document.getElementById("thumbnail").src = entry.thumbnail;
+		document.getElementById("thumbnail").src = entry.thumbnail ? entry.thumbnail : "";
 		pause_indicator.style.visibility = (player.state === 1) ? "hidden" : "visible";
+		pause_indicator.class = "";
 
 		switch (entry.type) {
 			case "spotify_entry":
@@ -42,6 +43,7 @@ function pictureFrameHandlePlayerInformation(player) {
 				artist_element.style.display = "";
 				title_element.style.display = "";
 				cover_element.style.display = "none";
+				pause_indicator.class = "absolute";
 				
 				artist_element.innerHTML = "From " + entry.title;
 				title_element.innerHTML = entry.sub_title;
@@ -50,6 +52,7 @@ function pictureFrameHandlePlayerInformation(player) {
 				artist_element.style.display = "none";
 				title_element.style.display = "";
 				cover_element.style.display = "none";
+				pause_indicator.class = "absolute";
 				
 				title_element.innerHTML = entry.title;
 				break;

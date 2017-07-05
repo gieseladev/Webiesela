@@ -96,6 +96,9 @@ function onMessage(evt) {
 	if (data.token) {
 		console.log("[WEBSOCKET] received token");
 		setCookie("token", data.token, 120);
+		loadPage("picture_frame", function() {
+			getInformation();
+		});
 	}
 	if (data.info) {
 		console.log("[WEBSOCKET] got some information");
