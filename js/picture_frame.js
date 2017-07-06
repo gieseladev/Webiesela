@@ -1,3 +1,5 @@
+var default_background = "images/default_backgrouns.jpg";
+
 function switchCover(new_cover_url) {
 	"use strict";
 	var flip_container = document.getElementById("cover_flip_container");
@@ -22,7 +24,7 @@ function pictureFrameHandlePlayerInformation(player) {
 	var pause_indicator = document.getElementById("paused");
 	if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
 		var entry = player.entry;
-		transitionBackground(entry.thumbnail ? entry.thumbnail : "");
+		transitionBackground(entry.thumbnail ? entry.thumbnail : default_background);
 		pause_indicator.style.visibility = (player.state === 1) ? "hidden" : "visible";
 		pause_indicator.className = "";
 		switch (entry.type) {
@@ -72,6 +74,6 @@ function pictureFrameHandlePlayerInformation(player) {
 		cover_element.style.display = "none";
 		pause_indicator.style.display = "none";
 		title_element.innerHTML = "Nothing playing";
-		transitionBackground("");
+		transitionBackground(default_background);
 	}
 }
