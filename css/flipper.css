@@ -15,12 +15,13 @@
 /* flip speed goes here */
 .flipper {
 	transform-style: preserve-3d;
+	padding-bottom: 100%;
 }
 
 /* hide back of pane during swap */
 .front, .back {
-	backface-visibility: hidden;
 	position: absolute;
+	backface-visibility: hidden;
 }
 
 /* front pane, placed above back */

@@ -12,8 +12,8 @@
 .cover {
     position: relative;
     margin: auto;
-    width: 40vh;
-    padding-top: 15vh;
+    width: 40vmin;
+    padding-top: 15vmin;
 }
 .cover img {
     width: 100%;
@@ -48,17 +48,12 @@
     position: relative;
     font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
     color: #FFFFFF;
-    font-size: 5vh;
+    font-size: 5vmin;
     text-shadow: 0px 0px 12px #000000;
     display: inline-block;
-    padding-top: 5vh;
+    padding-top: 8vmin;
 	word-break: keep-all;
 	width: 75%;
-}
-@media (orientation: portrait) and (max-aspect-ratio: 5/6) {
-    .song_information {
-        font-size: 3vh;
-    }
 }
 .song_information p {
     margin: 0px;

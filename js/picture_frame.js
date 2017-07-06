@@ -1,4 +1,4 @@
-var default_background = "images/default_backgrouns.jpg";
+var default_background = "images/default_background.jpg";
 
 function switchCover(new_cover_url) {
 	"use strict";
