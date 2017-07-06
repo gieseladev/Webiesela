@@ -20,7 +20,7 @@ function pictureFrameHandlePlayerInformation(player) {
 	"use strict";
 	var title_element = document.getElementById("title");
 	var artist_element = document.getElementById("artist");
-	var cover_element = document.getElementById("cover");
+	var cover_element = document.getElementById("cover_disable_target");
 	var pause_indicator = document.getElementById("paused");
 	if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
 		var entry = player.entry;
