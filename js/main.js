@@ -79,9 +79,11 @@ function onMessage(evt) {
 	if (data.error) {
 		if (data.error[0] === 1000) {
 			console.log("[WEBSOCKET] faulty token, requesting registration");
-			doSend(JSON.stringify({
-				"request": "register"
-			}));
+			loadPage("register_screen", function() {
+				doSend(JSON.stringify({
+					"request": "register"
+				}));
+			});
 			return;
 		}
 		console.log("[WEBSOCKET] I ducked up:");
@@ -95,7 +97,8 @@ function onMessage(evt) {
 	}
 	if (data.token) {
 		console.log("[WEBSOCKET] received token");
-		setCookie("token", data.token, 120);
+		token = data.token;
+		setCookie("token", token, 120);
 		loadPage("picture_frame", function() {
 			getInformation();
 		});
