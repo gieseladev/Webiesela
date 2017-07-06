@@ -7,24 +7,21 @@
 	</head>
 	<body>
 		<div id="window">
-			<link rel="stylesheet" type="text/css" href="css/register_screen.css">
-			<div id="register_screen_window">
-				<p id="register_screen_title">Giesela</p>
-				<div id="register_screen_token_group">
-					<p id="register_screen_token" onClick="selectText(&quot;register_screen_token&quot;)">token</p>
-					<div id="register_screen_tutorial">
-						<span>Use</span>
-						<div id="register_screen_selectable" onClick="selectText(&quot;register_screen_selectable&quot;)">
-							<span class="command_style">!register</span>
-							<span class="command_style" id="register_screen_token_tutorial">token</span>
-						</div>
-						<span>on the server to register.</span>
-					</div>
+			<div id="loading_screen">
+				<p>Connecting</p>
+				<link rel="stylesheet" type="text/css" href="css/loading_spinner.css">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
 				</div>
 			</div>
 		</div>
 		<div id="bg">
 			<img id="thumbnail" src="images/default_background.jpg" alt="Thumbnail">
+			<img id="thumbnail_old" src="https://images3.alphacoders.com/151/thumb-1920-151409.jpg" alt="Thumbnail">
 		</div>
 	</body>
 	<script type="text/javascript" src="js/cookies.js"></script>

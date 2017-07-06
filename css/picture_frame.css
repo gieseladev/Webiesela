@@ -15,18 +15,11 @@
     width: 40vh;
     padding-top: 15vh;
 }
-@media (orientation: portrait) and (max-aspect-ratio: 5/6) {
-    .cover {
-        width: 80vw;
-        padding-top: 5vh;
-        padding-bottom: 10vh;
-    }
-}
 .cover img {
     width: 100%;
     margin: auto;
 }
-.cover #cover {
+.cover_img img{
     border-radius: 10%;
     border: 3px solid #E0E0E0;
     -webkit-box-shadow: 2px 4px 20px 3px #3C3C3C;
@@ -34,15 +27,12 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    /*transform: rotateY(0deg); do this using JavaScript
-
-	transition: transform .5s linear;*/
 }
 .cover #paused {
     position: absolute;
     z-index: 5;
     width: 50%;
-    transform: translate(50%, 50%);
+    transform: translate(-50%, 50%);
     opacity: 0.8;
     visibility: visible;
 }

@@ -1,8 +1,16 @@
 <link rel="stylesheet" type="text/css" href="css/picture_frame.css">
+<link rel="stylesheet" type="text/css" href="css/flipper.css">
 <div class="centered">
-	<div class="cover">
+	<div class="flip-container cover">
 		<img id="paused" src="images/pause_symbol.png">
-		<img id="cover" src="https://i.scdn.co/image/9f858d307aa0bedbc2be9d4276ed39329d11ad92" alt="Cover">
+		<div class="flipper">
+			<div class="front cover_img">
+				<img id="cover" src="https://i.scdn.co/image/9f858d307aa0bedbc2be9d4276ed39329d11ad92" alt="Cover">
+			</div>
+			<div class="back cover_img">
+				<img id="back_cover" src="http://www.designformusic.com/wp-content/uploads/2015/10/insurgency-digital-album-cover-design.jpg" alt="Cover">
+			</div>
+		</div>
 	</div>
 	<div class="song_information">
 		<p id="artist" class="artist_name">Radiohead</p>

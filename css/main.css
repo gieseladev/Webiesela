@@ -1,6 +1,13 @@
 @charset "utf-8";
-/* CSS Document */
 
+@keyframes transition_background_appear {
+	from {opacity: 0;}
+	to {opacity: .75;}
+}
+@keyframes transition_background_disappear {
+	from {opacity: .75;}
+	to {opacity: 0;}
+}
 body {
     overflow-y: hidden;
     overflow-x: hidden;
@@ -26,6 +33,16 @@ body {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
+}
+#bg #thumbnail_old {
+	z-index: -1;
+	opacity: 0;
+}
+#bg.transition #thumbnail_old {
+	animation: transition_background_disappear 1s linear;
+}
+#bg.transition #thumbnail {
+	animation: transition_background_appear 1s linear;
 }
 .command_style {
     color: #7289DA !important;
