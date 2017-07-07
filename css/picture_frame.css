@@ -47,7 +47,6 @@
 .song_information {
     position: relative;
     font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
-    color: #FFFFFF;
     font-size: 5vmin;
     text-shadow: 0px 0px 12px #000000;
     display: inline-block;
@@ -55,12 +54,22 @@
 	word-break: keep-all;
 	width: 75%;
 }
+.song_information.dark {
+    text-shadow: 0px 0px 12px #FFFFFF;
+}
 .song_information p {
     margin: 0px;
 }
 .song_name {
+    color: #FFFFFF;
     font-size: 170%;
+}
+.song_information.dark .song_name {
+	color: #000000;	
 }
 .artist_name {
     color: #C0C0C0;
+}
+.song_information.dark .artist_name {
+	color: #2E2E2E;
 }

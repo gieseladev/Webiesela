@@ -5,6 +5,10 @@ function switchCover(new_cover_url) {
 	var flip_container = document.getElementById("cover_flip_container");
 	var back_cover_element = document.getElementById("back_cover");
 	var cover_element = document.getElementById("cover");
+	if (new_cover_url === cover_element.src) {
+		console.log("[PICTURE FRAME] Cover image is the same as before, not transitioning!");
+		return;
+	}
 	back_cover_element.src = cover_element.src;
 	cover_element.src = new_cover_url;
 	flip_container.classList.add("flip");
