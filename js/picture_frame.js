@@ -26,9 +26,18 @@ function pictureFrameHandlePlayerInformation(player) {
 	var artist_element = document.getElementById("artist");
 	var cover_element = document.getElementById("cover_disable_target");
 	var pause_indicator = document.getElementById("paused");
+	
 	if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
 		var entry = player.entry;
 		transitionBackground(entry.thumbnail ? entry.thumbnail : default_background);
+		
+		if (entry.thumbnail_brightness && entry.thumbnail_brightness >= 127.5) {
+			console.log("[PICTURE FRAME - CONTRAST] Background pretty bright, switching to dark text");
+			document.getElementById("song_information").classList.add("dark");
+		} else {
+			document.getElementById("song_information").classList.remove("dark");
+		}
+		
 		pause_indicator.style.visibility = (player.state === 1) ? "hidden" : "visible";
 		pause_indicator.className = "";
 		switch (entry.type) {
