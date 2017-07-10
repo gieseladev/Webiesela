@@ -40,43 +40,41 @@ function pictureFrameHandlePlayerInformation(player) {
 		
 		pause_indicator.style.visibility = (player.state === 1) ? "hidden" : "visible";
 		pause_indicator.className = "";
+		
 		switch (entry.type) {
-			case "spotify_entry":
+			case "SpotifyEntry": //fall-through
+			case "RadioSongEntry":
 				artist_element.style.display = "";
 				title_element.style.display = "";
 				cover_element.style.display = "";
-				artist_element.innerHTML = entry.artist;
-				title_element.innerHTML = entry.name;
-				switchCover(entry.cover_url);
-				break;
-			case "radio_entry":
-				artist_element.style.display = "";
-				title_element.style.display = "";
-				cover_element.style.display = "";
+				
 				artist_element.innerHTML = entry.artist;
 				title_element.innerHTML = entry.title;
 				switchCover(entry.cover);
 				break;
-			case "radio_entry":
+			case "RadioStationEntry":
 				artist_element.style.display = "none";
 				title_element.style.display = "";
 				cover_element.style.display = "";
-				title_element.innerHTML = entry.name;
+				
+				title_element.innerHTML = entry.title;
 				switchCover(entry.cover);
 				break;
-			case "timestamp_entry":
+			case "TimestampEntry":
 				artist_element.style.display = "";
 				title_element.style.display = "";
 				cover_element.style.display = "none";
 				pause_indicator.className = "absolute";
-				artist_element.innerHTML = "From " + entry.title;
-				title_element.innerHTML = entry.sub_title;
+				
+				artist_element.innerHTML = "From " + entry.whole_title;
+				title_element.innerHTML = entry.title;
 				break;
 			default:
 				artist_element.style.display = "none";
 				title_element.style.display = "";
 				cover_element.style.display = "none";
 				pause_indicator.className = "absolute";
+				
 				title_element.innerHTML = entry.title;
 				break;
 		}
