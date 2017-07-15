@@ -2,10 +2,10 @@
 
 @keyframes transition_background_appear {
 	from {opacity: 0;}
-	to {opacity: .75;}
+	to {opacity: .7;}
 }
 @keyframes transition_background_disappear {
-	from {opacity: .75;}
+	from {opacity: .7;}
 	to {opacity: 0;}
 }
 body {
@@ -28,7 +28,7 @@ body {
 }
 #bg img {
     position: fixed;
-    opacity: 0.75;
+    opacity: 0.7;
     z-index: -2;
     width: 100vw;
     height: 100vh;
