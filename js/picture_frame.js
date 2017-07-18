@@ -83,7 +83,7 @@ function pictureFrameHandlePlayerInformation(player) {
 		artist_element.style.display = "none";
 		title_element.style.display = "";
 		cover_element.style.display = "none";
-		pause_indicator.style.display = "none";
+		pause_indicator.style.display = "";
 		title_element.innerHTML = "Nothing playing";
 		transitionBackground(default_background);
 	}
