@@ -7,44 +7,68 @@
 
 	<body>
 		<link rel="stylesheet" type="text/css" href="css/player.css">
-		<footer id="player">
-			<div id="player_container">
-				<div id="player_left">
-					<div id="song_information">
-						<div id="cover_image" style="background-image: url('_designs/src/shapeofyou.jpg')"></div>
-						<div>
-							<div id="song_title">Shape of You</div>
-							<div id="song_artist">Ed Sheeran</div>
-						</div>
-					</div>
-				</div>
-				<div id="player_center">
-					<div id="player_control_buttons">
-						<button id="button_revert" title="Revert"></button>
-						<button id="button_play_pause" title="Play"></button>
-						<button id="button_skip" title="Skip"></button>
-					</div>
-					<div id="player_progress_bar">
-						<div id="player_progress_bar_progress">0:38</div>
-						<div class="slider_bar">
-							<div id="progress_bar_filled" class="filled" style="width: 15%;"></div>
-							<div id="progress_bar_knob" class="knob"></div>
-						</div>
-						<div id="player_progress_bar_duration">4:15</div>
-					</div>
-				</div>
-				<div id="player_right">
-					<div id="volume_control">
-						<div id="speaker_symbol" class="icon-3"></div>
-						<div id="volume_bar">
-							<div id="volume_bar_bar" class="slider_bar">
-								<div id="volume_bar_bar_full" class="filled" style="width: 30%;"></div>
-								<div id="volume_bar_bar_knob" class="knob"></div>
+		<div id="viewport">
+			<div id="top-container">
+				<div id="menu_left">
+					<div id="menu_left_navbar">
+						<div class="group">
+							<div id="navbar_navigator">
+								<div id="navbar_home" class="active">Home</div>
+								<div id="navbar_playlists">Playlists</div>
+								<div id="navbar_radio_stations">Radio Stations</div>
 							</div>
+						</div>
+						<div id="menu_space_padder"></div>
+						<div id="user_information" class="group">
+							<div id="user_avatar"></div>
+							<div id="user_name">Simon</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</footer>
+			<footer id="player">
+				<div id="player_container">
+					<div id="player_left">
+						<div id="song_information">
+							<div id="cover_image" style="background-image: url('_designs/src/shapeofyou.jpg')"></div>
+							<div>
+								<div id="song_title">Shape of You</div>
+								<div id="song_artist">Ed Sheeran</div>
+							</div>
+						</div>
+					</div>
+					<div id="player_center">
+						<div id="player_control_buttons">
+							<button id="button_revert" title="Revert"></button>
+							<button id="button_play_pause" title="Play"></button>
+							<button id="button_skip" title="Skip"></button>
+						</div>
+						<div id="player_progress_bar">
+							<div id="player_progress_bar_progress">0:38</div>
+							<div class="slider_bar_hover_target">
+								<div class="slider_bar">
+									<div id="progress_bar_filled" class="filled" style="width: 15%;"></div>
+									<div id="progress_bar_knob" class="knob"></div>
+								</div>
+							</div>
+							<div id="player_progress_bar_duration">4:15</div>
+						</div>
+					</div>
+					<div id="player_right">
+						<div id="volume_control">
+							<div id="speaker_symbol" class="icon-3"></div>
+							<div id="volume_bar">
+								<div class="slider_bar_hover_target">
+									<div id="volume_bar_bar" class="slider_bar">
+										<div id="volume_bar_bar_full" class="filled" style="width: 30%;"></div>
+										<div id="volume_bar_bar_knob" class="knob"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
 	</body>
 </html>

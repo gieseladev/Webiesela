@@ -1,30 +1,106 @@
 @charset "utf-8";
-
 * {
-	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+	font-family: europa, sans-serif;
 	color: #FFFFFF;
 	font-size: .6vmax;
 }
-.slider_bar:hover {
+#viewport {
+	top: 0;
+	left: 0;
+	position: fixed;
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+}
+#top-container {
+	flex-grow: 1;
+	background-image: linear-gradient(to bottom, rgb(42, 63, 110), rgb(4, 6, 11) 85%);
+}
+#menu_left {
+	width: 12vmax;
+	height: 100%;
+	background-color: rgba(0,0,0,0.50);
+}
+#menu_left_navbar {
+	position: relative;
+	margin: auto;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 10vmax;
+	height: 95%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+#menu_left .group {
+	border-top: .07vmax solid #3a3a3a;
+	padding-top: .4vmax;
+}
+#menu_space_padder {
+	flex-grow: 1;
+}
+#navbar_navigator * {
+	color: #A0A0A0;
+	margin-bottom: .6vmax;
+	font-size: 120%;
+	font-weight: bolder;
+}
+#navbar_navigator *:hover {
 	cursor: pointer;
 }
-.slider_bar:hover .filled {
+#navbar_navigator *:not(.active):hover {
+	color: #FFFFFF
+}
+#navbar_navigator > .active {
+	color: #7289DA;
+}
+#user_information {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#user_avatar {
+	height: 2vmax;
+	width: 2vmax;
+	margin-right: .8vmax;
+	border-radius: 50%;
+	background-image: url("https://cdn.discordapp.com/avatars/203302899277627392/110d1238e77ce2bbb1537b532267ca03.png?size=1024");
+	background-position: center;
+	background-size: cover;
+}
+#user_name {
+	color: #A0A0A0;
+	font-size: 110%;
+	font-weight: bold;
+}
+.slider_bar_hover_target:hover {
+	cursor: pointer;
+}
+.slider_bar_hover_target:hover .filled {
 	background-color: #7289DA;
 }
-.slider_bar:hover .knob {
+.slider_bar_hover_target:hover .knob {
 	transform: translate(-50%, -25%) scale(1);
 }
 .slider_bar {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
 	display: flex;
 }
-.slider_bar, .slider_bar > .filled {
+.slider_bar_hover_target {
 	width: 90%;
+	height: .7vmax;
+}
+.slider_bar, .slider_bar > .filled {
+	width: 100%;
 	height: .225vmax;
 	border-radius: .1125vmax;
 	background-color: #404040;
 }
 .slider_bar > .filled {
-	z-index: 33;
+	z-index: 34;
 	background-color:#FFFFFF;
 	transition: background-color .1s cubic-bezier(.3,0,.7,1);
 }
@@ -32,7 +108,6 @@
 	position: relative;
 	z-index: 100;
 	transform: translate(-50%, -25%) scale(0);
-	margin: 0;
 	width: .5vmax;
 	height: .5vmax;
 	border-radius: 50%;
@@ -42,16 +117,11 @@
 	transition: transform .1s cubic-bezier(.3,0,.7,1),-webkit-transform .1s cubic-bezier(.3,0,.7,1);
 }
 #player {
-	position: fixed;
+	z-index: 100;
 	height: 4.75vmax;
-	bottom: 0;
-	width: 100%;
-	margin: 0;
 	background-color: #282828;
-	left: 0;
 }
 #player_container {
-	bottom: 0;
 	height: 100%;
 	margin: auto .7125%;
 	display: flex;
@@ -61,14 +131,12 @@
 }
 #player_left {
 	width: 30%;
-	height: 100%;
 	position: absolute;
 }
 #player_center {
 	left: 50%;
 	transform: translateX(-50%);
 	width: 40%;
-	height: 100%;
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -79,7 +147,6 @@
 #player_right {
 	right: 0;
 	width: 30%;
-	height: 100%;
 	position: absolute;
 }
 #song_information {
@@ -110,7 +177,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-	margin-bottom: 1.6%;
+	margin-bottom: .55vmax;
 }
 #button_revert, #button_skip, #button_play_pause {
 	height: .7vmax;
@@ -149,6 +216,7 @@
 	align-items: center;
 }
 #player_progress_bar_progress, #player_progress_bar_duration {
+	font-family: droid-sans-mono, monospace;
 	color: #A0A0A0;
 }
 #volume_control {
