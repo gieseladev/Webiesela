@@ -15,11 +15,9 @@
     width: 40vmin;
     padding-top: 15vmin;
 }
-.cover img {
-    width: 100%;
-    margin: auto;
-}
-.cover_img img{
+.cover_img .image {
+    width: 40vmin;
+    height: 40vmin;
     border-radius: 10%;
     border: 3px solid #E0E0E0;
     -webkit-box-shadow: 2px 4px 20px 3px #3C3C3C;
@@ -27,6 +25,8 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+	background-size: cover;
+	background-position: center;
 }
 .cover #paused {
     position: absolute;

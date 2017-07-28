@@ -2,15 +2,18 @@ var default_background = "images/default_background.jpg";
 
 function switchCover(new_cover_url) {
 	"use strict";
+	
+	new_cover_url = "url(" + new_cover_url + ")";
+	
 	var flip_container = document.getElementById("cover_flip_container");
 	var back_cover_element = document.getElementById("back_cover");
 	var cover_element = document.getElementById("cover");
-	if (new_cover_url === cover_element.src) {
+	if (new_cover_url === cover_element.style.backgroundImage) {
 		console.log("[PICTURE FRAME] Cover image is the same as before, not transitioning!");
 		return;
 	}
-	back_cover_element.src = cover_element.src;
-	cover_element.src = new_cover_url;
+	back_cover_element.style.backgroundImage = cover_element.style.backgroundImage;
+	cover_element.style.backgroundImage = new_cover_url;
 	flip_container.classList.add("flip");
 	var callfunction = function() {
 		flip_container.classList.remove("flip");
@@ -42,6 +45,7 @@ function pictureFrameHandlePlayerInformation(player) {
 		pause_indicator.className = "";
 		
 		switch (entry.type) {
+			case "GieselaEntry": //fall-through
 			case "SpotifyEntry": //fall-through
 			case "RadioSongEntry":
 				artist_element.style.display = "";
