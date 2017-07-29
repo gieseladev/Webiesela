@@ -15,11 +15,11 @@
 }
 #top-container {
 	flex-grow: 1;
+	display: flex;
 	background-image: linear-gradient(to bottom, rgb(42, 63, 110), rgb(4, 6, 11) 85%);
 }
 #menu_left {
 	width: 12vmax;
-	height: 100%;
 	background-color: rgba(0,0,0,0.50);
 }
 #menu_left_navbar {
@@ -65,7 +65,6 @@
 	width: 2vmax;
 	margin-right: .8vmax;
 	border-radius: 50%;
-	background-image: url("https://cdn.discordapp.com/avatars/203302899277627392/110d1238e77ce2bbb1537b532267ca03.png?size=1024");
 	background-position: center;
 	background-size: cover;
 }
@@ -73,6 +72,20 @@
 	color: #A0A0A0;
 	font-size: 110%;
 	font-weight: bold;
+}
+#main_content_container {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+.scrollable_flex {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	height: 0;
+	width: 100%;
+	overflow-y: auto;
+	align-items: center;
 }
 .slider_bar_hover_target:hover {
 	cursor: pointer;
@@ -163,17 +176,22 @@
 #song_information > * {
 	margin-right: 3%;
 }
+#song_information div {
+	font-size: .8vmax;
+	margin: .5vmax inherit;
+}
 #cover_image {
 	background-size: cover;
 	height: 3vmax;
 	width: 3vmax;
+	box-shadow: 0 0 .5vmax rgba(0,0,0,.3);
 }
-#song_artist {
+div#song_artist {
 	color: #A0A0A0;
-	font-size: 80%;
+	font-size: 70%;
 }
 #player_control_buttons {
-	width: 25%;
+	width: 20%;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
