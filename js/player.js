@@ -6,6 +6,19 @@ var run_tick = true;
 var ticker;
 
 
+function sendCommand(cmd) {
+	doSend(JSON.stringify({
+		"token": token,
+		"command": cmd
+	}));
+}
+
+function playPauseClick() {
+	"use strict";
+	
+	sendCommand("play_pause");
+}
+
 function showQueue() {
 	"use strict";
 	
