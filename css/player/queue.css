@@ -38,6 +38,9 @@
 	align-items: stretch;
 	transition: background-color .2s linear;
 }
+.entry .outer {
+	width: 2vmax;
+}
 .entry:hover {
 	background-color: rgba(0,0,0,.3);
 }

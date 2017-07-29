@@ -88,6 +88,8 @@
 	width: 100%;
 	overflow-y: auto;
 	align-items: center;
+	transform: translateZ(0);
+	will-change: transform;
 }
 .slider_bar_hover_target:hover {
 	cursor: pointer;

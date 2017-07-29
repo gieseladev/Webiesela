@@ -75,8 +75,7 @@ function onClose( /*evt*/ ) {
 function onMessage(evt) {
 	"use strict";
 	var data = JSON.parse(evt.data);
-	console.log("[WEBSOCKET] got message:");
-	console.log(data);
+	console.log("[WEBSOCKET] got message ", data);
 	if (data.error) {
 		if (data.error[0] === 1000) {
 			console.log("[WEBSOCKET] faulty token, requesting registration");
@@ -121,32 +120,33 @@ function getInformation() {
 function parseInformation(info) {
 	"use strict";
 	if (info.user) {
-		console.log("[WEBSOCKET] got information about user:");
+		console.log("[WEBSOCKET] got information about user ", info.user);
 		user = info.user;
-		console.log(user);
 		
 		if (current_page === "main_screen") {
 			setUser();
 		}
 	}
-	if (info.player) {
-		console.log("[WEBSOCKET] got me some nice player information");
-		var player = info.player;
-		switch (current_page) {
-			case "picture_frame":
-				pictureFrameHandlePlayerInformation(player);
-				break;
-			case "main_screen":
-				playerHandlePlayerInformation(player);
-				break;
-		}
+	var player = info.player;
+	switch (current_page) {
+		case "picture_frame":
+			pictureFrameHandlePlayerInformation(player);
+			break;
+		case "main_screen":
+			playerHandlePlayerInformation(player);
+			break;
 	}
 }
 
 function onError(evt) {
 	"use strict";
-	console.log("[WEBSOCKET] Error " + evt + ". Reconnecting in " + timeout_ms / 1000 + " seconds");
+	console.log("[WEBSOCKET] Error ", evt, ". Reconnecting in " + timeout_ms / 1000 + " seconds");
 	websocket.close();
+	
+	if (current_page === "main_screen") {
+		breakDown();
+	}
+	
 	loadPage("loading_screen", function() { //switch back to the loading screen and connect again
 		setTimeout(doConnect, timeout_ms);
 		timeout_ms *= 2;

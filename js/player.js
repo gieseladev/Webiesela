@@ -11,13 +11,13 @@ function showQueue() {
 	
 	var queue_display = document.getElementById("queue_display");
 	
-	for (var child_element of queue_display) {
-		if (child_element.id !== "entry_template") {
-			queue_display.removeChild(child_element);
+	while (queue_display.firstChild) {
+		if (queue_display.firstChild.id != "entry_template") {
+    		queue_display.removeChild(queue_display.firstChild);
 		}
 	}
 	
-	
+	console.log(queue);
 	if (queue) {
 		var entry_template = document.getElementById("entry_template").cloneNode(true);
 
@@ -32,9 +32,14 @@ function showQueue() {
 			entry_element.getElementsByClassName("index")[0].innerHTML = index;
 			entry_element.getElementsByClassName("title")[0].innerHTML = entry.title;
 
-			entry_element.getElementsByClassName("album")[0].innerHTML = entry.album;
-			entry_element.getElementsByClassName("artist")[0].innerHTML = entry.artist;
-			entry_element.getElementsByClassName("duration")[0].innerHTML = entry.duration;
+			if (entry.album && entry.artist) {
+				entry_element.getElementsByClassName("album")[0].innerHTML = entry.album;
+				entry_element.getElementsByClassName("artist")[0].innerHTML = entry.artist;
+			} else {
+				entry_element.getElementsByClassName("name")[0].removeChild(entry_element.getElementsByClassName("origin")[0]);
+			}
+				
+			entry_element.getElementsByClassName("duration")[0].innerHTML = formatSeconds(entry.duration);
 
 			queue_display.appendChild(entry_element);
 			index++;
@@ -134,4 +139,14 @@ function setUser() {
 	
 	user_name.innerHTML = user.display_name;
 	user_avatar.style.backgroundImage = "url(\"" + user.avatar_url + "\")";
+}
+
+function breakDown() {
+	"use strict";
+	
+	if (ticker) {
+		clearInterval(ticker);
+	}
+	
+	run_tick = false;
 }
