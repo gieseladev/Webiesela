@@ -45,6 +45,7 @@
 	margin-bottom: .6vmax;
 	font-size: 120%;
 	font-weight: bolder;
+	transition: color .2s;
 }
 #navbar_navigator *:hover {
 	cursor: pointer;
@@ -72,6 +73,7 @@
 	color: #A0A0A0;
 	font-size: 110%;
 	font-weight: bold;
+	cursor: default;
 }
 #main_content_container {
 	flex-grow: 1;
@@ -172,6 +174,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	align-content: center;
+	cursor: default;
 }
 #song_information > * {
 	margin-right: 3%;
@@ -236,6 +239,7 @@ div#song_artist {
 #player_progress_bar_progress, #player_progress_bar_duration {
 	font-family: droid-sans-mono, monospace;
 	color: #A0A0A0;
+	cursor: default;
 }
 #volume_control {
 	position: absolute;

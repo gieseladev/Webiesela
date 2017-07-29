@@ -29,16 +29,14 @@
 	height: .1vmax;
 	background-color: #7289DA;
 }
-#queue_display {
-	display: flex;
-}
 .entry {
 	padding: .3vmax;
 	display: flex;
-	width: 50vmax;
+	width: 70vmax;
 	height: 2.75vmax;
 	justify-content: space-between;
 	align-items: stretch;
+	transition: background-color .2s linear;
 }
 .entry:hover {
 	background-color: rgba(0,0,0,.3);
@@ -49,6 +47,7 @@
 .entry * {
 	font-size: 1vmax;
 	color: hsla(0,0%,100%,.5);
+	cursor: default;
 }
 .entry .index::after {
 	content: ".";
