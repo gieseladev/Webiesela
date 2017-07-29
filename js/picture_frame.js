@@ -3,11 +3,12 @@ var default_background = "images/default_background.jpg";
 function switchCover(new_cover_url) {
 	"use strict";
 	
-	new_cover_url = "url(" + new_cover_url + ")";
+	new_cover_url = "url(\"" + new_cover_url + "\")";
 	
 	var flip_container = document.getElementById("cover_flip_container");
 	var back_cover_element = document.getElementById("back_cover");
 	var cover_element = document.getElementById("cover");
+	
 	if (new_cover_url === cover_element.style.backgroundImage) {
 		console.log("[PICTURE FRAME] Cover image is the same as before, not transitioning!");
 		return;
