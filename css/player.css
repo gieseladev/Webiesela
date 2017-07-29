@@ -95,7 +95,7 @@
 .slider_bar_hover_target:hover .filled {
 	background-color: #7289DA;
 }
-.slider_bar_hover_target:hover .knob {
+.slider_bar_hover_target:hover .filled::after {
 	transform: translate(-50%, -25%) scale(1);
 }
 .slider_bar {
@@ -116,12 +116,15 @@
 }
 .slider_bar > .filled {
 	z-index: 34;
-	background-color:#FFFFFF;
-	transition: background-color .1s cubic-bezier(.3,0,.7,1);
-}
-.slider_bar > .knob {
 	position: relative;
+	background-color:#FFFFFF;
+	transition: background-color .1s cubic-bezier(.3,0,.7,1), width 1s linear;
+}
+.slider_bar > .filled::after {
 	z-index: 100;
+	position: absolute;
+	left: 100%;
+	content: "";
 	transform: translate(-50%, -25%) scale(0);
 	width: .5vmax;
 	height: .5vmax;
@@ -216,10 +219,10 @@ div#song_artist {
 #button_play_pause {
 	height: 1.8vmax;
 	width: 1.8vmax;
-	background-image: url("../images/icons/Play.png");
+	background-image: url("../images/icons/Pause.png");
 }
 #button_play_pause.paused {
-	background-image: url("../images/icons/Pause.png");
+	background-image: url("../images/icons/Play.png");
 }
 #button_play_pause:hover {
 	transform: scale(1.1);

@@ -12,6 +12,26 @@ function selectText(containerid) {
     }
 }
 
+function str_pad_left(string, pad, length) {
+	"use strict";
+	
+    return (new Array(length + 1).join(pad) + string).slice(-length);
+}
+
+function formatSeconds(secs) {
+	"use strict";
+	
+	var hours = Math.floor(secs / 3600);
+	var minutes = Math.floor((secs - hours * 3600) / 60);
+	var seconds = Math.floor(secs - hours * 3600 - minutes * 60);
+	
+	if (hours > 0) {
+		return hours + ":" + str_pad_left(minutes, "0", 2) + ":" + str_pad_left(seconds, "0", 2);
+	} else {
+		return minutes + ":" + str_pad_left(seconds, "0", 2);
+	}
+}
+
 function transitionBackground(new_background_url) {
     "use strict";
     var bg_parent = document.getElementById("bg");

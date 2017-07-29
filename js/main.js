@@ -22,6 +22,7 @@ function loadPage(page_name, on_ready) {
 			document.getElementById("window").innerHTML = this.responseText;
 			current_page = page_name;
 			console.log("[PAGE] successfully loaded " + page_name);
+			
 			on_ready();
 		}
 	};
@@ -53,7 +54,7 @@ function onOpen( /*evt*/ ) {
 	timeout_ms = 2000; //set timeout back to default value
 	if (token !== "") {
 		console.log("[WEBSOCKET] found token in cookies, asking for init information");
-		loadPage("picture_frame", function() {
+		loadPage("main_screen", function() {
 			getInformation();
 		});
 	} else {
@@ -123,12 +124,21 @@ function parseInformation(info) {
 		console.log("[WEBSOCKET] got information about user:");
 		user = info.user;
 		console.log(user);
+		
+		if (current_page === "main_screen") {
+			setUser();
+		}
 	}
 	if (info.player) {
 		console.log("[WEBSOCKET] got me some nice player information");
 		var player = info.player;
-		if (current_page === "picture_frame") {
-			pictureFrameHandlePlayerInformation(player);
+		switch (current_page) {
+			case "picture_frame":
+				pictureFrameHandlePlayerInformation(player);
+				break;
+			case "main_screen":
+				playerHandlePlayerInformation(player);
+				break;
 		}
 	}
 }
@@ -147,5 +157,5 @@ function doSend(message) {
 	"use strict";
 	websocket.send(message);
 }
-//window.addEventListener("load", init, false);
+
 init();
