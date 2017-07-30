@@ -120,7 +120,7 @@
 	z-index: 34;
 	position: relative;
 	background-color:#FFFFFF;
-	transition: background-color .1s cubic-bezier(.3,0,.7,1), width 1s linear;
+	transition: background-color .1s cubic-bezier(.3,0,.7,1);
 }
 .slider_bar > .filled::after {
 	z-index: 100;

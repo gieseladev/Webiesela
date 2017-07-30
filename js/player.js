@@ -2,15 +2,52 @@ var queue;
 
 var current_progress = 0;
 var song_duration = 0;
-var run_tick = true;
+var user_sliding_progress_bar = false;
 var ticker;
+
+var progress_bar_slider;
 
 
 function sendCommand(cmd) {
+	"use strict";
+	
 	doSend(JSON.stringify({
 		"token": token,
 		"command": cmd
 	}));
+}
+
+function slider(element) {
+	"use strict";
+
+	var el = element;
+	var isSliding = false;
+	var current_percentage = null;
+	
+	this.sliding = function(evt) {
+		if (isSliding) {
+			var percentage = Math.max(Math.min((evt.pageX - el.getBoundingClientRect().left) / el.offsetWidth, 1), 0);
+			setProgress(percentage);
+			current_percentage = percentage;
+		}
+	};
+	
+	this.slideStart = function(evt) {
+		var percentage = Math.max(Math.min((evt.pageX - el.getBoundingClientRect().left) / el.offsetWidth, 1), 0);
+		setProgress(percentage);
+		current_percentage = percentage;
+		
+		isSliding = true;
+		user_sliding_progress_bar = true;
+		window.addEventListener("selectstart", function(event) {event.preventDefault();});
+	};
+	
+	this.slideEnd = function(evt) {		
+		isSliding = false;
+		user_sliding_progress_bar = false;
+		window.removeEventListener("selectstart", function(event) {event.preventDefault();});
+		console.log(current_percentage);
+	};
 }
 
 function playPauseClick() {
@@ -72,19 +109,23 @@ function setVolume(newVal) {
 	volume_icon.className = icon;
 }
 
+function setProgress(progress_ratio) {
+	"use strict";
+	
+	var progress_bar = document.getElementById("progress_bar_filled");
+	var player_progress_bar_progress = document.getElementById("player_progress_bar_progress");
+
+	progress_bar.style.width = 100 * progress_ratio + "%";
+
+	player_progress_bar_progress.innerHTML = formatSeconds(Math.min(progress_ratio * song_duration, song_duration));
+}
+
 function updateProgress() {
 	"use strict";
 	
-	if (run_tick) {
-		current_progress += 1;
-		
-		var progress_bar = document.getElementById("progress_bar_filled");
-		var player_progress_bar_progress = document.getElementById("player_progress_bar_progress");
-
-		var progress_ratio = current_progress / song_duration;
-		progress_bar.style.width = 100 * progress_ratio + "%";
-		
-		player_progress_bar_progress.innerHTML = formatSeconds(Math.min(current_progress, song_duration));
+	current_progress += 1;
+	if (!user_sliding_progress_bar) {
+		setProgress(current_progress / song_duration);
 	}
 }
 
@@ -110,15 +151,15 @@ function playerHandlePlayerInformation(player) {
 		if (ticker) {
 			clearInterval(ticker);
 		}
-		
-		ticker = setInterval(updateProgress, 1000);
-		
+				
 		if (player.state === 2) {
 			play_pause.classList.add("paused");
-			run_tick = false;
+			if (ticker) {
+				clearInterval(ticker);
+			}
 		} else {
 			play_pause.classList.remove("paused");
-			run_tick = true;
+			ticker = setInterval(updateProgress, 1000);
 		}
 		
 		setVolume(player.volume);
@@ -161,5 +202,18 @@ function breakDown() {
 		clearInterval(ticker);
 	}
 	
-	run_tick = false;
+	window.removeEventListener("mousemove", progress_bar_slider.sliding);
+	window.removeEventListener("mouseup", progress_bar_slider.slideEnd);
+	window.removeEventListener("selectstart", function(event) {event.preventDefault();});
+}
+
+function setup() {
+	"use strict";
+	
+	var progress_bar = document.getElementById("progress_bar");
+	progress_bar_slider = new slider(progress_bar);
+	
+	progress_bar.addEventListener("mousedown", progress_bar_slider.slideStart);
+	window.addEventListener("mousemove", progress_bar_slider.sliding);
+	window.addEventListener("mouseup", progress_bar_slider.slideEnd);
 }

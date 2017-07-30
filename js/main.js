@@ -19,8 +19,17 @@ function loadPage(page_name, on_ready) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState === 4 && this.status === 200) {
+			if (current_page === "main_screen") {
+				breakDown();
+			}
+			
 			document.getElementById("window").innerHTML = this.responseText;
 			current_page = page_name;
+			
+			if (current_page === "main_screen") {
+				setup();
+			}
+			
 			console.log("[PAGE] successfully loaded " + page_name);
 			
 			on_ready();

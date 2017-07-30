@@ -46,6 +46,8 @@ function pictureFrameHandlePlayerInformation(player) {
 		pause_indicator.className = "";
 		
 		switch (entry.type) {
+			case "VGMEntry":
+			case "DiscogsEntry":
 			case "GieselaEntry": //fall-through
 			case "SpotifyEntry": //fall-through
 			case "RadioSongEntry":
