@@ -18,7 +18,6 @@ function sendCommand(cmd, data) {
 	"use strict";
 	
 	console.log("Sending command \"", cmd, "\" with data: ", data);
-	return;
 	
 	doSend(JSON.stringify({
 		"token": token,
@@ -30,7 +29,7 @@ function sendCommand(cmd, data) {
 function finishVolumeSlide(value) {
 	"use strict";
 	
-	if (value) {
+	if (0 <= value <= 1) {
 		sendCommand("volume", {"value": value});
 	}
 }
@@ -44,7 +43,7 @@ function startProgressSlide() {
 function finishProgressSlide(value) {
 	"use strict";
 	
-	if (value) {
+	if (0 <= value <= song_duration) {
 		user_sliding_progress_bar = false;
 		sendCommand("seek", {"value": value * song_duration});
 	}
@@ -56,37 +55,51 @@ function playPauseClick() {
 	sendCommand("play_pause");
 }
 
-function slider(element, on_slide, on_start, on_finished) {
+function slider(element, on_slide, on_start, on_finish) {
 	"use strict";
 
-	var el = element;
-	var isSliding = false;
-	var current_percentage = null;
+	this.el = element;
+	this.isSliding = false;
+	this.current_percentage = null;
+	
+	this.on_slide = on_slide;
+	this.on_start = on_start;
+	this.on_finish = on_finish;
+	
 	
 	this.sliding = function(evt) {
-		if (isSliding) {
-			var percentage = Math.max(Math.min((evt.pageX - el.getBoundingClientRect().left) / el.offsetWidth, 1), 0);
-			on_slide(percentage);
-			current_percentage = percentage;
+		if (this.isSliding) {
+			var percentage = Math.max(Math.min((evt.pageX - this.el.getBoundingClientRect().left) / this.el.offsetWidth, 1), 0);
+			
+			this.on_slide(percentage);
+			this.current_percentage = percentage;
 		}
 	};
 	
 	this.slideStart = function(evt) {
-		var percentage = Math.max(Math.min((evt.pageX - el.getBoundingClientRect().left) / el.offsetWidth, 1), 0);
-		on_slide(percentage);
-		current_percentage = percentage;
+		var percentage = Math.max(Math.min((evt.pageX - this.el.getBoundingClientRect().left) / this.el.offsetWidth, 1), 0);
+		this.on_slide(percentage);
+		this.current_percentage = percentage;
 		
-		isSliding = true;
+		this.isSliding = true;
 		window.addEventListener("selectstart", preventSelection);
 		
-		on_start();
+		this.on_start();
 	};
 	
-	this.slideEnd = function(evt) {		
-		isSliding = false;
-		window.removeEventListener("selectstart", preventSelection);
-		
-		on_finished(current_percentage);
+	this.slideEnd = function(evt) {
+		if (this.isSliding) {
+			this.isSliding = false;
+			window.removeEventListener("selectstart", preventSelection);
+
+			this.on_finish(this.current_percentage);
+		}
+	};
+
+	this.setupHooks = function() {
+		this.el.addEventListener("mousedown", this.slideStart.bind(this), false);
+		window.addEventListener("mousemove", this.sliding.bind(this), false);
+		window.addEventListener("mouseup", this.slideEnd.bind(this), false);
 	};
 }
 
@@ -236,8 +249,6 @@ function breakDown() {
 		clearInterval(ticker);
 	}
 	
-	window.removeEventListener("mousemove", progress_bar_slider.sliding);
-	window.removeEventListener("mouseup", progress_bar_slider.slideEnd);
 	window.removeEventListener("selectstart", preventSelection);
 }
 
@@ -246,15 +257,10 @@ function setup() {
 	
 	var progress_bar = document.getElementById("progress_bar");
 	progress_bar_slider = new slider(progress_bar, setProgress, startProgressSlide, finishProgressSlide);
+	progress_bar_slider.setupHooks();
 	
-	progress_bar.addEventListener("mousedown", progress_bar_slider.slideStart);
-	window.addEventListener("mousemove", progress_bar_slider.sliding);
-	window.addEventListener("mouseup", progress_bar_slider.slideEnd);
 	
 	var volume_bar = document.getElementById("volume_bar_target");
 	volume_slider = new slider(volume_bar, setVolume, function() {}, finishVolumeSlide);
-	
-	volume_bar.addEventListener("mousedown", volume_slider.slideStart);
-	window.addEventListener("mousemove", volume_slider.sliding);
-	window.addEventListener("mouseup", volume_slider.slideEnd);
+	volume_slider.setupHooks();
 }
