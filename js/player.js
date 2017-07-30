@@ -10,9 +10,10 @@ var volume_slider;
 
 
 function preventSelection(event) {
+	"use strict";
+	
 	event.preventDefault();
 }
-
 
 function sendCommand(cmd, data) {
 	"use strict";
@@ -34,7 +35,7 @@ function finishVolumeSlide(value) {
 	}
 }
 
-function startProgressSlide() {
+function startProgressSlide() { 
 	"use strict";
 	
 	user_sliding_progress_bar = true;
@@ -47,6 +48,18 @@ function finishProgressSlide(value) {
 		user_sliding_progress_bar = false;
 		sendCommand("seek", {"value": value * song_duration});
 	}
+}
+
+function skip() {
+	"use strict";
+	
+	sendCommand("skip");
+}
+
+function revert() {
+	"use strict";
+	
+	sendCommand("revert");
 }
 
 function playPauseClick() {
@@ -156,7 +169,7 @@ function setVolume(newVal) {
 	volume_icon.className = icon;
 }
 
-function setProgress(progress_ratio) {
+function setProgress(progress_ratio) { 
 	"use strict";
 	
 	var progress_bar = document.getElementById("progress_bar_filled");
@@ -252,7 +265,7 @@ function breakDown() {
 	window.removeEventListener("selectstart", preventSelection);
 }
 
-function setup() {
+function setup() { 
 	"use strict";
 	
 	var progress_bar = document.getElementById("progress_bar");
