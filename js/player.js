@@ -6,18 +6,57 @@ var user_sliding_progress_bar = false;
 var ticker;
 
 var progress_bar_slider;
+var volume_slider;
 
 
-function sendCommand(cmd) {
+function preventSelection(event) {
+	event.preventDefault();
+}
+
+
+function sendCommand(cmd, data) {
 	"use strict";
+	
+	console.log("Sending command \"", cmd, "\" with data: ", data);
+	return;
 	
 	doSend(JSON.stringify({
 		"token": token,
-		"command": cmd
+		"command": cmd,
+		"command_data": data
 	}));
 }
 
-function slider(element) {
+function finishVolumeSlide(value) {
+	"use strict";
+	
+	if (value) {
+		sendCommand("volume", {"value": value});
+	}
+}
+
+function startProgressSlide() {
+	"use strict";
+	
+	user_sliding_progress_bar = true;
+}
+
+function finishProgressSlide(value) {
+	"use strict";
+	
+	if (value) {
+		user_sliding_progress_bar = false;
+		sendCommand("seek", {"value": value * song_duration});
+	}
+}
+
+function playPauseClick() {
+	"use strict";
+	
+	sendCommand("play_pause");
+}
+
+function slider(element, on_slide, on_start, on_finished) {
 	"use strict";
 
 	var el = element;
@@ -27,33 +66,28 @@ function slider(element) {
 	this.sliding = function(evt) {
 		if (isSliding) {
 			var percentage = Math.max(Math.min((evt.pageX - el.getBoundingClientRect().left) / el.offsetWidth, 1), 0);
-			setProgress(percentage);
+			on_slide(percentage);
 			current_percentage = percentage;
 		}
 	};
 	
 	this.slideStart = function(evt) {
 		var percentage = Math.max(Math.min((evt.pageX - el.getBoundingClientRect().left) / el.offsetWidth, 1), 0);
-		setProgress(percentage);
+		on_slide(percentage);
 		current_percentage = percentage;
 		
 		isSliding = true;
-		user_sliding_progress_bar = true;
-		window.addEventListener("selectstart", function(event) {event.preventDefault();});
+		window.addEventListener("selectstart", preventSelection);
+		
+		on_start();
 	};
 	
 	this.slideEnd = function(evt) {		
 		isSliding = false;
-		user_sliding_progress_bar = false;
-		window.removeEventListener("selectstart", function(event) {event.preventDefault();});
-		console.log(current_percentage);
+		window.removeEventListener("selectstart", preventSelection);
+		
+		on_finished(current_percentage);
 	};
-}
-
-function playPauseClick() {
-	"use strict";
-	
-	sendCommand("play_pause");
 }
 
 function showQueue() {
@@ -67,7 +101,7 @@ function showQueue() {
 		}
 	}
 	
-	console.log(queue);
+	console.log("Showing queue: ", queue);
 	if (queue) {
 		var entry_template = document.getElementById("entry_template").cloneNode(true);
 
@@ -204,16 +238,23 @@ function breakDown() {
 	
 	window.removeEventListener("mousemove", progress_bar_slider.sliding);
 	window.removeEventListener("mouseup", progress_bar_slider.slideEnd);
-	window.removeEventListener("selectstart", function(event) {event.preventDefault();});
+	window.removeEventListener("selectstart", preventSelection);
 }
 
 function setup() {
 	"use strict";
 	
 	var progress_bar = document.getElementById("progress_bar");
-	progress_bar_slider = new slider(progress_bar);
+	progress_bar_slider = new slider(progress_bar, setProgress, startProgressSlide, finishProgressSlide);
 	
 	progress_bar.addEventListener("mousedown", progress_bar_slider.slideStart);
 	window.addEventListener("mousemove", progress_bar_slider.sliding);
 	window.addEventListener("mouseup", progress_bar_slider.slideEnd);
+	
+	var volume_bar = document.getElementById("volume_bar_target");
+	volume_slider = new slider(volume_bar, setVolume, function() {}, finishVolumeSlide);
+	
+	volume_bar.addEventListener("mousedown", volume_slider.slideStart);
+	window.addEventListener("mousemove", volume_slider.sliding);
+	window.addEventListener("mouseup", volume_slider.slideEnd);
 }
