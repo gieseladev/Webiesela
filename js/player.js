@@ -2,6 +2,9 @@ var queue;
 
 var current_progress = 0;
 var song_duration = 0;
+
+var show_time_left = false;
+
 var user_sliding_progress_bar = false;
 var ticker;
 
@@ -66,6 +69,13 @@ function playPauseClick() {
 	"use strict";
 	
 	sendCommand("play_pause");
+}
+
+function switchDurationDisplay() {
+	"use strict";
+	
+	show_time_left = !show_time_left;
+	setProgress(current_progress / song_duration);
 }
 
 function slider(element, on_slide, on_start, on_finish) {
@@ -174,10 +184,16 @@ function setProgress(progress_ratio) {
 	
 	var progress_bar = document.getElementById("progress_bar_filled");
 	var player_progress_bar_progress = document.getElementById("player_progress_bar_progress");
+	var player_progress_bar_duration = document.getElementById("player_progress_bar_duration");
 
 	progress_bar.style.width = 100 * progress_ratio + "%";
 
 	player_progress_bar_progress.innerHTML = formatSeconds(Math.min(progress_ratio * song_duration, song_duration));
+	if (show_time_left) {
+		player_progress_bar_duration.innerHTML = "-" + formatSeconds(Math.min(song_duration * (1 - progress_ratio), song_duration));
+	} else {
+		player_progress_bar_duration.innerHTML = formatSeconds(song_duration);
+	}
 }
 
 function updateProgress() {
@@ -196,7 +212,9 @@ function playerHandlePlayerInformation(player) {
 	var song_title = document.getElementById("song_title");
 	var song_artist = document.getElementById("song_artist");
 	var cover_image = document.getElementById("cover_image");
+	
 	var player_progress_bar_duration = document.getElementById("player_progress_bar_duration");
+	var player_progress_bar = document.getElementById("player_progress_bar");
 	
 	var play_pause = document.getElementById("button_play_pause");
 	
@@ -207,6 +225,13 @@ function playerHandlePlayerInformation(player) {
 		
 		current_progress = entry.progress;
 		song_duration = entry.duration;
+		
+		if (!song_duration) {
+			player_progress_bar.style.display = "none";
+		}
+		else {
+			player_progress_bar.style.display = "";
+		}
 		
 		if (ticker) {
 			clearInterval(ticker);
@@ -232,9 +257,7 @@ function playerHandlePlayerInformation(player) {
 		queue = player.queue;
 		showQueue();
 		
-	} else {
-		run_tick = false;
-		
+	} else {		
 		if (ticker) {
 			clearInterval(ticker);
 		}

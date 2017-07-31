@@ -265,7 +265,7 @@ div#song_artist {
 	height: 1vmax;
 	background-size: contain;
 	background-repeat: no-repeat;
-	background-position: center;
+	background-position: left;
 }
 #speaker_symbol.icon-3 {
 	background-image: url("../images/icons/Volume 3.png")
