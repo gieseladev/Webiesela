@@ -49,7 +49,8 @@ function finishProgressSlide(value) {
 	
 	if (0 <= value <= song_duration) {
 		user_sliding_progress_bar = false;
-		sendCommand("seek", {"value": value * song_duration});
+		current_progress = value * song_duration
+		sendCommand("seek", {"value": current_progress});
 	}
 }
 

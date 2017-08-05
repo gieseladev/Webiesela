@@ -4,9 +4,18 @@ var token = getCookie("token");
 var user = null;
 var current_page = "loading_screen";
 
+var config;
+
 function init() {
 	"use strict";
 	//window.removeEventListener("load", init, false);
+	
+	var request = new XMLHttpRequest();
+	request.open("GET", "config.json", false);
+	request.send(null);
+	
+	config = JSON.parse(request.responseText);
+	
 	doConnect();
 }
 
@@ -42,7 +51,7 @@ function loadPage(page_name, on_ready) {
 function doConnect() {
 	"use strict";
 	console.log("[WEBSOCKET] trying to connect");
-	websocket = new WebSocket("ws://35.165.215.126:8000");
+	websocket = new WebSocket(config.websocket_address);
 	websocket.onopen = function(evt) {
 		onOpen(evt);
 	};
@@ -158,7 +167,7 @@ function onError(evt) {
 	
 	loadPage("loading_screen", function() { //switch back to the loading screen and connect again
 		setTimeout(doConnect, timeout_ms);
-		timeout_ms *= 2;
+		timeout_ms *= 1.5;
 	});
 }
 
