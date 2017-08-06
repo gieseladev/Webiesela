@@ -37,6 +37,15 @@
 	border-top: .07vmax solid #3a3a3a;
 	padding-top: .4vmax;
 }
+#giesela_logo {
+	color: #7289DA;
+	font-weight: 900;
+	text-transform: uppercase;
+	font-size: 1.5vmax;
+	margin-bottom: 1.5vmin;
+	cursor: default;
+	text-shadow: .15vmax 0px .1vmax rgba(114,137,218,0.15);
+}
 #menu_space_padder {
 	flex-grow: 1;
 }
