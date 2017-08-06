@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" href="css/picture_frame.css">
 <link rel="stylesheet" type="text/css" href="css/flipper.css">
-<div class="centered">
+<div class="centered" onMouseMove="onUserActive();">
+	<div id="main_screen_switch" onClick="switchToMainScreen();">Switch to Main Screen</div>
 	<div id="cover_flip_container" class="flip-container cover">
 		<img id="paused" src="images/pause_symbol.png">
 		<div id="cover_disable_target" class="flipper">

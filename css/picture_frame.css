@@ -1,6 +1,18 @@
 @charset "utf-8";
+#main_screen_switch {
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-weight: bold;
+	font-size: 1vmax;
+	padding: .5%;
+	background-color: rgba(0,0,0,0.65);
+	color: #FFFFFF;
+	cursor: pointer;
+	transition: transform .5s ease-in-out;
+	border-bottom-right-radius: .5vmax;
+}
 .centered {
-    position: relative;
     margin: auto;
     top: 0;
     max-height: 100vh;

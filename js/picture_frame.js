@@ -1,5 +1,34 @@
 var default_background = "images/default_background.jpg";
 
+var activeTimer;
+
+
+function switchToMainScreen() {
+	"use strict";
+	
+	clearTimeout(activeTimer);
+	loadPage("main_screen", function() {
+		getInformation();
+	});
+}
+
+function onUserInactive() {
+	"use strict";
+	
+	document.body.classList.add("hideCursor");
+	document.getElementById("main_screen_switch").style.transform = "translateX(-100%)";
+}
+
+function onUserActive() {
+	"use strict";
+	
+	clearTimeout(activeTimer);
+	document.body.classList.remove("hideCursor");
+	document.getElementById("main_screen_switch").style.transform = "";
+	
+	activeTimer = setTimeout(onUserInactive, 3000);
+}
+
 function switchCover(new_cover_url) {
 	"use strict";
 	

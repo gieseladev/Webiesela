@@ -50,20 +50,23 @@
 #menu_space_padder {
 	flex-grow: 1;
 }
-#navbar_navigator * {
+#picture_frame_switch {
+	margin-bottom: 2vmin;
+}
+.navbar_navigator * {
 	color: #A0A0A0;
 	margin-bottom: .6vmax;
 	font-size: 120%;
 	font-weight: bolder;
 	transition: color .2s;
 }
-#navbar_navigator *:hover {
+.navbar_navigator *:hover {
 	cursor: pointer;
 }
-#navbar_navigator *:not(.active):hover {
+.navbar_navigator *:not(.active):hover {
 	color: #FFFFFF
 }
-#navbar_navigator > .active {
+.navbar_navigator > .active {
 	color: #7289DA;
 }
 #user_information {

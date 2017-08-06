@@ -79,6 +79,14 @@ function switchDurationDisplay() {
 	setProgress(current_progress / song_duration);
 }
 
+function switchToPictureFrame() {
+	"use strict";
+	
+	loadPage("picture_frame", function() {
+		getInformation();
+	});
+}
+
 function slider(element, on_slide, on_start, on_finish) {
 	"use strict";
 
