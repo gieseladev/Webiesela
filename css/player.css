@@ -1,6 +1,6 @@
 @charset "utf-8";
 * {
-	font-family: europa, sans-serif;
+	font-family: "Roboto", sans-serif;
 	color: #FFFFFF;
 	font-size: .6vmax;
 }
@@ -45,6 +45,7 @@
 	margin-bottom: 1.5vmin;
 	cursor: default;
 	text-shadow: .15vmax 0px .1vmax rgba(114,137,218,0.15);
+	font-family: "Roboto", sans-serif;;
 }
 #menu_space_padder {
 	flex-grow: 1;
@@ -251,7 +252,7 @@ div#song_artist {
 	align-items: center;
 }
 #player_progress_bar_progress, #player_progress_bar_duration {
-	font-family: droid-sans-mono, monospace;
+	font-family: "droid-sans-mono", monospace;
 	color: #A0A0A0;
 	cursor: default;
 }
