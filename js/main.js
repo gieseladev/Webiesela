@@ -37,6 +37,8 @@ function loadPage(page_name, on_ready) {
 			
 			if (current_page === "main_screen") {
 				setup();
+			} else if (current_page === "picture_frame") {
+				setupPictureFrame();
 			}
 			
 			console.log("[PAGE] successfully loaded " + page_name);

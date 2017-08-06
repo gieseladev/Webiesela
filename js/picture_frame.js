@@ -124,3 +124,9 @@ function pictureFrameHandlePlayerInformation(player) {
 		transitionBackground(default_background);
 	}
 }
+
+function setupPictureFrame() { 
+	"use strict";
+	
+	onUserActive();
+}
