@@ -7,6 +7,8 @@ function switchToMainScreen() {
 	"use strict";
 	
 	clearTimeout(activeTimer);
+	document.body.classList.remove("hideCursor");
+	
 	loadPage("main_screen", function() {
 		getInformation();
 	});
