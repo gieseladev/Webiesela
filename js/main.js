@@ -155,6 +155,7 @@ function waitForAnswer(message_object, handler) {
   waitingForAnswer[request_id] = handler;
 
   message_object.id = request_id;
+  message_object.token = token;
   doSend(JSON.stringify(message_object));
 }
 

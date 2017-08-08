@@ -36,6 +36,19 @@ function displayEntries(parentElement, entries) {
   }
 }
 
+function showLyrics(answer) {
+  "use strict";
+
+  var lyrics_display = document.getElementById("lyrics_display");
+
+  var lyrics = answer["lyrics"];
+  if (lyrics) {
+      lyrics_display.innerHTML = lyrics["lyrics"];
+  } else {
+    lyrics_display.innerHTML = "Couldn't find any lyrics!";
+  }
+}
+
 function showHistory() {
   "use strict";
 
@@ -105,6 +118,8 @@ function switchHomePage(new_page) {
     case "lyrics":
       lyrics_selector.style.display = "";
       lyrics_selector.classList.add("selected");
+
+      waitForAnswer({"request": "send_lyrics"}, showLyrics());
 
       break;
   }
