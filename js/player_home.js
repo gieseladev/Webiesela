@@ -164,7 +164,7 @@ function switchHomePage(new_page) {
 
       waitForAnswer({
         "request": "send_lyrics"
-      }, showLyrics());
+      }, showLyrics);
 
       break;
   }
