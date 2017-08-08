@@ -105,8 +105,8 @@ function onMessage(evt) {
   console.log("[WEBSOCKET] got message ", data);
 
   if (data.request_id) {
-    console.log("[WEBSOCKET] This isn't a general message id", data.request_id);
-    var handler = waitForAnswer[data.request_id];
+    console.log("[WEBSOCKET] This isn't a general message. id", data.request_id);
+    var handler = waitingForAnswer[data.request_id];
     if (handler) {
       delete waitForAnswer[data.request_id];
 
