@@ -16,7 +16,7 @@
 #top-container {
 	flex-grow: 1;
 	display: flex;
-	background-image: linear-gradient(to bottom, rgb(42, 63, 110), rgb(4, 6, 11) 85%);
+	background-image: linear-gradient(to bottom, rgba(42, 63, 110, .4), rgb(4, 6, 11) 85%);
 }
 #menu_left {
 	width: 12vmax;
@@ -99,7 +99,7 @@
 	flex-direction: column;
 	height: 0;
 	width: 100%;
-	overflow-y: auto;
+	overflow-y: scroll;
 	align-items: center;
 	transform: translateZ(0);
 	will-change: transform;
@@ -281,16 +281,16 @@ div#song_artist {
 	background-position: left;
 }
 #speaker_symbol.icon-3 {
-	background-image: url("../images/icons/Volume 3.png")
+	background-image: url("../images/icons/Volume 3.png");
 }
 #speaker_symbol.icon-2 {
-	background-image: url("../images/icons/Volume 2.png")
+	background-image: url("../images/icons/Volume 2.png");
 }
 #speaker_symbol.icon-1 {
-	background-image: url("../images/icons/Volume 1.png")
+	background-image: url("../images/icons/Volume 1.png");
 }
 #speaker_symbol.icon-0 {
-	background-image: url("../images/icons/Volume Muted.png")
+	background-image: url("../images/icons/Volume Muted.png");
 }
 #speaker_symbol:hover {
 	cursor: pointer;

@@ -1,61 +1,79 @@
 @charset "utf-8";
-
 @keyframes transition_background_appear {
-	from {opacity: 0;}
-	to {opacity: .7;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: .7;
+  }
 }
+
 @keyframes transition_background_disappear {
-	from {opacity: .7;}
-	to {opacity: 0;}
+  from {
+    opacity: .7;
+  }
+  to {
+    opacity: 0;
+  }
 }
+
 body {
-    overflow-y: hidden;
-    overflow-x: hidden;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
+
 #window {
-    height: 100vh;
+  height: 100vh;
 }
+
 #bg {
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.50);
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.50);
 }
+
 #bg img {
-    position: fixed;
-    opacity: 0.7;
-    z-index: -2;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
+  position: fixed;
+  opacity: 0.7;
+  z-index: -2;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
 }
+
 #bg #thumbnail_old {
-	z-index: -1;
-	opacity: 0;
+  z-index: -1;
+  opacity: 0;
 }
+
 #bg.transition #thumbnail_old {
-	animation: transition_background_disappear 1s linear;
+  animation: transition_background_disappear 1s linear;
 }
+
 #bg.transition #thumbnail {
-	animation: transition_background_appear 1s linear;
+  animation: transition_background_appear 1s linear;
 }
+
 .command_style {
-    color: #7289DA !important;
-    font-weight: bold;
+  color: #7289DA !important;
+  font-weight: bold;
 }
+
 .unselectable {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+
 .hideCursor {
-	cursor: none;
+  cursor: none;
 }

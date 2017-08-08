@@ -1,4 +1,13 @@
 <link rel="stylesheet" type="text/css" href="css/player.css">
+
+<link rel="prefetch" href="../images/icons/Volume Muted.png">
+<link rel="prefetch" href="../images/icons/Volume 1.png">
+<link rel="prefetch" href="../images/icons/Volume 2.png">
+<link rel="prefetch" href="../images/icons/Volume 3.png">
+
+<link rel="prefetch" href="../images/icons/Play.png">
+<link rel="prefetch" href="../images/icons/Pause.png">
+
 <div id="viewport">
 	<div id="top-container">
 		<div id="menu_left">
@@ -25,9 +34,9 @@
 			<div class="scrollable_flex">
 				<link rel="stylesheet" type="text/css" href="css/player/queue.css">
 				<div id="content_selector">
-					<div class="selected">queue</div>
-					<div>history</div>
-					<div>lyrics</div>
+					<div id="queue_selector" onClick="switchHomePage('queue')" class="selected">queue</div>
+					<div id="history_selector" onClick="switchHomePage('history')">history</div>
+					<div id="lyrics_selector" onClick="switchHomePage('lyrics')">lyrics</div>
 				</div>
 				<div id="entry_template" class="entry" style="display: none;">
 					<div class="outer">
@@ -43,8 +52,9 @@
 					</div>
 					<div class="duration">4:15</div>
 				</div>
-				<div id="queue_display">
-				</div>
+				<div id="queue_display"></div>
+				<div id="history_display"></div>
+				<div id="lyrics_display"></div>
 			</div>
 		</div>
 	</div>
@@ -77,7 +87,7 @@
 			</div>
 			<div id="player_right">
 				<div id="volume_control">
-					<div id="speaker_symbol" class="icon-3" onClick="setVolume(0)"></div>
+					<div id="speaker_symbol" class="icon-3" onClick="mute()"></div>
 					<div id="volume_bar">
 						<div id="volume_bar_target" class="slider_bar_hover_target">
 							<div id="volume_bar_bar" class="slider_bar">

@@ -1,80 +1,96 @@
 @charset "utf-8";
 #content_selector {
-	margin-top: 3vmax;
-	width: 20vmax;
-	display: flex;
-	justify-content: space-between;
-	padding-bottom: 3.5vmax;
+  margin-top: 3vmax;
+  width: 20vmax;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 3.5vmax;
 }
+
 #content_selector * {
-	text-transform: uppercase;
-	letter-spacing: .08vmax;
-	color: hsla(0,0%,100%,.5);
-	font-weight: 900;
-	font-size: .8vmax;
-	transition: color .2s;
+  text-transform: uppercase;
+  letter-spacing: .08vmax;
+  color: hsla(0, 0%, 100%, .5);
+  font-weight: 900;
+  font-size: .8vmax;
+  transition: color .2s;
 }
+
 #content_selector *:hover {
-	cursor: pointer;
-	color: #FFFFFF;
+  cursor: pointer;
+  color: #FFFFFF;
 }
+
 #content_selector .selected {
-	color: #FFFFFF;
+  color: #FFFFFF;
 }
+
 #content_selector .selected::after {
-	content: "";
-	margin: 0 auto;
-	display: block;
-	width: 2vmax;
-	height: .1vmax;
-	background-color: #7289DA;
+  content: "";
+  margin: 0 auto;
+  display: block;
+  width: 2vmax;
+  height: .1vmax;
+  background-color: #7289DA;
 }
+
 .entry {
-	padding: .3vmax;
-	display: flex;
-	width: 70vmax;
-	height: 2.75vmax;
-	justify-content: space-between;
-	align-items: stretch;
-	transition: background-color .2s linear;
+  padding: .3vmax;
+  display: flex;
+  width: 70vmax;
+  height: 2.75vmax;
+  justify-content: space-between;
+  align-items: stretch;
+  transition: background-color .2s linear;
 }
+
 .entry .outer {
-	width: 2vmax;
+  width: 2vmax;
 }
+
 .entry:hover {
-	background-color: rgba(0,0,0,.3);
+  background-color: rgba(0, 0, 0, .3);
 }
-.entry > * {
-	margin: 0 .3vmax;
+
+.entry>* {
+  margin: 0 .3vmax;
 }
+
 .entry * {
-	font-size: 1vmax;
-	color: hsla(0,0%,100%,.5);
-	cursor: default;
+  font-size: 1vmax;
+  color: hsla(0, 0%, 100%, .5);
+  cursor: default;
 }
+
 .entry .index::after {
-	content: ".";
+  content: ".";
 }
+
 .entry .name {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	color: #FFFFFF;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
 }
+
 .entry .name .title {
-	color: #FFFFFF;
+  color: #FFFFFF;
 }
+
 .entry .name .origin {
-	display: flex;
+  display: flex;
 }
+
 .entry .name .origin * {
-	font-size: 80%;
+  font-size: 80%;
 }
+
 .entry .name .origin .seperator {
-	display: inline-block;
-	margin: 0 .5vmax;
+  display: inline-block;
+  margin: 0 .5vmax;
 }
+
 .entry .duration {
-	font-family: "droid-sans-mono", monospace;
+  font-family: "droid-sans-mono", monospace;
 }

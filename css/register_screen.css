@@ -1,56 +1,62 @@
 @charset "utf-8";
 #register_screen_window {
-    position: relative;
-    font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    height: 100%;
+  position: relative;
+  font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  height: 100%;
 }
+
 #register_screen_title {
-    color: #7289DA;
-    font-weight: bold;
-    font-size: 5vmin;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    text-shadow: 0.06em 0.05em 0.2em #23272A;
-    float: left;
-    padding-left: 2vmin;
-    padding-top: 2vmin;
+  color: #7289DA;
+  font-weight: bold;
+  font-size: 5vmin;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-shadow: 0.06em 0.05em 0.2em #23272A;
+  float: left;
+  padding-left: 2vmin;
+  padding-top: 2vmin;
 }
+
 #register_screen_token_group {
-    position: absolute;
-    margin: auto;
-    top: 50%;
-    left: 0px;
-    right: 0px;
-    transform: translateY(-50%);
-    line-height: 1;
+  position: absolute;
+  margin: auto;
+  top: 50%;
+  left: 0px;
+  right: 0px;
+  transform: translateY(-50%);
+  line-height: 1;
 }
+
 #register_screen_token {
-    color: #FFFFFF;
-    font-size: 25vmin;
-    text-transform: uppercase;
-    margin: 0px;
-    text-shadow: 0.1em 0.1em 0.4em #000000;
-	cursor:pointer;
+  color: #FFFFFF;
+  font-size: 25vmin;
+  text-transform: uppercase;
+  margin: 0px;
+  text-shadow: 0.1em 0.1em 0.4em #000000;
+  cursor: pointer;
 }
+
 #register_screen_tutorial * {
-    display: inline-block;
-    color: #99AAB5;
-    font-size: 2.2vmin;
-    text-shadow: 0.1em 0.1em 0.3em #000000;
+  display: inline-block;
+  color: #99AAB5;
+  font-size: 2.2vmin;
+  text-shadow: 0.1em 0.1em 0.3em #000000;
 }
+
 #register_screen_selectable {
-	cursor:pointer;
+  cursor: pointer;
 }
+
 @media (orientation: portrait) {
-	#register_screen_tutorial {
-		padding-top: 5vmin;
-	}
-	#register_screen_tutorial * {
-		padding: 0px;
-		margin: 0px;
-		font-size: 5vmin;
-	}
+  #register_screen_tutorial {
+    padding-top: 5vmin;
+  }
+  #register_screen_tutorial * {
+    padding: 0px;
+    margin: 0px;
+    font-size: 5vmin;
+  }
 }
