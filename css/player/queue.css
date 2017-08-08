@@ -39,13 +39,16 @@
   white-space: pre-wrap;
   font-size: .85vmax;
 }
+#lyrics_display .text h2 {
+	margin-bottom: 0;
+}
 #lyrics_display .source {
-	margin-top: 2vmax;
-	font-size: 1vmax;
-	color: #7289DA;
-	padding-bottom: 5vmax;
-	text-decoration: none;
 	display: block;
+	margin-top: 2vmax;
+	margin-bottom: 5vmax;
+	font-size: .65vmax;
+	color: #7289DA;
+	text-decoration: none;
 }
 
 .entry {

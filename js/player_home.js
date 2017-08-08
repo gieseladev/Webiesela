@@ -81,11 +81,17 @@ function showLyrics(answer) {
   var lyrics = answer.lyrics;
 
   if (lyrics) {
-    lyrics_display.innerHTML = lyrics.lyrics;
+    var parsed_lyrics = lyrics.lyrics.replace(/\[([\w\s\-_]+)\]/g, "<h2>$1<\/h2>");
+
+    lyrics_display.innerHTML = parsed_lyrics;
+    lyrics_display.style.fontSize = "";
+
     source_display.innerHTML = lyrics.source;
-    source_display.href = "http://" + lyrics.source;
+    source_display.href = lyrics.source;
   } else {
     lyrics_display.innerHTML = "Couldn't find any lyrics!";
+    lyrics_display.style.fontSize = "1.3vmax";
+
     source_display.innerHTML = "";
   }
 }
