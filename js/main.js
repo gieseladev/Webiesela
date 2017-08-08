@@ -91,7 +91,12 @@ function onOpen( /*evt*/ ) {
 
 function onClose( /*evt*/ ) {
   "use strict";
-  console.log("[WEBSOCKET] disconnected");
+  console.log("[WEBSOCKET] disconnected. Reconnecting in", timeout_ms / 1000);
+
+  loadPage("loading_screen", function() { //switch back to the loading screen and connect again
+    setTimeout(doConnect, timeout_ms);
+    timeout_ms *= 1.5;
+  });
 }
 
 function onMessage(evt) {
