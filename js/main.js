@@ -198,10 +198,6 @@ function onError(evt) {
   console.log("[WEBSOCKET] Error ", evt, ". Reconnecting in " + timeout_ms / 1000 + " seconds");
   websocket.close();
 
-  if (current_page === "main_screen") {
-    breakDown();
-  }
-
   loadPage("loading_screen", function() { //switch back to the loading screen and connect again
     setTimeout(doConnect, timeout_ms);
     timeout_ms *= 1.5;
