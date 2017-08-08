@@ -1,0 +1,73 @@
+@charset "utf-8";
+#playlist_display {
+  margin-top: 1vmax;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.playlist {
+  margin: 2vmax .5vmax;
+}
+
+.playlist .hover_target {
+  width: 10vmax;
+  height: 10vmax;
+  cursor: pointer;
+  padding-bottom: .5vmax;
+}
+
+.playlist .hover_target:hover .cover {
+  filter: brightness(.4);
+}
+
+.playlist .cover {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background-size: cover;
+  transition: .4s;
+  box-shadow: 0 0 .6vmax rgba(0, 0, 0, .3);
+}
+
+.playlist .play_button {
+  display: none;
+  z-index: 50;
+  position: relative;
+  width: 5vmax;
+  height: 5vmax;
+  left: 50%;
+  top: 50%;
+  background-image: url("../../images/icons/Play.png");
+  background-size: contain;
+  background-position: center;
+  background-color: transparent;
+  transform: translate(-50%, -50%) scale(.8);
+  border: 0;
+  transition: all .3s cubic-bezier(0, 0, 0, 2.41);
+  cursor: pointer;
+}
+
+.playlist .play_button:hover {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.playlist .hover_target:hover .play_button {
+  display: block;
+}
+
+.playlist .name .title {
+  font-size: 1vmax;
+  color: #FFFFFF;
+  margin-bottom: .5vmax;
+}
+
+.playlist .name * {
+  text-align: center;
+  font-weight: 600;
+  font-size: .7vmax;
+  color: #A0A0A0;
+}
