@@ -285,6 +285,8 @@ function breakDown() {
 function setup() {
   "use strict";
 
+  switchHomePage("queue");
+
   var progress_bar = document.getElementById("progress_bar");
   progress_bar_slider = new slider(progress_bar, setProgress, startProgressSlide, finishProgressSlide);
   progress_bar_slider.setupHooks();

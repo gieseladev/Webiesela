@@ -104,6 +104,7 @@ function switchHomePage(new_page) {
     case "queue":
       queue_display.style.display = "";
       queue_selector.classList.add("selected");
+      home_sub_page = "queue"
 
       showQueue();
 
@@ -111,6 +112,7 @@ function switchHomePage(new_page) {
     case "history":
       history_display.style.display = "";
       history_selector.classList.add("selected");
+      home_sub_page = "history"
 
       showHistory();
 
@@ -118,6 +120,7 @@ function switchHomePage(new_page) {
     case "lyrics":
       lyrics_selector.style.display = "";
       lyrics_selector.classList.add("selected");
+      home_sub_page = "lyrics"
 
       waitForAnswer({"request": "send_lyrics"}, showLyrics());
 
