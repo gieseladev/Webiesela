@@ -1,5 +1,7 @@
 var home_sub_page = "queue";
 
+var current_lyrics_title;
+
 
 function onEntryMove(evt, origEvt) {
   "use strict";
@@ -74,6 +76,8 @@ function displayEntries(parentElement, entries) {
 function showLyrics(answer) {
   "use strict";
 
+  current_lyrics_title = document.getElementById("song_title").innerHTML;
+
   var lyrics_display_parent = document.getElementById("lyrics_display");
   var lyrics_display = lyrics_display_parent.getElementsByClassName("text")[0];
   var source_display = lyrics_display_parent.getElementsByClassName("source")[0];
@@ -129,6 +133,14 @@ function handleQueue() {
     showQueue();
   } else if (home_sub_page === "history") {
     showHistory();
+  } else if (home_sub_page === "lyrics") {
+    if (document.getElementById("song_title").innerHTML !== current_lyrics_title) {
+      waitForAnswer({
+        "request": "send_lyrics"
+      }, showLyrics);
+    } else {
+      console.log("[LYRICS] already showing these lyrics");
+    }
   }
 }
 
