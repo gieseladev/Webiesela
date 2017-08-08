@@ -158,7 +158,7 @@ function switchHomePage(new_page) {
 
       break;
     case "lyrics":
-      lyrics_selector.style.display = "";
+      lyrics_display.style.display = "";
       lyrics_selector.classList.add("selected");
       home_sub_page = "lyrics"
 
