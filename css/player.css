@@ -160,7 +160,7 @@
 	display: flex;
 	align-content: center;
 	align-items: center;
-	
+
 }
 #player_left {
 	width: 30%;
@@ -224,6 +224,7 @@ div#song_artist {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-color: transparent;
+	background-position: center;
 	border: none;
 	transition: all 50ms cubic-bezier(.3,0,.7,1);
 }
