@@ -1,12 +1,47 @@
 var home_sub_page = "queue";
 
+
+function onEntryMove(evt, origEvt) {
+  "use strict";
+
+  evt.dragged.style.backgroundColor = "rgba(0, 0, 0, .3)";
+
+  setTimeout(function() {
+    updateIndices(document.getElementById("queue_display"));
+  }, 0);
+}
+
+function onEntryMoved(evt) {
+  "use strict";
+
+  var from = evt.oldIndex;
+  var to = evt.newIndex;
+
+  evt.item.style.backgroundColor = "";
+
+  sendCommand("move", {
+    "from": from,
+    "to": to
+  });
+  console.log("[QUEUE] moved entry from", from, "to", to);
+  updateIndices(document.getElementById("queue_display"));
+}
+
+function updateIndices(parentElement) {
+  var index = 1;
+  for (var child = parentElement.firstChild; child !== null; child = child.nextSibling) {
+    if (child.style.display !== "none") {
+      child.getElementsByClassName("index")[0].innerHTML = index;
+      index++;
+    }
+  }
+}
+
 function displayEntries(parentElement, entries) {
   "use strict";
 
   while (parentElement.firstChild) {
-    if (parentElement.firstChild.id !== "entry_template") {
-      parentElement.removeChild(parentElement.firstChild);
-    }
+    parentElement.removeChild(parentElement.firstChild);
   }
 
   var entry_template = document.getElementById("entry_template").cloneNode(true);
@@ -43,7 +78,7 @@ function showLyrics(answer) {
 
   var lyrics = answer["lyrics"];
   if (lyrics) {
-      lyrics_display.innerHTML = lyrics["lyrics"];
+    lyrics_display.innerHTML = lyrics["lyrics"];
   } else {
     lyrics_display.innerHTML = "Couldn't find any lyrics!";
   }
@@ -67,6 +102,11 @@ function showQueue() {
     var queue_display = document.getElementById("queue_display");
 
     displayEntries(queue_display, queue.entries)
+
+    Sortable.create(queue_display, {
+      "onMove": onEntryMove,
+      "onEnd": onEntryMoved
+    });
   }
 }
 
@@ -122,7 +162,9 @@ function switchHomePage(new_page) {
       lyrics_selector.classList.add("selected");
       home_sub_page = "lyrics"
 
-      waitForAnswer({"request": "send_lyrics"}, showLyrics());
+      waitForAnswer({
+        "request": "send_lyrics"
+      }, showLyrics());
 
       break;
   }
