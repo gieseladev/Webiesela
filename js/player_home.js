@@ -74,13 +74,19 @@ function displayEntries(parentElement, entries) {
 function showLyrics(answer) {
   "use strict";
 
-  var lyrics_display = document.getElementById("lyrics_display");
+  var lyrics_display_parent = document.getElementById("lyrics_display");
+  var lyrics_display = lyrics_display_parent.getElementsByClassName("text")[0];
+  var source_display = lyrics_display_parent.getElementsByClassName("source")[0];
 
-  var lyrics = answer["lyrics"];
+  var lyrics = answer.lyrics;
+
   if (lyrics) {
-    lyrics_display.innerHTML = lyrics["lyrics"];
+    lyrics_display.innerHTML = lyrics.lyrics;
+    source_display.innerHTML = lyrics.source;
+    source_display.href = "http://" + lyrics.source;
   } else {
     lyrics_display.innerHTML = "Couldn't find any lyrics!";
+    source_display.innerHTML = "";
   }
 }
 
