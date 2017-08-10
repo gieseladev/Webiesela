@@ -15,8 +15,8 @@
 				<div id="giesela_logo">giesela</div>
 				<div class="group">
 					<div class="navbar_navigator">
-						<div id="navbar_home" class="active">Home</div>
-						<div id="navbar_playlists">Playlists</div>
+						<div id="navbar_home" onClick="switchToHome()" class="active">Home</div>
+						<div id="navbar_playlists" onClick="switchToPlaylists()">Playlists</div>
 						<div id="navbar_radio_stations">Radio Stations</div>
 					</div>
 				</div>
@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div id="main_content_container">
-			<div class="scrollable_flex">
+			<div id="main_container_flex" class="scrollable_flex">
 				<link rel="stylesheet" type="text/css" href="css/player/queue.css">
 				<div id="content_selector">
 					<div id="queue_selector" onClick="switchHomePage('queue')" class="selected">queue</div>

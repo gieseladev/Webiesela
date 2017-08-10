@@ -16,6 +16,27 @@ var progress_bar_slider;
 var volume_slider;
 
 
+function loadSubPage(page_name, on_ready) {
+  "use strict";
+  if (sub_page === page_name) { // no need to reload current site
+    return false;
+  }
+  console.log("[MAIN] switching from " + sub_page + " to " + page_name + "...");
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+
+      document.getElementById("main_container_flex").innerHTML = this.responseText;
+      sub_page = page_name;
+      console.log("[MAIN] successfully loaded " + page_name);
+
+      on_ready();
+    }
+  };
+  xhttp.open("GET", "main_panels\\" + page_name + ".html", true);
+  xhttp.send();
+}
+
 function preventSelection(event) {
   "use strict";
 
@@ -101,6 +122,36 @@ function switchDurationDisplay() {
 
   show_time_left = !show_time_left;
   setProgress(current_progress / song_duration);
+}
+
+function _disableAllActive() {
+  "use strict";
+
+  document.getElementById("navbar_home").classList.remove("active");
+  document.getElementById("navbar_playlists").classList.remove("active");
+  document.getElementById("navbar_radio_stations").classList.remove("active");
+}
+
+function switchToHome() {
+  "use strict";
+
+  _disableAllActive();
+  document.getElementById("navbar_home").classList.add("active");
+
+  loadSubPage("home", function() {
+      getInformation();
+    });
+}
+
+function switchToPlaylists() {
+  "use strict";
+
+  _disableAllActive();
+  document.getElementById("navbar_playlists").classList.add("active");
+
+  loadSubPage("playlists", function() {
+    waitForAnswer({request: "send_playlists"}, receivePlaylist);
+  });
 }
 
 function switchToPictureFrame() {

@@ -62,12 +62,11 @@
 .playlist .name .title {
   font-size: 1vmax;
   color: #FFFFFF;
-  margin-bottom: .5vmax;
 }
 
 .playlist .name * {
   text-align: center;
   font-weight: 600;
-  font-size: .7vmax;
+  font-size: .6vmax;
   color: #A0A0A0;
 }
