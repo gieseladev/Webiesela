@@ -1,5 +1,15 @@
 var playlists;
 
+var scrollWaiter;
+
+
+function adjustInformationPosition() {
+	"use strict";
+	
+	var scrollOffset = document.getElementById("main_container_flex").scrollTop;
+	
+	document.getElementById("playlist_information_float_left").style.marginTop = scrollOffset + "px";
+}
 
 function displayEntries(parentElement, entries) {
   "use strict";
@@ -61,6 +71,11 @@ function showPlaylist(playlist_id) {
   document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
   document.getElementById("playlist_playtime").innerHTML = "wip";
 
+	document.getElementById("main_container_flex").addEventListener("scroll", function() {
+		clearTimeout(scrollWaiter);
+		scrollWaiter = setTimeout(adjustInformationPosition, 200);
+	});
+	
   document.getElementById("focused_display").style.display = "";
 }
 

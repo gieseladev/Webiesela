@@ -107,6 +107,7 @@
 #focused_display .left {
   margin-right: 3vmax;
   width: 15vmax;
+	transition: margin-top 1.5s cubic-bezier(0,0,.41,1.23) 0s;
 }
 
 #focused_display .left .playlist {
