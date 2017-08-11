@@ -1,4 +1,6 @@
 <link rel="stylesheet" type="text/css" href="css/player/playlists.css">
+<link rel="stylesheet" type="text/css" href="css/player/entry.css">
+
 <div id="playlist_template" class="playlist" style="display: none;">
 	<div class="hover_target">
 		<div class="cover" style="background-image: url('http://i.imgur.com/Vifn0MV.jpg')"></div>
@@ -10,4 +12,39 @@
 	</div>
 </div>
 
+<div id="entry_template" class="entry" style="display: none;">
+	<div class="outer">
+		<div class="index">1</div>
+	</div>
+	<div class="name">
+		<div class="title">Shape of You</div>
+		<div class="origin">
+			<div class="artist">Ed Sheeran</div>
+			<span class="seperator">•</span>
+			<div class="album">Divide</div>
+		</div>
+	</div>
+	<div class="duration">4:15</div>
+</div>
+
 <div id="playlist_display"></div>
+<div id="focused_display" style="display:none">
+	<header class="left">
+		<div id="playlist_cover" class="playlist">
+			<div class="hover_target" style="margin: auto;">
+				<div id="focused_playlist_cover" class="cover" style="background-image: url('http://i.imgur.com/Vifn0MV.jpg')"></div>
+				<button class="play_button"></button>
+			</div>
+		</div>
+		<div class="centered">
+			<div id="playlist_title">Quality</div>
+			<div id="playlist_author">by Zylect</div>
+			<div id="playlist_description">Quality music</div>
+			<div id="playlist_entry_amount">154 songs</div>
+			<div id="playlist_playtime">9:30:15</div>
+		</div>
+	</header>
+	<div id="playlist_entries" class="right">
+
+	</div>
+</div>

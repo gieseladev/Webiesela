@@ -11,17 +11,23 @@
 
 .playlist {
   margin: 2vmax .5vmax;
+  cursor: pointer;
 }
 
 .playlist .hover_target {
   width: 10vmax;
   height: 10vmax;
-  cursor: pointer;
   padding-bottom: .5vmax;
 }
 
-.playlist .hover_target:hover .cover {
+.playlist:hover .cover {
   filter: brightness(.4);
+  transition: .4s;
+}
+
+.playlist:active .cover {
+  transform: scale3d(.93, .93, 1);
+  transition: .2s;
 }
 
 .playlist .cover {
@@ -29,7 +35,6 @@
   width: inherit;
   height: inherit;
   background-size: cover;
-  transition: .4s;
   box-shadow: 0 0 .6vmax rgba(0, 0, 0, .3);
 }
 
@@ -37,8 +42,8 @@
   display: none;
   z-index: 50;
   position: relative;
-  width: 5vmax;
-  height: 5vmax;
+  width: 4vmax;
+  height: 4vmax;
   left: 50%;
   top: 50%;
   background-image: url("../../images/icons/Play.png");
@@ -69,4 +74,80 @@
   font-weight: 600;
   font-size: .6vmax;
   color: #A0A0A0;
+}
+
+.centered {
+  margin: auto;
+  top: 0;
+  max-height: 100vh;
+  display: block;
+  z-index: 4;
+  height: 100vh;
+  text-align: center;
+}
+
+#focused_display {
+  margin-top: 5vmin;
+  display: flex;
+  width: 70%;
+}
+
+#focused_display .right {
+  flex-grow: 1;
+}
+
+#playlist_entries .entry {
+  width: auto;
+}
+
+#focused_display .left {
+  margin-right: 3vmax;
+  width: 15vmax;
+}
+
+#focused_display .left .playlist {
+  margin: auto 0;
+}
+
+#focused_display .left .playlist .hover_target {
+  width: 12vmax;
+  height: 12vmax;
+}
+
+#focused_display .centered * {
+  margin-bottom: 1vmin;
+  color: #A0A0A0;
+  font-size: 1.4vmin;
+}
+
+#focused_display .centered #playlist_title {
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 3.75vmin;
+  margin-bottom: .1vmin;
+}
+
+#focused_display .centered #playlist_author {
+  color: #999999;
+  font-weight: 300;
+  font-size: 1.6vmin;
+  margin-bottom: 2vmin;
+}
+
+#focused_display .centered #playlist_description {
+	margin-bottom: 2vmin;
+	text-align: justify;
+	width: 12vmax;
+	margin-left: auto;
+	margin-right: auto;
+	font-weight: 100;
+	line-height: 1em;
+}
+
+#focused_display .centered #playlist_entry_amount {
+  text-transform: uppercase;
+}
+
+#focused_display .centered #playlist_playtime {
+  font-family: "droid-sans-mono", monospace;
 }
