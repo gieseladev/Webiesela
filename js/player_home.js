@@ -85,7 +85,7 @@ function showLyrics(answer) {
   var lyrics = answer.lyrics;
 
   if (lyrics) {
-    var parsed_lyrics = lyrics.lyrics.replace(/\[([\w\s\-_]+)\]/g, "<h2>$1<\/h2>");
+    var parsed_lyrics = lyrics.lyrics.replace(/\[([\w\s\-_:]+)\]/g, "<h2>$1<\/h2>");
 
     lyrics_display.innerHTML = parsed_lyrics;
     lyrics_display.style.fontSize = "";
