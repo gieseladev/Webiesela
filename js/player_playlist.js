@@ -50,12 +50,16 @@ function showPlaylist(playlist_id) {
     loadPlaylist(playlist_id);
   };
 
-	document.getElementById("focused_playlist_cover").style.backgroundImage = "url('" + playlist.cover + "')";
-	document.getElementById("playlist_title").innerHTML = playlist.name;
-	document.getElementById("playlist_author").innerHTML = "by " + playlist.author.display_name;
-	document.getElementById("playlist_description").innerHTML = playlist.description;
-	document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
-	document.getElementById("playlist_playtime").innerHTML = "wip";
+  document.getElementById("playlist_load_button").onclick = function() {
+    loadPlaylist(playlist_id);
+  };
+
+  document.getElementById("focused_playlist_cover").style.backgroundImage = "url('" + playlist.cover + "')";
+  document.getElementById("playlist_title").innerHTML = playlist.name;
+  document.getElementById("playlist_author").innerHTML = "by " + playlist.author.display_name;
+  document.getElementById("playlist_description").innerHTML = playlist.description.replace(/(\*\*|__)(.+?)\1/, "<b>$2</b>").replace(/(\*|_)(.+?)\1/, "<i>$2</i>").replace(/(`|_)(.+?)\1/, "<code>$2</code>");
+  document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
+  document.getElementById("playlist_playtime").innerHTML = "wip";
 
   document.getElementById("focused_display").style.display = "";
 }

@@ -100,6 +100,10 @@
   width: auto;
 }
 
+#playlist_entries .entry * {
+  font-size: .7vmax;
+}
+
 #focused_display .left {
   margin-right: 3vmax;
   width: 15vmax;
@@ -114,34 +118,43 @@
   height: 12vmax;
 }
 
+#focused_display .centered {
+  height: auto;
+}
+
 #focused_display .centered * {
   margin-bottom: 1vmin;
-  color: #A0A0A0;
-  font-size: 1.4vmin;
+  color: hsla(0, 0%, 100%, .5);
+  font-size: .54vmax;
 }
 
 #focused_display .centered #playlist_title {
   color: #FFFFFF;
   font-weight: 800;
-  font-size: 3.75vmin;
+  font-size: 1.3vmax;
   margin-bottom: .1vmin;
+  margin-top: 1vmin;
 }
 
 #focused_display .centered #playlist_author {
   color: #999999;
   font-weight: 300;
-  font-size: 1.6vmin;
-  margin-bottom: 2vmin;
+  font-size: .6vmax;
+  margin-bottom: 1.5vmax;
 }
 
 #focused_display .centered #playlist_description {
-	margin-bottom: 2vmin;
-	text-align: justify;
-	width: 12vmax;
-	margin-left: auto;
-	margin-right: auto;
-	font-weight: 100;
-	line-height: 1em;
+  margin-bottom: 1.5vmax;
+  width: 12.5vmax;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 100;
+  line-height: 1em;
+}
+
+#focused_display .centered #playlist_description code {
+  background-color: rgba(0, 0, 0, 0.33);
+  padding: .1em;
 }
 
 #focused_display .centered #playlist_entry_amount {
@@ -150,4 +163,21 @@
 
 #focused_display .centered #playlist_playtime {
   font-family: "droid-sans-mono", monospace;
+  margin-left: .2vmax;
+}
+
+#focused_display .centered #playlist_load_button {
+  background-color: #7289DA;
+  width: 5vmax;
+  height: 1.6vmax;
+  color: #FFFFFF;
+  border-radius: 2.5vmin;
+  line-height: 1.6vmax;
+  font-weight: 900;
+  font-size: .55vmax;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4vmin;
+  letter-spacing: .1vmax;
+  cursor: pointer;
 }
