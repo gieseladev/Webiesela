@@ -68,6 +68,10 @@ function loadPlaylist(playlist_id) {
   "use strict";
 
   console.log("Loading playlist", playlist_id);
+
+  sendCommand("load_playlist", {
+    "id": playlist_id
+  });
 }
 
 function displayPlaylists() {
