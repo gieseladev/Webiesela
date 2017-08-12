@@ -107,7 +107,7 @@
 #focused_display .left {
   margin-right: 3vmax;
   width: 15vmax;
-	transition: margin-top 1.5s cubic-bezier(0,0,.41,1.23) 0s;
+  transition: margin-top 1.5s cubic-bezier(0, 0, .41, 1.23) 0s;
 }
 
 #focused_display .left .playlist {
@@ -168,7 +168,7 @@
 }
 
 #focused_display .centered #playlist_load_button {
-  background-color: #7289DA;
+  background-color: rgba(114, 137, 218, 0.85);
   width: 5vmax;
   height: 1.6vmax;
   color: #FFFFFF;
@@ -181,4 +181,14 @@
   margin-top: 4vmin;
   letter-spacing: .1vmax;
   cursor: pointer;
+  transition: all .15s ease;
+}
+
+#focused_display .centered #playlist_load_button:hover {
+  transform: scale(1.05);
+  background-color: #7289DA;
+}
+
+#focused_display .centered #playlist_load_button:active {
+  transform: scale(.95);
 }
