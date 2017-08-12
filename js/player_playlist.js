@@ -11,38 +11,15 @@ function adjustInformationPosition() {
   document.getElementById("playlist_information_float_left").style.marginTop = scrollOffset + "px";
 }
 
-function displayEntries(parentElement, entries) {
+function playlistEntryContextMenuClick(entryIndex, action) {
   "use strict";
 
-  while (parentElement.firstChild) {
-    parentElement.removeChild(parentElement.firstChild);
+  if (["play"].indexOf(action) < 0) {
+    console.log("[PLAYLIST] Don't recognise this action", action);
+    return;
   }
 
-  var entry_template = document.getElementById("entry_template").cloneNode(true);
-
-  entry_template.removeAttribute("id");
-  entry_template.removeAttribute("style");
-
-  var index = 1;
-
-  for (var entry of entries) {
-    var entry_element = entry_template.cloneNode(true);
-
-    entry_element.getElementsByClassName("index")[0].innerHTML = index;
-    entry_element.getElementsByClassName("title")[0].innerHTML = entry.title;
-
-    if (entry.album && entry.artist) {
-      entry_element.getElementsByClassName("album")[0].innerHTML = entry.album;
-      entry_element.getElementsByClassName("artist")[0].innerHTML = entry.artist;
-    } else {
-      entry_element.getElementsByClassName("name")[0].removeChild(entry_element.getElementsByClassName("origin")[0]);
-    }
-
-    entry_element.getElementsByClassName("duration")[0].innerHTML = formatSeconds(entry.duration);
-
-    parentElement.appendChild(entry_element);
-    index++;
-  }
+  console.log("[PLAYLIST] action", action, "on entry", entryIndex);
 }
 
 function showPlaylist(playlist_id) {
@@ -82,6 +59,10 @@ function showPlaylist(playlist_id) {
   });
 
   document.getElementById("focused_display").style.display = "";
+
+  setupEntryContextMenu("entry", {
+    "play": "Add to Queue"
+  }, playlistEntryContextMenuClick);
 }
 
 function loadPlaylist(playlist_id) {
@@ -91,6 +72,17 @@ function loadPlaylist(playlist_id) {
 
   sendCommand("load_playlist", {
     "id": playlist_id
+  });
+}
+
+function menuItemClick(playlistId, loadMode) {
+  "use strict";
+
+  console.log("[PLAYLIST] Loading playlist", playlistId, "with mode [" + loadMode + "]");
+
+  sendCommand("load_playlist", {
+    "id": playlistId,
+    "mode": loadMode
   });
 }
 
@@ -128,6 +120,8 @@ function displayPlaylists() {
   for (var playlist of playlists) {
     var playlist_element = playlist_template.cloneNode(true);
 
+    playlist_element.setAttribute("data-id", playlist.id);
+
     playlist_element.getElementsByClassName("cover")[0].style.backgroundImage = "url('" + playlist.cover + "')";
     playlist_element.getElementsByClassName("title")[0].innerHTML = playlist.name;
 
@@ -144,6 +138,11 @@ function receivePlaylist(answer) {
   "use strict";
 
   playlists = answer.playlists;
+
+  setupPlaylistContextMenu("playlist", {
+    "add": "Append to Queue",
+    "replace": "Play Now"
+  }, menuItemClick);
 
   displayPlaylists();
 }

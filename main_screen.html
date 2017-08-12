@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/player.css">
+<link rel="stylesheet" type="text/css" href="css/context_menu.css">
 
 <link rel="prefetch" href="../images/icons/Volume Muted.png">
 <link rel="prefetch" href="../images/icons/Volume 1.png">
@@ -105,3 +106,25 @@
 		</div>
 	</footer>
 </div>
+
+<nav id="playlist-context-menu" class="context-menu">
+	<ul class="context-menu__items">
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="playlist_replace">Play now</span>
+		</li>
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="playlist_add">Append to queue</span>
+		</li>
+	</ul>
+</nav>
+
+<nav id="entry-context-menu" class="context-menu">
+	<ul class="context-menu__items">
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="playlist_replace">Play now</span>
+		</li>
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="playlist_add">Append to queue</span>
+		</li>
+	</ul>
+</nav>

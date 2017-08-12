@@ -3,6 +3,36 @@ var home_sub_page = "queue";
 var current_lyrics_title;
 
 
+function queueEntryContextMenuClick(entryIndex, action) {
+  "use strict";
+
+  if (["promote", "remove"].indexOf(action) < 0) {
+    console.log("[QUEUE] Don't recognise this action", action);
+    return;
+  }
+
+  console.log("[QUEUE] action", action, "on entry", entryIndex);
+
+  sendCommand(action, {
+    "index": entryIndex
+  });
+}
+
+function historyEntryContextMenuClick(entryIndex, action) {
+  "use strict";
+
+  if (["replay"].indexOf(action) < 0) {
+    console.log("[HISTORY] Don't recognise this action", action);
+    return;
+  }
+
+  console.log("[HISTORY] action", action, "on entry", entryIndex);
+
+  sendCommand(action, {
+    "index": entryIndex
+  });
+}
+
 function onEntryMove(evt, origEvt) {
   "use strict";
 
@@ -59,6 +89,8 @@ function displayEntries(parentElement, entries) {
     entry_element.getElementsByClassName("index")[0].innerHTML = index;
     entry_element.getElementsByClassName("title")[0].innerHTML = entry.title;
 
+    entry_element.setAttribute("data-id", index - 1);
+
     if (entry.album && entry.artist) {
       entry_element.getElementsByClassName("album")[0].innerHTML = entry.album;
       entry_element.getElementsByClassName("artist")[0].innerHTML = entry.artist;
@@ -107,6 +139,10 @@ function showHistory() {
     var history_display = document.getElementById("history_display");
 
     displayEntries(history_display, queue.history);
+
+    setupEntryContextMenu("entry", {
+      "replay": "Replay"
+    }, historyEntryContextMenuClick);
   }
 }
 
@@ -118,6 +154,11 @@ function showQueue() {
     var queue_display = document.getElementById("queue_display");
 
     displayEntries(queue_display, queue.entries)
+
+    setupEntryContextMenu("entry", {
+      "promote": "Promote",
+      "remove": "Remove"
+    }, queueEntryContextMenuClick);
 
     Sortable.create(queue_display, {
       "onMove": onEntryMove,
