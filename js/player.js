@@ -19,10 +19,13 @@ var volume_slider;
 function loadSubPage(page_name, on_ready) {
   "use strict";
   if (sub_page === page_name) { // no need to reload current site
-    return false;
+    on_ready();
+    return;
   }
+
   console.log("[MAIN] switching from " + sub_page + " to " + page_name + "...");
   var xhttp = new XMLHttpRequest();
+
   xhttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
 
@@ -33,7 +36,7 @@ function loadSubPage(page_name, on_ready) {
       on_ready();
     }
   };
-  xhttp.open("GET", "main_panels\\" + page_name + ".html", true);
+  xhttp.open("GET", "main_panels/" + page_name + ".html", true);
   xhttp.send();
 }
 
@@ -132,30 +135,48 @@ function _disableAllActive() {
   document.getElementById("navbar_radio_stations").classList.remove("active");
 }
 
-function switchToHome() {
+function switchToHome(noHistory) {
   "use strict";
 
   _disableAllActive();
   document.getElementById("navbar_home").classList.add("active");
 
+  if (!noHistory) {
+    history.pushState({
+      "id": "main-home"
+    }, "home", "#home");
+  }
+
   loadSubPage("home", function() {
-      getInformation();
-    });
+    getInformation();
+  });
 }
 
-function switchToPlaylists() {
+function switchToPlaylists(noHistory) {
   "use strict";
 
   _disableAllActive();
   document.getElementById("navbar_playlists").classList.add("active");
 
+  if (!noHistory) {
+    history.pushState({
+      "id": "main-playlists"
+    }, "all playlists", "#playlists");
+  }
+
   loadSubPage("playlists", function() {
-    waitForAnswer({request: "send_playlists"}, receivePlaylist);
+    waitForAnswer({
+      request: "send_playlists"
+    }, receivePlaylist);
   });
 }
 
 function switchToPictureFrame() {
   "use strict";
+
+  history.pushState({
+    "id": "picture_frame"
+  }, "picture_frame", "#picture_frame");
 
   loadPage("picture_frame", function() {
     getInformation();
@@ -335,6 +356,10 @@ function breakDown() {
 
 function setup() {
   "use strict";
+
+  history.replaceState({
+    "id": "main-home"
+  }, "home", "#home");
 
   switchHomePage("queue");
 

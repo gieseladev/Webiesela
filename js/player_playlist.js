@@ -4,11 +4,11 @@ var scrollWaiter;
 
 
 function adjustInformationPosition() {
-	"use strict";
-	
-	var scrollOffset = document.getElementById("main_container_flex").scrollTop;
-	
-	document.getElementById("playlist_information_float_left").style.marginTop = scrollOffset + "px";
+  "use strict";
+
+  var scrollOffset = document.getElementById("main_container_flex").scrollTop;
+
+  document.getElementById("playlist_information_float_left").style.marginTop = scrollOffset + "px";
 }
 
 function displayEntries(parentElement, entries) {
@@ -49,10 +49,15 @@ function showPlaylist(playlist_id) {
   "use strict";
 
   var playlist = playlists.find(function(playlist) {
-    return playlist.id === playlist_id
+    return playlist.id === playlist_id;
   });
   console.log("Showing playlist", playlist);
   document.getElementById("playlist_display").style.display = "none";
+
+  history.pushState({
+    "id": "main-playlists",
+    "focus": playlist_id
+  }, "focused_playlist", "#playlists/" + playlist.id);
 
   displayEntries(document.getElementById("playlist_entries"), playlist.entries);
 
@@ -71,11 +76,11 @@ function showPlaylist(playlist_id) {
   document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
   document.getElementById("playlist_playtime").innerHTML = "wip";
 
-	document.getElementById("main_container_flex").addEventListener("scroll", function() {
-		clearTimeout(scrollWaiter);
-		scrollWaiter = setTimeout(adjustInformationPosition, 200);
-	});
-	
+  document.getElementById("main_container_flex").addEventListener("scroll", function() {
+    clearTimeout(scrollWaiter);
+    scrollWaiter = setTimeout(adjustInformationPosition, 200);
+  });
+
   document.getElementById("focused_display").style.display = "";
 }
 
@@ -91,6 +96,9 @@ function loadPlaylist(playlist_id) {
 
 function displayPlaylists() {
   "use strict";
+
+  document.getElementById("playlist_display").style.display = "";
+  document.getElementById("focused_display").style.display = "none";
 
   var parentElement = document.getElementById("playlist_display");
 
@@ -136,5 +144,6 @@ function receivePlaylist(answer) {
   "use strict";
 
   playlists = answer.playlists;
+
   displayPlaylists();
 }

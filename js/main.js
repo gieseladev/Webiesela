@@ -8,6 +8,58 @@ var waitingForAnswer = {};
 
 var config;
 
+
+function onPopState(event) {
+  "use strict";
+
+  var state = event.state;
+  console.log("[HISTORY] going back to ", state);
+
+  if (state) {
+    var site_id = state.id;
+
+    if (site_id) {
+      switch (site_id) {
+        case "main-home":
+          loadPage("main_screen", function() {
+            switchToHome(true);
+          });
+
+          break;
+        case "main-playlists":
+          var playlistId = state.focus;
+
+          if (playlistId) {
+            loadPage("main_screen", function() {
+              _disableAllActive();
+              document.getElementById("navbar_playlists").classList.add("active");
+
+              loadSubPage("playlists", function() {
+                waitForAnswer({
+                  request: "send_playlists"
+                }, function(answer) {
+                  receivePlaylist(answer);
+                  showPlaylist(playlistId);
+                });
+              });
+            });
+          } else {
+            loadSubPage("playlists", function() {
+              switchToPlaylists(true);
+            });
+          }
+
+          break;
+      }
+
+    } else {
+      console.log("[HISTORY] didin't provide an id");
+    }
+  } else {
+    console.log("[HISTORY] Can't go back there");
+  }
+}
+
 function init() {
   "use strict";
   //window.removeEventListener("load", init, false);
@@ -17,6 +69,7 @@ function init() {
   request.send(null);
 
   config = JSON.parse(request.responseText);
+  window.onpopstate = onPopState;
 
   doConnect();
 }
@@ -24,10 +77,13 @@ function init() {
 function loadPage(page_name, on_ready) {
   "use strict";
   if (current_page === page_name) { // no need to reload current site
-    return false;
+    on_ready();
+    return;
   }
+
   console.log("[PAGE] switching from " + current_page + " to " + page_name + "...");
   var xhttp = new XMLHttpRequest();
+
   xhttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
       if (current_page === "main_screen") {
@@ -142,7 +198,7 @@ function onMessage(evt) {
     console.log("[WEBSOCKET] received token");
     token = data.token;
     setCookie("token", token, 120);
-    loadPage("picture_frame", function() {
+    loadPage("main_screen", function() {
       getInformation();
     });
   }
