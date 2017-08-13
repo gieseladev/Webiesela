@@ -95,6 +95,8 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
   var windowWidth;
   var windowHeight;
 
+  var previousOnClick;
+
   function setupOptions() {
     while (menu.firstChild) {
       menu.removeChild(menu.firstChild);
@@ -124,14 +126,16 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    */
   function init() {
     setupOptions();
+    clickListener();
+
     if (!runningListeners.has(menuSelector)) {
-      clickListener();
       contextListener();
       keyupListener();
       resizeListener();
       runningListeners.add(menuSelector);
-      console.log("added listeners for", menuSelector)
+      console.log("[ContextMenu] added listeners for", menuSelector)
     }
+
   }
 
   /**
@@ -159,7 +163,7 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    * Listens for click events.
    */
   function clickListener() {
-    document.addEventListener("click", function(e) {
+    var newOnClick = function(e) {
       var clickeElIsLink = clickInsideElement(e, contextMenuLinkClassName);
 
       if (clickeElIsLink) {
@@ -173,7 +177,12 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
           }
         }
       }
-    });
+    };
+
+    document.removeEventListener("click", previousOnClick);
+    document.addEventListener("click", newOnClick);
+
+    previousOnClick = newOnClick;
   }
 
   /**

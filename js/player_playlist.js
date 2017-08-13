@@ -9,6 +9,11 @@ function adjustInformationPosition() {
 
   var scrollOffset = document.getElementById("main_container_flex").scrollTop;
 
+  if (sub_page !== "playlists" || !playlistFocus) {
+    document.getElementById("main_container_flex").removeEventListener("scroll", scrollWaiter);
+    return;
+  }
+
   document.getElementById("playlist_information_float_left").style.marginTop = scrollOffset + "px";
 }
 
@@ -26,6 +31,13 @@ function playlistEntryContextMenuClick(entryIndex, action) {
     "index": parseInt(entryIndex),
     "playlist_id": playlistFocus.id
   });
+}
+
+function scrollWaiter() {
+  "use strict";
+
+  clearTimeout(scrollWaiter);
+  scrollWaiter = setTimeout(adjustInformationPosition, 200);
 }
 
 function showPlaylist(playlist_id) {
@@ -62,10 +74,7 @@ function showPlaylist(playlist_id) {
   document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
   document.getElementById("playlist_playtime").innerHTML = "wip";
 
-  document.getElementById("main_container_flex").addEventListener("scroll", function() {
-    clearTimeout(scrollWaiter);
-    scrollWaiter = setTimeout(adjustInformationPosition, 200);
-  });
+  document.getElementById("main_container_flex").addEventListener("scroll", scrollWaiter);
 
   document.getElementById("focused_display").style.display = "";
 
