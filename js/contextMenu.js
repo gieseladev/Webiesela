@@ -1,3 +1,5 @@
+var runningListeners = new Set();
+
 function setupEntryContextMenu(taskItemClass, options, onItemClick) {
   "use strict";
 
@@ -122,10 +124,14 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    */
   function init() {
     setupOptions();
-    clickListener();
-    contextListener();
-    keyupListener();
-    resizeListener();
+    if (!runningListeners.has(menuSelector)) {
+      clickListener();
+      contextListener();
+      keyupListener();
+      resizeListener();
+      runningListeners.add(menuSelector);
+      console.log("added listeners for", menuSelector)
+    }
   }
 
   /**

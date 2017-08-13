@@ -164,6 +164,8 @@ function showQueue() {
       "onMove": onEntryMove,
       "onEnd": onEntryMoved
     });
+  } else {
+    document.getElementById("queue_display").innerHTML = "";
   }
 }
 
