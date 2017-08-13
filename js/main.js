@@ -22,7 +22,13 @@ function onPopState(event) {
       switch (site_id) {
         case "main-home":
           loadPage("main_screen", function() {
-            switchToHome(true);
+            _disableAllActive();
+            document.getElementById("navbar_home").classList.add("active");
+
+            loadSubPage("home", function() {
+              getInformation();
+              switchHomePage("queue");
+            });
           });
 
           break;

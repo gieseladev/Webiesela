@@ -114,6 +114,26 @@ function mute() {
   }
 }
 
+function _entryRightClick(event) {
+  "use strict";
+
+  var element = (event.srcElement || event.target);
+  var parent = element.parentElement
+
+  if (parent.classList.contains("special_container")) {
+    var parent = parent.parentElement;
+  }
+
+  var rect = element.getBoundingClientRect();
+
+  parent.dispatchEvent(new CustomEvent("openContextMenu", {
+    "detail": {
+      "posX": rect.left,
+      "posY": rect.bottom
+    }
+  }));
+}
+
 function playPauseClick() {
   "use strict";
 

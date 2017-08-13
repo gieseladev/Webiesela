@@ -1,13 +1,13 @@
 function setupEntryContextMenu(taskItemClass, options, onItemClick) {
   "use strict";
 
-  _setupContextMenu("#playlist-context-menu", taskItemClass, options, onItemClick);
+  _setupContextMenu("#entry-context-menu", taskItemClass, options, onItemClick);
 }
 
 function setupPlaylistContextMenu(taskItemClass, options, onItemClick) {
   "use strict";
 
-  _setupContextMenu("#entry-context-menu", taskItemClass, options, onItemClick);
+  _setupContextMenu("#playlist-context-menu", taskItemClass, options, onItemClick);
 }
 
 function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
@@ -55,6 +55,9 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
     } else if (e.clientX || e.clientY) {
       posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
       posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    } else if (e.detail) {
+      posx = e.detail.posX;
+      posy = e.detail.posY;
     }
 
     return {
@@ -129,7 +132,7 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    * Listens for contextmenu events.
    */
   function contextListener() {
-    document.addEventListener("contextmenu", function(e) {
+    var listenerFunction = function(e) {
       taskItemInContext = clickInsideElement(e, taskItemClassName);
 
       if (taskItemInContext) {
@@ -140,7 +143,10 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
         taskItemInContext = null;
         toggleMenuOff();
       }
-    });
+    }
+
+    document.addEventListener("contextmenu", listenerFunction);
+    document.addEventListener("openContextMenu", listenerFunction, true);
   }
 
   /**
@@ -156,7 +162,9 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
       } else {
         var button = e.which || e.button;
         if (button === 1) {
-          toggleMenuOff();
+          if (!e.target.matches(".no_close")) {
+            toggleMenuOff();
+          }
         }
       }
     });

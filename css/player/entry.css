@@ -3,7 +3,7 @@
   padding: .3vmax;
   display: flex;
   width: 70vmax;
-  height: 2.75vmax;
+  height: 3vmax;
   justify-content: space-between;
   align-items: stretch;
   transition: background-color .2s linear;
@@ -22,7 +22,7 @@
 }
 
 .entry * {
-  font-size: 1vmax;
+  font-size: .825vmax;
   color: hsla(0, 0%, 100%, .5);
   cursor: default;
 }
@@ -54,6 +54,36 @@
 .entry .name .origin .seperator {
   display: inline-block;
   margin: 0 .5vmax;
+}
+
+.entry .special_container {
+  width: 3%;
+  height: 40%;
+  padding-top: 20%;
+  margin-right: 3%;
+  cursor: pointer;
+}
+
+.entry .special {
+  height: 35%;
+  visibility: hidden;
+  background-image: url("../../images/icons/Special.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.entry:hover .special {
+  visibility: visible;
+}
+
+.entry .special_container:hover .special {
+  transform: scale(1.05);
+}
+
+.entry .special_container:active .special {
+  transform: scale(.95);
 }
 
 .entry .duration {
