@@ -1,4 +1,5 @@
 var playlists;
+var playlistFocus;
 
 var scrollWaiter;
 
@@ -14,12 +15,17 @@ function adjustInformationPosition() {
 function playlistEntryContextMenuClick(entryIndex, action) {
   "use strict";
 
-  if (["play"].indexOf(action) < 0) {
+  if (["playlist_play"].indexOf(action) < 0) {
     console.log("[PLAYLIST] Don't recognise this action", action);
     return;
   }
 
   console.log("[PLAYLIST] action", action, "on entry", entryIndex);
+
+  sendCommand(action, {
+    "index": entryIndex,
+    "playlist_id": playlistFocus.id
+  });
 }
 
 function showPlaylist(playlist_id) {
@@ -28,6 +34,9 @@ function showPlaylist(playlist_id) {
   var playlist = playlists.find(function(playlist) {
     return playlist.id === playlist_id;
   });
+
+  playlistFocus = playlist;
+
   console.log("Showing playlist", playlist);
   document.getElementById("playlist_display").style.display = "none";
 
@@ -61,7 +70,7 @@ function showPlaylist(playlist_id) {
   document.getElementById("focused_display").style.display = "";
 
   setupEntryContextMenu("entry", {
-    "play": "Add to Queue"
+    "playlist_play": "Add to Queue"
   }, playlistEntryContextMenuClick);
 }
 
