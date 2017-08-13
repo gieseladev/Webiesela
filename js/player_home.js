@@ -14,7 +14,7 @@ function queueEntryContextMenuClick(entryIndex, action) {
   console.log("[QUEUE] action", action, "on entry", entryIndex);
 
   sendCommand(action, {
-    "index": entryIndex
+    "index": parseInt(entryIndex)
   });
 }
 
@@ -29,7 +29,7 @@ function historyEntryContextMenuClick(entryIndex, action) {
   console.log("[HISTORY] action", action, "on entry", entryIndex);
 
   sendCommand(action, {
-    "index": entryIndex
+    "index": parseInt(entryIndex)
   });
 }
 

@@ -23,7 +23,7 @@ function playlistEntryContextMenuClick(entryIndex, action) {
   console.log("[PLAYLIST] action", action, "on entry", entryIndex);
 
   sendCommand(action, {
-    "index": entryIndex,
+    "index": parseInt(entryIndex),
     "playlist_id": playlistFocus.id
   });
 }
