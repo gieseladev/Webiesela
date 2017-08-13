@@ -33,7 +33,7 @@ function playlistEntryContextMenuClick(entryIndex, action) {
   });
 }
 
-function scrollWaiter() {
+function scrollWaiterFunc() {
   "use strict";
 
   clearTimeout(scrollWaiter);
@@ -74,7 +74,7 @@ function showPlaylist(playlist_id) {
   document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
   document.getElementById("playlist_playtime").innerHTML = "wip";
 
-  document.getElementById("main_container_flex").addEventListener("scroll", scrollWaiter);
+  document.getElementById("main_container_flex").addEventListener("scroll", scrollWaiterFunc);
 
   document.getElementById("focused_display").style.display = "";
 
