@@ -45,7 +45,7 @@ function onPopState(event) {
                   request: "send_playlists"
                 }, function(answer) {
                   receivePlaylist(answer);
-                  showPlaylist(playlistId);
+                  showPlaylist(playlistId, true);
                 });
               });
             });

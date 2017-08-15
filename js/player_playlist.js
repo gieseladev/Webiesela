@@ -35,7 +35,7 @@ function playlistEntryContextMenuClick(entryIndex, action) {
   });
 }
 
-function showPlaylist(playlist_id) {
+function showPlaylist(playlist_id, noHistory) {
   "use strict";
 
   var playlist = playlists.find(function(playlist) {
@@ -47,10 +47,12 @@ function showPlaylist(playlist_id) {
   console.log("Showing playlist", playlist);
   document.getElementById("playlist_display").style.display = "none";
 
-  history.pushState({
-    "id": "main-playlists",
-    "focus": playlist_id
-  }, "focused_playlist", "#playlists/" + playlist.id);
+  if (!noHistory) {
+    history.pushState({
+      "id": "main-playlists",
+      "focus": playlist_id
+    }, "focused_playlist", "#playlists/" + playlist.id);
+  }
 
   displayEntries(document.getElementById("playlist_entries"), playlist.entries);
 
