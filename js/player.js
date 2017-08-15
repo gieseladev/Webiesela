@@ -154,7 +154,7 @@ function _disableAllActive() {
   document.getElementById("navbar_playlists").classList.remove("active");
   document.getElementById("navbar_radio_stations").classList.remove("active");
 
-  window.removeEventListener("scroll", scrollWaiterFunc);
+  window.removeEventListener("scroll", scrollWaiterFunc, true);
 }
 
 function switchToHome(noHistory) {

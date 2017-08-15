@@ -9,7 +9,7 @@ function getContextMenu(menuSelector, itemClass, onMenuClick) {
     existingContext.menu = document.querySelector(menuSelector);
     existingContext.onMenuClick = onMenuClick;
   } else {
-    contextMenus[itemClass] = new newContextMenu(menuSelector, itemClass);
+    contextMenus[itemClass] = new newContextMenu(menuSelector, itemClass, onMenuClick);
   }
 }
 
