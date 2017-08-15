@@ -153,6 +153,8 @@ function _disableAllActive() {
   document.getElementById("navbar_home").classList.remove("active");
   document.getElementById("navbar_playlists").classList.remove("active");
   document.getElementById("navbar_radio_stations").classList.remove("active");
+
+  window.removeEventListener("scroll", scrollWaiterFunc);
 }
 
 function switchToHome(noHistory) {

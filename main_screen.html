@@ -113,21 +113,37 @@
 <nav id="playlist-context-menu" class="context-menu">
 	<ul class="context-menu__items">
 		<li class="context-menu__item">
-			<span class="context-menu__link" data-action="playlist_replace">Play now</span>
+			<span class="context-menu__link" data-action="replace">Play now</span>
 		</li>
 		<li class="context-menu__item">
-			<span class="context-menu__link" data-action="playlist_add">Append to queue</span>
+			<span class="context-menu__link" data-action="add">Append to Queue</span>
 		</li>
 	</ul>
 </nav>
 
-<nav id="entry-context-menu" class="context-menu">
+<nav id="playlist_entry-context-menu" class="context-menu">
 	<ul class="context-menu__items">
 		<li class="context-menu__item">
-			<span class="context-menu__link" data-action="playlist_replace">Play now</span>
+			<span class="context-menu__link" data-action="playlist_play">Add to Queue</span>
+		</li>
+	</ul>
+</nav>
+
+<nav id="queue-context-menu" class="context-menu">
+	<ul class="context-menu__items">
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="promote">Promote</span>
 		</li>
 		<li class="context-menu__item">
-			<span class="context-menu__link" data-action="playlist_add">Append to queue</span>
+			<span class="context-menu__link" data-action="remove">Remove</span>
+		</li>
+	</ul>
+</nav>
+
+<nav id="history-context-menu" class="context-menu">
+	<ul class="context-menu__items">
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="replay">Replay</span>
 		</li>
 	</ul>
 </nav>

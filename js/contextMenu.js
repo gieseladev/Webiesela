@@ -1,18 +1,19 @@
-var runningListeners = new Set();
+var contextMenus = {};
 
-function setupEntryContextMenu(taskItemClass, options, onItemClick) {
+function getContextMenu(menuSelector, itemClass, onMenuClick) {
   "use strict";
 
-  _setupContextMenu("#entry-context-menu", taskItemClass, options, onItemClick);
+  var existingContext = contextMenus[itemClass];
+
+  if (existingContext) {
+    existingContext.menu = document.querySelector(menuSelector);
+    existingContext.onMenuClick = onMenuClick;
+  } else {
+    contextMenus[itemClass] = new newContextMenu(menuSelector, itemClass);
+  }
 }
 
-function setupPlaylistContextMenu(taskItemClass, options, onItemClick) {
-  "use strict";
-
-  _setupContextMenu("#playlist-context-menu", taskItemClass, options, onItemClick);
-}
-
-function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
+function newContextMenu(menuSelector, itemClass, onMenuClick) {
   "use strict";
 
   /**
@@ -23,7 +24,7 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    * @param {String} className The class name to check against
    * @return {Boolean}
    */
-  function clickInsideElement(e, className) {
+  this.clickInsideElement = function(e, className) {
     var el = e.srcElement || e.target;
 
     if (el.classList.contains(className)) {
@@ -45,7 +46,7 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    * @param {Object} e The event passed in
    * @return {Object} Returns the x and y position
    */
-  function getPosition(e) {
+  this.getPosition = function(e) {
     var posx = 0;
     var posy = 0;
 
@@ -71,127 +72,99 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
   /**
    * Variables.
    */
-  var contextMenuClassName = "context-menu";
-  var contextMenuItemClassName = "context-menu__item";
-  var contextMenuLinkClassName = "context-menu__link";
-  var contextMenuActive = "context-menu--active";
+  this.contextMenuClassName = "context-menu";
+  this.contextMenuItemClassName = "context-menu__item";
+  this.contextMenuLinkClassName = "context-menu__link";
+  this.contextMenuActive = "context-menu--active";
 
-  var taskItemClassName = taskItemClass;
-  var taskItemInContext;
+  this.taskItemClassName = itemClass;
+  this.taskItemInContext;
 
-  var clickCoords;
-  var clickCoordsX;
-  var clickCoordsY;
+  this.onMenuClick = onMenuClick;
 
-  var menu = document.querySelector(menuSelector);
-  var menuItems = menu.querySelectorAll("." + contextMenuItemClassName);
-  var menuState = 0;
-  var menuWidth;
-  var menuHeight;
-  var menuPosition;
-  var menuPositionX;
-  var menuPositionY;
+  this.clickCoords;
+  this.clickCoordsX;
+  this.clickCoordsY;
 
-  var windowWidth;
-  var windowHeight;
+  this.menu = document.querySelector(menuSelector);
+  this.menuItems = this.menu.querySelectorAll(".context-menu__item");
+  this.menuState = 0;
+  this.menuWidth;
+  this.menuHeight;
+  this.menuPosition;
+  this.menuPositionX;
+  this.menuPositionY;
 
-  var previousOnClick;
-
-  function setupOptions() {
-    while (menu.firstChild) {
-      menu.removeChild(menu.firstChild);
-    }
-
-    for (var key in options) {
-      if (options.hasOwnProperty(key)) {
-        var newItem = document.createElement("li");
-        newItem.classList.add("context-menu__item");
-
-        var newLink = document.createElement("span");
-        newLink.classList.add("context-menu__link");
-        newLink.setAttribute("data-action", key);
-        newLink.innerHTML = options[key];
-
-        newItem.appendChild(newLink);
-
-        menu.insertBefore(newItem, menu.firstChild);
-      }
-    }
-
-    menuItems = menu.querySelectorAll("." + contextMenuItemClassName);
-  }
+  this.windowWidth;
+  this.windowHeight;
 
   /**
    * Initialise our application's code.
    */
-  function init() {
-    setupOptions();
-    clickListener();
-
-    if (!runningListeners.has(menuSelector)) {
-      contextListener();
-      keyupListener();
-      resizeListener();
-      runningListeners.add(menuSelector);
-      console.log("[ContextMenu] added listeners for", menuSelector)
-    }
-
+  this.init = function() {
+    contextListener(this);
+    clickListener(this);
+    keyupListener(this);
+    resizeListener(this);
+    scrollListener(this);
   }
 
   /**
    * Listens for contextmenu events.
    */
-  function contextListener() {
-    var listenerFunction = function(e) {
-      taskItemInContext = clickInsideElement(e, taskItemClassName);
+  function contextListener(that) {
+    var contextFunc = function(e) {
+      that.taskItemInContext = that.clickInsideElement(e, that.taskItemClassName);
 
-      if (taskItemInContext) {
+      if (that.taskItemInContext) {
         e.preventDefault();
-        toggleMenuOn();
-        positionMenu(e);
+        that.toggleMenuOn();
+        that.positionMenu(e);
       } else {
-        taskItemInContext = null;
-        toggleMenuOff();
+        that.taskItemInContext = null;
+        that.toggleMenuOff();
       }
-    }
+    };
 
-    document.addEventListener("contextmenu", listenerFunction);
-    document.addEventListener("openContextMenu", listenerFunction, true);
+    document.addEventListener("contextmenu", contextFunc);
+    document.addEventListener("openContextMenu", contextFunc, true);
   }
 
   /**
    * Listens for click events.
    */
-  function clickListener() {
-    var newOnClick = function(e) {
-      var clickeElIsLink = clickInsideElement(e, contextMenuLinkClassName);
+  function clickListener(that) {
+    document.addEventListener("click", function(e) {
+      var clickeElIsLink = that.clickInsideElement(e, that.contextMenuLinkClassName);
 
       if (clickeElIsLink) {
         e.preventDefault();
-        menuItemListener(clickeElIsLink);
+        that.menuItemListener(clickeElIsLink);
       } else {
         var button = e.which || e.button;
         if (button === 1) {
-          if (!e.target.matches(".no_close")) {
-            toggleMenuOff();
-          }
+          that.toggleMenuOff();
         }
       }
-    };
+    }, true);
+  }
 
-    document.removeEventListener("click", previousOnClick);
-    document.addEventListener("click", newOnClick);
-
-    previousOnClick = newOnClick;
+  /**
+   * Listens for scroll events.
+   */
+  function scrollListener(that) {
+    window.addEventListener("scroll", function(e) {
+      that.toggleMenuOff();
+    }, true);
   }
 
   /**
    * Listens for keyup events.
    */
-  function keyupListener() {
+  function keyupListener(that) {
     window.onkeyup = function(e) {
       if (e.keyCode === 27) {
-        toggleMenuOff();
+        that.toggleMenuOff();
       }
     }
   }
@@ -199,29 +172,29 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
   /**
    * Window resize event listener
    */
-  function resizeListener() {
+  function resizeListener(that) {
     window.onresize = function(e) {
-      toggleMenuOff();
+      that.toggleMenuOff();
     };
   }
 
   /**
    * Turns the custom context menu on.
    */
-  function toggleMenuOn() {
-    if (menuState !== 1) {
-      menuState = 1;
-      menu.classList.add(contextMenuActive);
+  this.toggleMenuOn = function() {
+    if (this.menuState !== 1) {
+      this.menuState = 1;
+      this.menu.classList.add(this.contextMenuActive);
     }
   }
 
   /**
    * Turns the custom context menu off.
    */
-  function toggleMenuOff() {
-    if (menuState !== 0) {
-      menuState = 0;
-      menu.classList.remove(contextMenuActive);
+  this.toggleMenuOff = function() {
+    if (this.menuState !== 0) {
+      this.menuState = 0;
+      this.menu.classList.remove(this.contextMenuActive);
     }
   }
 
@@ -230,27 +203,27 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    *
    * @param {Object} e The event
    */
-  function positionMenu(e) {
-    clickCoords = getPosition(e);
-    clickCoordsX = clickCoords.x;
-    clickCoordsY = clickCoords.y;
+  this.positionMenu = function(e) {
+    this.clickCoords = this.getPosition(e);
+    this.clickCoordsX = this.clickCoords.x;
+    this.clickCoordsY = this.clickCoords.y;
 
-    menuWidth = menu.offsetWidth + 4;
-    menuHeight = menu.offsetHeight + 4;
+    this.menuWidth = this.menu.offsetWidth + 4;
+    this.menuHeight = this.menu.offsetHeight + 4;
 
-    windowWidth = window.innerWidth;
-    windowHeight = window.innerHeight;
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
 
-    if ((windowWidth - clickCoordsX) < menuWidth) {
-      menu.style.left = windowWidth - menuWidth + "px";
+    if ((this.windowWidth - this.clickCoordsX) < this.menuWidth) {
+      this.menu.style.left = this.windowWidth - this.menuWidth + "px";
     } else {
-      menu.style.left = clickCoordsX + "px";
+      this.menu.style.left = this.clickCoordsX + "px";
     }
 
-    if ((windowHeight - clickCoordsY) < menuHeight) {
-      menu.style.top = windowHeight - menuHeight + "px";
+    if ((this.windowHeight - this.clickCoordsY) < this.menuHeight) {
+      this.menu.style.top = this.windowHeight - this.menuHeight + "px";
     } else {
-      menu.style.top = clickCoordsY + "px";
+      this.menu.style.top = this.clickCoordsY + "px";
     }
   }
 
@@ -259,18 +232,14 @@ function _setupContextMenu(menuSelector, taskItemClass, options, onItemClick) {
    *
    * @param {HTMLElement} link The link that was clicked
    */
-  function menuItemListener(link) {
-    if (!taskItemInContext) {
-      return;
-    }
-
-    onItemClick(taskItemInContext.getAttribute("data-id"), link.getAttribute("data-action"));
-    toggleMenuOff();
+  this.menuItemListener = function(link) {
+    this.onMenuClick(this.taskItemInContext.getAttribute("data-id"), link.getAttribute("data-action"));
+    this.toggleMenuOff();
   }
 
   /**
    * Run the app.
    */
-  init();
-
+  this.init();
+  return this;
 }

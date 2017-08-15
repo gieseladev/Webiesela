@@ -139,10 +139,7 @@ function showHistory() {
     var history_display = document.getElementById("history_display");
 
     displayEntries(history_display, queue.history);
-
-    setupEntryContextMenu("entry", {
-      "replay": "Replay"
-    }, historyEntryContextMenuClick);
+    getContextMenu("#history-context-menu", "entry", historyEntryContextMenuClick);
   }
 }
 
@@ -153,12 +150,9 @@ function showQueue() {
     console.log("Showing queue: ", queue);
     var queue_display = document.getElementById("queue_display");
 
-    displayEntries(queue_display, queue.entries)
+    displayEntries(queue_display, queue.entries);
 
-    setupEntryContextMenu("entry", {
-      "promote": "Promote",
-      "remove": "Remove"
-    }, queueEntryContextMenuClick);
+    getContextMenu("#queue-context-menu", "entry", queueEntryContextMenuClick);
 
     Sortable.create(queue_display, {
       "onMove": onEntryMove,

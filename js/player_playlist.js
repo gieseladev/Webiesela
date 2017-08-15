@@ -9,12 +9,14 @@ function adjustInformationPosition() {
 
   var scrollOffset = document.getElementById("main_container_flex").scrollTop;
 
-  if (sub_page !== "playlists" || !playlistFocus) {
-    document.getElementById("main_container_flex").removeEventListener("scroll", scrollWaiter);
-    return;
-  }
-
   document.getElementById("playlist_information_float_left").style.marginTop = scrollOffset + "px";
+}
+
+function scrollWaiterFunc() {
+  "use strict";
+
+  clearTimeout(scrollWaiter);
+  scrollWaiter = setTimeout(adjustInformationPosition, 200);
 }
 
 function playlistEntryContextMenuClick(entryIndex, action) {
@@ -31,13 +33,6 @@ function playlistEntryContextMenuClick(entryIndex, action) {
     "index": parseInt(entryIndex),
     "playlist_id": playlistFocus.id
   });
-}
-
-function scrollWaiterFunc() {
-  "use strict";
-
-  clearTimeout(scrollWaiter);
-  scrollWaiter = setTimeout(adjustInformationPosition, 200);
 }
 
 function showPlaylist(playlist_id) {
@@ -72,15 +67,13 @@ function showPlaylist(playlist_id) {
   document.getElementById("playlist_author").innerHTML = "by " + playlist.author.display_name;
   document.getElementById("playlist_description").innerHTML = (playlist.description || "This playlist doesn't have a description").replace(/(\*\*|__)(.+?)\1/, "<b>$2</b>").replace(/(\*|_)(.+?)\1/, "<i>$2</i>").replace(/(`|_)(.+?)\1/, "<code>$2</code>");
   document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
-  document.getElementById("playlist_playtime").innerHTML = "wip";
+  document.getElementById("playlist_playtime").innerHTML = playlist.human_dur;
 
-  document.getElementById("main_container_flex").addEventListener("scroll", scrollWaiterFunc);
+  window.addEventListener("scroll", scrollWaiterFunc, true);
 
   document.getElementById("focused_display").style.display = "";
 
-  setupEntryContextMenu("entry", {
-    "playlist_play": "Add to Queue"
-  }, playlistEntryContextMenuClick);
+  getContextMenu("#playlist_entry-context-menu", "entry", playlistEntryContextMenuClick);
 }
 
 function loadPlaylist(playlist_id) {
@@ -150,17 +143,14 @@ function displayPlaylists() {
 
     parentElement.appendChild(playlist_element);
   }
+
+  getContextMenu("#playlist-context-menu", "playlist", menuItemClick);
 }
 
 function receivePlaylist(answer) {
   "use strict";
 
   playlists = answer.playlists;
-
-  setupPlaylistContextMenu("playlist", {
-    "add": "Append to Queue",
-    "replace": "Play Now"
-  }, menuItemClick);
 
   displayPlaylists();
 }
