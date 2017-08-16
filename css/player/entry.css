@@ -59,7 +59,7 @@
 .entry .special_container {
   width: 3%;
   height: 40%;
-  padding-top: 20%;
+  padding-top: .5vmax;
   margin-right: 3%;
   cursor: pointer;
 }

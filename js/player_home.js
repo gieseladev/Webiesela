@@ -123,7 +123,7 @@ function showLyrics(answer) {
     lyrics_display.style.fontSize = "";
 
     source_display.innerHTML = lyrics.source;
-    source_display.href = lyrics.source;
+    source_display.href = "//" + lyrics.source;
   } else {
     lyrics_display.innerHTML = "Couldn't find any lyrics!";
     lyrics_display.style.fontSize = "1.3vmax";

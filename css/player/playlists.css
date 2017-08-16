@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   align-content: space-around;
   justify-content: center;
+  align-items: center;
   flex-grow: 1;
 }
 
