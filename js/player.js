@@ -46,16 +46,22 @@ function preventSelection(event) {
   event.preventDefault();
 }
 
-function sendCommand(cmd, data) {
+function sendCommand(cmd, data, onSuccess) {
   "use strict";
 
   console.log("Sending command \"", cmd, "\" with data: ", data);
 
-  doSend(JSON.stringify({
+  var msgObj = {
     "token": token,
     "command": cmd,
     "command_data": data
-  }));
+  };
+
+  if (onSuccess) {
+    waitForAnswer(msgObj, onSuccess);
+  } else {
+    doSend(JSON.stringify(msgObj));
+  }
 }
 
 function finishVolumeSlide(value) {
@@ -84,6 +90,18 @@ function finishProgressSlide(value) {
       "value": current_progress
     });
   }
+}
+
+function cycleRepeat() {
+  "use strict";
+
+  sendCommand("cycle_repeat");
+}
+
+function shuffle() {
+  "use strict";
+
+  sendCommand("shuffle");
 }
 
 function skip() {
