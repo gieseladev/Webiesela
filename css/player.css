@@ -248,14 +248,14 @@ div#song_artist {
 }
 
 #player_control_buttons {
-  width: 20%;
+  width: 15vmax;
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin-bottom: .55vmax;
 }
 
-#button_revert, #button_skip, #button_play_pause {
+#player_control_buttons button {
   height: .7vmax;
   width: .7vmax;
   background-size: contain;
@@ -266,31 +266,55 @@ div#song_artist {
   transition: all 50ms cubic-bezier(.3, 0, .7, 1);
 }
 
-#button_revert:hover, #button_skip:hover, #button_play_pause:hover {
+#player_control_buttons button:hover {
   cursor: pointer;
   filter: brightness(500%);
 }
 
-#button_play_pause {
+#player_control_buttons button:active {
+  filter: brightness(100%);
+}
+
+#player_control_buttons #button_play_pause {
   height: 1.8vmax;
   width: 1.8vmax;
   background-image: url("../images/icons/Pause.png");
 }
 
-#button_play_pause.paused {
+#player_control_buttons #button_play_pause.paused {
   background-image: url("../images/icons/Play.png");
 }
 
-#button_play_pause:hover {
+#player_control_buttons #button_play_pause:hover {
   transform: scale(1.1);
 }
 
-#button_revert {
+#player_control_buttons #button_play_pause:active {
+  transform: scale(1);
+}
+
+#player_control_buttons #button_revert {
   background-image: url("../images/icons/Revert.png");
 }
 
-#button_skip {
+#player_control_buttons #button_skip {
   background-image: url("../images/icons/Skip.png");
+}
+
+#player_control_buttons #button_shuffle {
+  background-image: url("../images/icons/Shuffle.png");
+}
+
+#player_control_buttons #button_repeat {
+  background-image: url("../images/icons/Repeat.png");
+}
+
+#player_control_buttons #button_repeat.repeat_single {
+  background-image: url("../images/icons/Repeat_single.png");
+}
+
+#player_control_buttons #button_repeat.repeat_all {
+  background-image: url("../images/icons/Repeat_all.png");
 }
 
 #player_progress_bar {
