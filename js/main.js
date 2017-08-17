@@ -191,12 +191,15 @@ function onMessage(evt) {
       });
       return;
     }
-    console.log("[WEBSOCKET] I ducked up:");
-    console.log(data.error);
+    console.log("[WEBSOCKET] I ducked up", data.error);
   }
   if (data.registration_token) {
     var registration_token = data.registration_token;
-    console.log("[WEBSOCKET] received my very own registration token: " + registration_token);
+    var command_prefix = data.command_prefix;
+
+    console.log("[WEBSOCKET] received my very own registration token: " + registration_token, "with command prefix", command_prefix);
+
+    document.getElementById("register_screen_command_prefix").innerHTML = command_prefix;
     document.getElementById("register_screen_token").innerHTML = registration_token;
     document.getElementById("register_screen_token_tutorial").innerHTML = registration_token;
   }
