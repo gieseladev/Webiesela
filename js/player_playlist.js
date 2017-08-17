@@ -32,6 +32,8 @@ function playlistEntryContextMenuClick(entryIndex, action) {
   sendCommand(action, {
     "index": parseInt(entryIndex),
     "playlist_id": playlistFocus.id
+  }, function() {
+    displayPushNotification("Added entry to the queue");
   });
 }
 
@@ -85,6 +87,8 @@ function loadPlaylist(playlist_id) {
 
   sendCommand("load_playlist", {
     "id": playlist_id
+  }, function() {
+    displayPushNotification("Loaded playlist " + playlist_id);
   });
 }
 
@@ -93,9 +97,13 @@ function menuItemClick(playlistId, loadMode) {
 
   console.log("[PLAYLIST] Loading playlist", playlistId, "with mode [" + loadMode + "]");
 
+  var msg = (loadMode === "add") ? "Added " + playlistId + " to the Queue" : "Replaced the Queue with playlist " + playlistId;
+
   sendCommand("load_playlist", {
     "id": playlistId,
     "mode": loadMode
+  }, function() {
+    displayPushNotification(msg);
   });
 }
 

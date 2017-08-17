@@ -139,7 +139,9 @@ function cycleRepeat() {
 function shuffle() {
   "use strict";
 
-  sendCommand("shuffle");
+  sendCommand("shuffle", null, function() {
+    displayPushNotification("Shuffled the Queue");
+  });
 }
 
 function skip() {
