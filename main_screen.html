@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="css/player.css">
 <link rel="stylesheet" type="text/css" href="css/context_menu.css">
+<link rel="stylesheet" type="text/css" href="css/player/notification.css">
 
 <link rel="prefetch" href="../images/icons/Volume Muted.png">
 <link rel="prefetch" href="../images/icons/Volume 1.png">
@@ -69,6 +70,13 @@
 					<a class="source" href="" target="_blank"></a>
 				</div>
 			</div>
+		</div>
+
+		<div id="push_notification_template" class="notification" onclick="onNotificationClick(this)" style="display: none;">
+			<div class="message">This is a notification</div>
+		</div>
+
+		<div id="notifications">
 		</div>
 	</div>
 	<footer id="player" style="display: none">

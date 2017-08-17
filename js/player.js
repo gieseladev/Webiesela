@@ -2,6 +2,7 @@ var sub_page = "home";
 
 var queue;
 
+var current_entry;
 var current_progress = 0;
 var song_duration = 0;
 var volume = 1;
@@ -15,6 +16,43 @@ var ticker;
 var progress_bar_slider;
 var volume_slider;
 
+
+function onNotificationClick(element) {
+  "use strict";
+
+  if (!element.getAttribute("data-closing")) {
+    element.setAttribute("data-closing", true);
+    element.style.opacity = 0;
+    setTimeout(function() {
+      element.parentElement.removeChild(element);
+    }, 500);
+  }
+}
+
+function displayPushNotification(msg, waitTime) {
+  "use strict";
+
+  var waitTime = waitTime || 2000;
+
+  var new_notification = document.getElementById("push_notification_template").cloneNode(true);
+  new_notification.removeAttribute("id");
+  new_notification.removeAttribute("style");
+
+  new_notification.getElementsByClassName("message")[0].innerHTML = msg;
+
+  var parentElement = document.getElementById("notifications");
+
+  parentElement.insertBefore(new_notification, parentElement.firstChild);
+
+  setTimeout(function(element) {
+    function removeElement() {
+      if (element) {
+        onNotificationClick(element);
+      }
+    };
+    return removeElement;
+  }(new_notification), waitTime);
+}
 
 function loadSubPage(page_name, on_ready) {
   "use strict";
@@ -349,12 +387,12 @@ function playerHandlePlayerInformation(player) {
   if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
     footer.style.display = "";
 
-    var entry = player.entry;
+    current_entry = player.entry;
 
-    transitionBackground(entry.thumbnail);
+    transitionBackground(current_entry.thumbnail);
 
-    current_progress = entry.progress;
-    song_duration = entry.duration;
+    current_progress = current_entry.progress;
+    song_duration = current_entry.duration;
 
     setProgress(current_progress / song_duration)
 
@@ -375,9 +413,9 @@ function playerHandlePlayerInformation(player) {
 
     setVolume(player.volume);
 
-    song_title.innerHTML = entry.title;
-    song_artist.innerHTML = entry.artist || "";
-    cover_image.style.backgroundImage = "url(\"" + (entry.cover || entry.thumbnail) + "\")";
+    song_title.innerHTML = current_entry.title;
+    song_artist.innerHTML = current_entry.artist || "";
+    cover_image.style.backgroundImage = "url('" + (current_entry.cover || current_entry.thumbnail) + "')";
     player_progress_bar_duration.innerHTML = formatSeconds(song_duration);
   } else {
     clearInterval(ticker);

@@ -18,6 +18,7 @@
 #top-container {
   flex-grow: 1;
   display: flex;
+  position: relative;
   background-image: linear-gradient(to bottom, rgba(42, 63, 110, .4), rgb(4, 6, 11) 85%);
 }
 

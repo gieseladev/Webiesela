@@ -1,0 +1,45 @@
+@charset "utf-8";
+#notifications {
+  display: flex;
+  flex-direction: column-reverse;
+  position: absolute;
+  right: 1.5vmax;
+  bottom: .5vmax;
+  width: 15vmax;
+  height: 50vmin;
+}
+
+.notification {
+  position: relative;
+  flex-shrink: 0;
+  background-color: #282828;
+  width: 100%;
+  height: 3vmax;
+  margin-bottom: .25vmax;
+  border-radius: 0 .2vmax .2vmax 0;
+  box-shadow: .025vmax .1vmax .35vmax black;
+  transition: opacity .5s ease-out;
+  cursor: pointer;
+}
+
+.notification * {
+  cursor: pointer;
+}
+
+.notification::before {
+  content: "";
+  position: absolute;
+  transform: translateX(-100%);
+  height: 100%;
+  width: .3vmax;
+  background-color: #7289DA;
+  border-radius: .2vmax 0 0 .2vmax;
+}
+
+.notification .message {
+  position: absolute;
+  text-overflow: ellipsis;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: .5vmax;
+}
