@@ -326,6 +326,8 @@ function playerHandlePlayerInformation(player) {
     current_progress = entry.progress;
     song_duration = entry.duration;
 
+    setProgress(current_progress / song_duration)
+
     if (!song_duration) {
       player_progress_bar.style.display = "none";
     } else {
