@@ -90,7 +90,7 @@
 #focused_display {
   margin-top: 5vmin;
   display: flex;
-  width: 70%;
+  width: 80%;
 }
 
 #focused_display .right {
@@ -127,7 +127,7 @@
 #focused_display .centered * {
   margin-bottom: 1vmin;
   color: hsla(0, 0%, 100%, .5);
-  font-size: .54vmax;
+  font-size: .725vmax;
 }
 
 #focused_display .centered #playlist_title {
