@@ -328,10 +328,22 @@ function playerHandlePlayerInformation(player) {
   var player_progress_bar = document.getElementById("player_progress_bar");
 
   var play_pause = document.getElementById("button_play_pause");
+  var button_repeat = document.getElementById("button_repeat");
 
   queue = player.queue;
   if (sub_page === "home") {
     handleQueue();
+  }
+
+  switch (player.repeat_state) {
+    case 1:
+      button_repeat.class = "repeat_single";
+      break;
+    case 2:
+      button_repeat.class = "repeat_all";
+      break;
+    default:
+      button_repeat.class = "";
   }
 
   if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
