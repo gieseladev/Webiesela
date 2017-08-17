@@ -301,20 +301,46 @@ div#song_artist {
   background-image: url("../images/icons/Skip.png");
 }
 
+#player_control_buttons #button_shuffle, #player_control_buttons #button_repeat {
+  height: .65vmax;
+  width: .65vmax;
+}
+
 #player_control_buttons #button_shuffle {
   background-image: url("../images/icons/Shuffle.png");
 }
 
 #player_control_buttons #button_repeat {
+  position: relative;
   background-image: url("../images/icons/Repeat.png");
 }
 
-#player_control_buttons #button_repeat.repeat_single {
-  background-image: url("../images/icons/Repeat_single.png");
+#player_control_buttons #button_repeat.repeat_single, #player_control_buttons #button_repeat.repeat_all {
+  background-image: url("../images/icons/Repeat_active.png");
 }
 
-#player_control_buttons #button_repeat.repeat_all {
-  background-image: url("../images/icons/Repeat_all.png");
+#player_control_buttons #button_repeat.repeat_single::after {
+  content: "●";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 110%;
+  color: #7289DA;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: .4vmax;
+}
+
+#player_control_buttons #button_repeat.repeat_all::after {
+  content: "all";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 110%;
+  color: #7289DA;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: .4vmax;
 }
 
 #player_progress_bar {
