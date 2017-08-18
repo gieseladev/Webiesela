@@ -365,6 +365,7 @@ div#song_artist {
 
 #player_progress_bar_duration {
   margin-left: 1%;
+  cursor: pointer;
 }
 
 #volume_control {
