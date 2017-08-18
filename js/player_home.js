@@ -13,9 +13,22 @@ function queueEntryContextMenuClick(entryIndex, action) {
 
   console.log("[QUEUE] action", action, "on entry", entryIndex);
 
+  var msg;
+  var failMsg;
+
+  switch (action) {
+    case "promote":
+      msg = "Promoted entry to the top of the Queue";
+      failMsg = "Couldn't promote entry";
+      break;
+    case "remove":
+      failMsg = "Couldn't remove entry from Queue";
+      break;
+  }
+
   sendCommand(action, {
     "index": parseInt(entryIndex)
-  });
+  }, msg, failMsg);
 }
 
 function historyEntryContextMenuClick(entryIndex, action) {
@@ -54,7 +67,7 @@ function onEntryMoved(evt) {
   sendCommand("move", {
     "from": from,
     "to": to
-  });
+  }, null, "Couldn't move entry");
   console.log("[QUEUE] moved entry from", from, "to", to);
   updateIndices(document.getElementById("queue_display"));
 }
