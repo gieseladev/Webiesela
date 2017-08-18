@@ -127,7 +127,7 @@ function finishVolumeSlide(value) {
   if (0 <= value <= 1) {
     sendCommand("volume", {
       "value": value
-    });
+    }, null, "Couldn't change volume");
   }
 }
 
@@ -145,14 +145,14 @@ function finishProgressSlide(value) {
     current_progress = value * song_duration;
     sendCommand("seek", {
       "value": current_progress
-    });
+    }, null, "Couldn't seek");
   }
 }
 
 function cycleRepeat() {
   "use strict";
 
-  sendCommand("cycle_repeat");
+  sendCommand("cycle_repeat", null, null, "Couldn't change repeat mode");
 }
 
 function shuffle() {
@@ -164,13 +164,13 @@ function shuffle() {
 function skip() {
   "use strict";
 
-  sendCommand("skip");
+  sendCommand("skip", null, null, "Couldn't skip");
 }
 
 function revert() {
   "use strict";
 
-  sendCommand("revert");
+  sendCommand("revert", null, null, "Couldn't revert");
 }
 
 function mute() {
@@ -179,13 +179,13 @@ function mute() {
     setVolume(volume);
     sendCommand("volume", {
       "value": volume
-    });
+    }, null, "Couldn't unmute");
   } else {
     muted = true;
     setVolume(0);
     sendCommand("volume", {
       "value": 0
-    });
+    }, null, "Couldn't mute");
   }
 }
 
@@ -212,7 +212,7 @@ function _entryRightClick(event) {
 function playPauseClick() {
   "use strict";
 
-  sendCommand("play_pause");
+  sendCommand("play_pause", null, null, "Something went wrong");
 }
 
 function switchDurationDisplay() {
