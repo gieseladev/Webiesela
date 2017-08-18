@@ -395,13 +395,13 @@ function playerHandlePlayerInformation(player) {
 
   switch (player.repeat_state) {
     case 1:
-      button_repeat.class = "repeat_single";
+      button_repeat.className = "repeat_all";
       break;
     case 2:
-      button_repeat.class = "repeat_all";
+      button_repeat.className = "repeat_single";
       break;
     default:
-      button_repeat.class = "";
+      button_repeat.className = "";
   }
 
   if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
