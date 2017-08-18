@@ -199,7 +199,7 @@ function onMessage(evt) {
 
     console.log("[WEBSOCKET] received my very own registration token: " + registration_token, "with command prefix", command_prefix);
 
-    document.getElementById("register_screen_command_prefix").innerHTML = command_prefix;
+    document.getElementById("register_screen_command").innerHTML = command_prefix + "register";
     document.getElementById("register_screen_token").innerHTML = registration_token;
     document.getElementById("register_screen_token_tutorial").innerHTML = registration_token;
   }
