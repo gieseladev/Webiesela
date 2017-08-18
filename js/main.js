@@ -94,6 +94,9 @@ function loadPage(page_name, on_ready) {
     if (this.readyState === 4 && this.status === 200) {
       if (current_page === "main_screen") {
         breakDown();
+      } else if (current_page === "picture_frame") {
+        clearTimeout(activeTimer);
+        document.body.classList.remove("hideCursor");
       }
 
       document.getElementById("window").innerHTML = this.responseText;
