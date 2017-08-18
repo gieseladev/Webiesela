@@ -233,6 +233,10 @@ function newContextMenu(menuSelector, itemClass, onMenuClick) {
    * @param {HTMLElement} link The link that was clicked
    */
   this.menuItemListener = function(link) {
+    if (!this.taskItemInContext) {
+      return;
+    }
+
     this.onMenuClick(this.taskItemInContext.getAttribute("data-id"), link.getAttribute("data-action"));
     this.toggleMenuOff();
   }

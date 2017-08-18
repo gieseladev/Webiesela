@@ -64,6 +64,9 @@ function showPlaylist(playlist_id, noHistory) {
     loadPlaylist(playlist_id);
   };
 
+
+  document.getElementById("playlist_cover").setAttribute("data-id", playlist_id);
+
   document.getElementById("focused_playlist_cover").style.backgroundImage = "url('" + playlist.cover + "')";
   document.getElementById("playlist_title").innerHTML = playlist.name;
   document.getElementById("playlist_author").innerHTML = "by " + playlist.author.display_name;
