@@ -32,9 +32,7 @@ function playlistEntryContextMenuClick(entryIndex, action) {
   sendCommand(action, {
     "index": parseInt(entryIndex),
     "playlist_id": playlistFocus.id
-  }, function() {
-    displayPushNotification("Added entry to the queue");
-  });
+  }, "Added " + playlistFocus.entries[parseInt(entryIndex)].title.bold() + " to the Queue", "Couldn't add " + playlistFocus.entries[parseInt(entryIndex)].title.bold() + " to the Queue");
 }
 
 function showPlaylist(playlist_id, noHistory) {
@@ -87,9 +85,7 @@ function loadPlaylist(playlist_id) {
 
   sendCommand("load_playlist", {
     "id": playlist_id
-  }, function() {
-    displayPushNotification("Loaded playlist " + playlist_id);
-  });
+  }, "Loaded playlist " + playlist_id.bold(), "Failed to load playlist " + playlist_id.bold());
 }
 
 function menuItemClick(playlistId, loadMode) {
@@ -97,14 +93,13 @@ function menuItemClick(playlistId, loadMode) {
 
   console.log("[PLAYLIST] Loading playlist", playlistId, "with mode [" + loadMode + "]");
 
-  var msg = (loadMode === "add") ? "Added " + playlistId + " to the Queue" : "Replaced the Queue with playlist " + playlistId;
+  var msg = (loadMode === "add") ? "Added " + playlistId.bold() + " to the Queue" : "Replaced the Queue with playlist " + playlistId.bold();
+  var failMsg = (loadMode === "add") ? "Failed to add " + playlistId.bold() + " to the Queue" : "Couldn't replace the Queue with playlist " + playlistId.bold();
 
   sendCommand("load_playlist", {
     "id": playlistId,
     "mode": loadMode
-  }, function() {
-    displayPushNotification(msg);
-  });
+  }, msg, failMsg);
 }
 
 function displayPlaylists() {

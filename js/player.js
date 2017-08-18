@@ -84,7 +84,7 @@ function preventSelection(event) {
   event.preventDefault();
 }
 
-function sendCommand(cmd, data, onSuccess) {
+function sendCommand(cmd, data, onSuccess, onError) {
   "use strict";
 
   console.log("Sending command \"", cmd, "\" with data: ", data);
@@ -95,8 +95,27 @@ function sendCommand(cmd, data, onSuccess) {
     "command_data": data
   };
 
-  if (onSuccess) {
-    waitForAnswer(msgObj, onSuccess);
+  if (onSuccess || onError) {
+    var onSuccessFunction = function() {
+      function handler(answer) {
+        if (answer.success) {
+          if (typeof onSuccess === "function") {
+            onSuccess(answer);
+          } else if (typeof onSuccess === "string") {
+            displayPushNotification(onSuccess);
+          }
+        } else {
+          if (typeof onSuccess === "function") {
+            onError(answer);
+          } else if (typeof onError === "string") {
+            displayPushNotification(onError);
+          }
+        }
+      };
+      return handler;
+    }();
+
+    waitForAnswer(msgObj, onSuccessFunction);
   } else {
     doSend(JSON.stringify(msgObj));
   }
@@ -139,9 +158,7 @@ function cycleRepeat() {
 function shuffle() {
   "use strict";
 
-  sendCommand("shuffle", null, function() {
-    displayPushNotification("Shuffled the Queue");
-  });
+  sendCommand("shuffle", null, "Shuffled the Queue", "Couldn't shuffle the Queue");
 }
 
 function skip() {

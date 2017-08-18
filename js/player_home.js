@@ -30,9 +30,7 @@ function historyEntryContextMenuClick(entryIndex, action) {
 
   sendCommand(action, {
     "index": parseInt(entryIndex)
-  }, function() {
-    displayPushNotification("Replaying " + queue.history[entryIndex].title);
-  });
+  }, "Replaying " + queue.history[entryIndex].title.bold(), "Can't replay " + queue.history[entryIndex].title.bold());
 }
 
 function onEntryMove(evt, origEvt) {
