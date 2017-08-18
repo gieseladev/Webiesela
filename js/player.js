@@ -229,6 +229,7 @@ function switchToHome(noHistory) {
 
   loadSubPage("home", function() {
     getInformation();
+    switchHomePage("queue");
   });
 }
 
