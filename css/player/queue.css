@@ -38,13 +38,13 @@
   text-align: center;
   white-space: pre-wrap;
   font-size: .85vmax;
-  color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, .75);
 }
 
 #lyrics_display .text h2 {
   margin-bottom: 0;
   font-weight: 900;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, .925);
 }
 
 #lyrics_display .source {
