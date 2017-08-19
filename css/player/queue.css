@@ -10,7 +10,7 @@
 #content_selector * {
   text-transform: uppercase;
   letter-spacing: .08vmax;
-  color: hsla(0, 0%, 100%, .5);
+  color: hsla(0, 0%, 100%, .65);
   font-weight: 900;
   font-size: .8vmax;
   transition: color .2s;
