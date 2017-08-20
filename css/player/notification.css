@@ -7,6 +7,7 @@
   bottom: .5vmax;
   width: 15vmax;
   height: 50vmin;
+  pointer-events: none;
 }
 
 .notification {
@@ -20,6 +21,7 @@
   box-shadow: .025vmax .1vmax .35vmax black;
   transition: opacity .5s ease-out;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .notification * {
