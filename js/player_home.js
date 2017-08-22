@@ -187,6 +187,10 @@ function handleQueue() {
     showHistory();
   } else if (home_sub_page === "lyrics") {
     if (document.getElementById("song_title").innerHTML !== current_lyrics_title) {
+
+      document.querySelector("#lyrics_display .text").innerHTML = "";
+      document.getElementById("lyrics_display_spinner").style.display = "";
+
       waitForAnswer({
         "request": "send_lyrics"
       }, showLyrics);
@@ -238,8 +242,7 @@ function switchHomePage(new_page) {
       lyrics_selector.classList.add("selected");
       home_sub_page = "lyrics"
 
-      var lyrics_text = document.querySelector("#lyrics_display .text");
-      lyrics_text.innerHTML = "";
+      document.querySelector("#lyrics_display .text").innerHTML = "";
       document.getElementById("lyrics_display_spinner").style.display = "";
 
       waitForAnswer({
