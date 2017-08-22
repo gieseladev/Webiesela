@@ -35,10 +35,18 @@
 }
 
 #lyrics_display * {
-  text-align: center;
-  white-space: pre-wrap;
   font-size: .85vmax;
   color: rgba(255, 255, 255, .75);
+}
+
+#lyrics_display .text {
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+#lyrics_display .text.info {
+  font-size: 1.3vmax;
+  margin-top: 5vmax;
 }
 
 #lyrics_display .text h2 {
