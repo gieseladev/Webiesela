@@ -46,6 +46,7 @@ function showPlaylist(playlist_id, noHistory) {
 
   console.log("Showing playlist", playlist);
   document.getElementById("playlist_display").style.display = "none";
+  document.getElementById("playlist_information_float_left").style.marginTop = "0px";
 
   if (!noHistory) {
     history.pushState({
