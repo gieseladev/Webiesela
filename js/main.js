@@ -56,6 +56,11 @@ function onPopState(event) {
           }
 
           break;
+        case "main-radio_stations":
+          loadPage("main_screen", function() {
+            switchToRadio(true);
+          });
+          break;
       }
 
     } else {
@@ -170,7 +175,6 @@ function onMessage(evt) {
   console.log("[WEBSOCKET] got message ", data);
 
   if (data.request_id) {
-    console.log("[WEBSOCKET] This isn't a general message. id", data.request_id);
     var handler = waitingForAnswer[data.request_id];
     if (handler) {
       delete waitingForAnswer[data.request_id];

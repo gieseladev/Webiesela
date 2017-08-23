@@ -161,5 +161,7 @@ function receivePlaylist(answer) {
 
   playlists = answer.playlists;
 
+  console.log("Displaying playlists", playlists);
+
   displayPlaylists();
 }

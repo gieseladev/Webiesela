@@ -24,7 +24,7 @@
 					<div class="navbar_navigator">
 						<div id="navbar_home" onClick="switchToHome()" class="active">Home</div>
 						<div id="navbar_playlists" onClick="switchToPlaylists()">Playlists</div>
-						<div id="navbar_radio_stations">Radio Stations</div>
+						<div id="navbar_radio_stations" onClick="switchToRadio()">Radio Stations</div>
 					</div>
 				</div>
 				<div id="menu_space_padder"></div>
@@ -166,6 +166,15 @@
 	<ul class="context-menu__items">
 		<li class="context-menu__item">
 			<span class="context-menu__link" data-action="replay">Replay</span>
+		</li>
+	</ul>
+</nav>
+
+<nav id="radio-context-menu" class="context-menu">
+	<ul class="context-menu__items">
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="now">Listen now</span>
+			<span class="context-menu__link" data-action="append">Add to Queue</span>
 		</li>
 	</ul>
 </nav>

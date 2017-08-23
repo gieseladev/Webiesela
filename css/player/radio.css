@@ -1,0 +1,73 @@
+@charset "utf-8";
+#radio_display {
+  margin-top: 1vmax;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.radio_station {
+  margin: 2vmax .5vmax;
+  cursor: pointer;
+}
+
+.radio_station .hover_target {
+  width: 10vmax;
+  height: 10vmax;
+  padding-bottom: .5vmax;
+}
+
+.radio_station:hover .cover {
+  filter: brightness(.4);
+  transition: .4s;
+}
+
+.radio_station:active .cover {
+  transform: scale3d(.93, .93, 1);
+  transition: .2s;
+}
+
+.radio_station .cover {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  background-size: cover;
+  box-shadow: 0 0 .6vmax rgba(0, 0, 0, .3);
+}
+
+.radio_station .play_button {
+  display: none;
+  z-index: 50;
+  position: relative;
+  width: 4vmax;
+  height: 4vmax;
+  left: 50%;
+  top: 50%;
+  background-image: url("../../images/icons/Play.png");
+  background-size: contain;
+  background-position: center;
+  background-color: transparent;
+  transform: translate(-50%, -50%) scale(.8);
+  border: 0;
+  transition: all .3s cubic-bezier(0, 0, 0, 2.41);
+  cursor: pointer;
+}
+
+.radio_station .play_button:hover {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.radio_station .hover_target:hover .play_button {
+  display: block;
+}
+
+.radio_station .title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1vmax;
+  color: #FFFFFF;
+}

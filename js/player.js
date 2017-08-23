@@ -269,6 +269,25 @@ function switchToPlaylists(noHistory) {
   });
 }
 
+function switchToRadio(noHistory) {
+  "use strict";
+
+  _disableAllActive();
+  document.getElementById("navbar_radio_stations").classList.add("active");
+
+  if (!noHistory) {
+    history.pushState({
+      "id": "main-radio_stations"
+    }, "radio stations", "#radio");
+  }
+
+  loadSubPage("radio", function() {
+    waitForAnswer({
+      request: "send_radio_stations"
+    }, receiveRadioStations);
+  });
+}
+
 function switchToPictureFrame() {
   "use strict";
 
