@@ -279,11 +279,11 @@ div#song_artist {
 #player_control_buttons #button_play_pause {
   height: 1.8vmax;
   width: 1.8vmax;
-  background-image: url("../images/icons/Pause.png");
+  background-image: url("../images/icons/pause.png");
 }
 
 #player_control_buttons #button_play_pause.paused {
-  background-image: url("../images/icons/Play.png");
+  background-image: url("../images/icons/play.png");
 }
 
 #player_control_buttons #button_play_pause:hover {
@@ -295,11 +295,11 @@ div#song_artist {
 }
 
 #player_control_buttons #button_revert {
-  background-image: url("../images/icons/Revert.png");
+  background-image: url("../images/icons/revert.png");
 }
 
 #player_control_buttons #button_skip {
-  background-image: url("../images/icons/Skip.png");
+  background-image: url("../images/icons/skip.png");
 }
 
 #player_control_buttons #button_shuffle, #player_control_buttons #button_repeat {
@@ -308,16 +308,16 @@ div#song_artist {
 }
 
 #player_control_buttons #button_shuffle {
-  background-image: url("../images/icons/Shuffle.png");
+  background-image: url("../images/icons/shuffle.png");
 }
 
 #player_control_buttons #button_repeat {
   position: relative;
-  background-image: url("../images/icons/Repeat.png");
+  background-image: url("../images/icons/repeat.png");
 }
 
 #player_control_buttons #button_repeat.repeat_single, #player_control_buttons #button_repeat.repeat_all {
-  background-image: url("../images/icons/Repeat_active.png");
+  background-image: url("../images/icons/repeat_active.png");
 }
 
 #player_control_buttons #button_repeat.repeat_single::after {
@@ -393,19 +393,19 @@ div#song_artist {
 }
 
 #speaker_symbol.icon-3 {
-  background-image: url("../images/icons/Volume 3.png");
+  background-image: url("../images/icons/volume_3.png");
 }
 
 #speaker_symbol.icon-2 {
-  background-image: url("../images/icons/Volume 2.png");
+  background-image: url("../images/icons/volume_2.png");
 }
 
 #speaker_symbol.icon-1 {
-  background-image: url("../images/icons/Volume 1.png");
+  background-image: url("../images/icons/volume_1.png");
 }
 
 #speaker_symbol.icon-0 {
-  background-image: url("../images/icons/Volume Muted.png");
+  background-image: url("../images/icons/volume_muted.png");
 }
 
 #speaker_symbol:hover {
