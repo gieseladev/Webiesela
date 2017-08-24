@@ -57,6 +57,7 @@ function displayPushNotification(msg, waitTime) {
 function loadSubPage(page_name, on_ready) {
   "use strict";
   if (sub_page === page_name) { // no need to reload current site
+    console.log("[Main] not loading page because its already loaded");
     on_ready();
     return;
   }
@@ -493,6 +494,7 @@ function setup() {
   }, "home", "#home");
 
   switchHomePage("queue");
+  sub_page = "home";
 
   var progress_bar = document.getElementById("progress_bar");
   progress_bar_slider = new slider(progress_bar, setProgress, startProgressSlide, finishProgressSlide);
