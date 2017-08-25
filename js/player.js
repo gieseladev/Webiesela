@@ -409,9 +409,6 @@ function playerHandlePlayerInformation(player) {
   var button_repeat = document.getElementById("button_repeat");
 
   queue = player.queue;
-  if (sub_page === "home") {
-    handleQueue();
-  }
 
   switch (player.repeat_state) {
     case 1:
@@ -461,6 +458,10 @@ function playerHandlePlayerInformation(player) {
     clearInterval(ticker);
 
     footer.style.display = "none";
+  }
+
+  if (sub_page === "home") {
+    handleQueue();
   }
 }
 
