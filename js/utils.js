@@ -21,6 +21,10 @@ function str_pad_left(string, pad, length) {
 function formatSeconds(secs) {
   "use strict";
 
+  if (!secs) {
+    return "";
+  }
+
   secs = Math.round(secs);
 
   var hours = Math.floor(secs / 3600);
