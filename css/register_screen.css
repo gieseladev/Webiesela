@@ -9,15 +9,18 @@
 }
 
 #register_screen_title {
-  color: #7289DA;
-  font-weight: bold;
-  font-size: 5vmin;
   margin-top: 0px;
   margin-bottom: 0px;
-  text-shadow: 0.06em 0.05em 0.2em #23272A;
   float: left;
   padding-left: 2vmin;
   padding-top: 2vmin;
+  color: #7289DA;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.5vmax;
+  cursor: default;
+  text-shadow: .15vmax 0px .1vmax rgba(114, 137, 218, 0.15);
+  font-family: "Roboto", sans-serif;
 }
 
 #register_screen_token_group {
