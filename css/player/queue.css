@@ -65,3 +65,11 @@
   font-weight: 600;
   text-align: right;
 }
+
+#lyrics_display .title {
+  display: block;
+  margin-bottom: 3vmax;
+  font-size: 1vmax;
+  color: #7289DA;
+  font-weight: 600;
+}

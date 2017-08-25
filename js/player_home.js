@@ -139,11 +139,11 @@ function showLyrics(answer) {
 
     source_display.innerHTML = lyrics.source;
     source_display.href = lyrics.url;
+
+    document.querySelector("#lyrics_display .title").innerHTML = lyrics.title;
   } else {
     lyrics_display.innerHTML = "Couldn't find any lyrics!";
     lyrics_display.classList.add("info");
-
-    source_display.innerHTML = "";
   }
 }
 
@@ -190,6 +190,7 @@ function handleQueue() {
 
       document.querySelector("#lyrics_display .text").innerHTML = "";
       document.querySelector("#lyrics_display .source").innerHTML = "";
+      document.querySelector("#lyrics_display .title").innerHTML = "";
       document.getElementById("lyrics_display_spinner").style.display = "";
 
       waitForAnswer({
@@ -245,6 +246,7 @@ function switchHomePage(new_page) {
 
       document.querySelector("#lyrics_display .text").innerHTML = "";
       document.querySelector("#lyrics_display .source").innerHTML = "";
+      document.querySelector("#lyrics_display .title").innerHTML = "";
       document.getElementById("lyrics_display_spinner").style.display = "";
 
       waitForAnswer({
