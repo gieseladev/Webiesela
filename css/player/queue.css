@@ -68,8 +68,9 @@
 
 #lyrics_display .title {
   display: block;
-  margin-bottom: 3vmax;
-  font-size: 1vmax;
+  margin-bottom: 2vmax;
+  font-size: 1.3vmax;
   color: #7289DA;
-  font-weight: 600;
+  font-weight: 900;
+  text-align: center;
 }
