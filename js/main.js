@@ -163,10 +163,7 @@ function onClose( /*evt*/ ) {
   "use strict";
   console.log("[WEBSOCKET] disconnected. Reconnecting in", timeout_ms / 1000);
 
-  loadPage("loading_screen", function() { //switch back to the loading screen and connect again
-    setTimeout(doConnect, timeout_ms);
-    timeout_ms *= 1.5;
-  });
+  doReconnect();
 }
 
 function onMessage(evt) {
@@ -200,6 +197,7 @@ function onMessage(evt) {
     }
     console.log("[WEBSOCKET] I ducked up", data.error);
   }
+
   if (data.registration_token) {
     var registration_token = data.registration_token;
     var command_prefix = data.command_prefix;
@@ -210,6 +208,7 @@ function onMessage(evt) {
     document.getElementById("register_screen_token").innerHTML = registration_token;
     document.getElementById("register_screen_token_tutorial").innerHTML = registration_token;
   }
+
   if (data.token) {
     console.log("[WEBSOCKET] received token");
     token = data.token;
@@ -218,9 +217,18 @@ function onMessage(evt) {
       getInformation();
     });
   }
+
   if (data.info) {
     console.log("[WEBSOCKET] got some information");
     parseInformation(data.info);
+  }
+
+  if (data.update) {
+    console.log("[Websocket] received an update");
+
+    if (current_page === "main_screen") {
+      playerHandleUpdate(data.update);
+    }
   }
 }
 
@@ -270,9 +278,15 @@ function onError(evt) {
   console.log("[WEBSOCKET] Error ", evt, ". Reconnecting in " + timeout_ms / 1000 + " seconds");
   websocket.close();
 
+  doReconnect();
+}
+
+function doReconnect() {
+  "use strict";
+
   loadPage("loading_screen", function() { //switch back to the loading screen and connect again
     setTimeout(doConnect, timeout_ms);
-    timeout_ms *= 1.5;
+    timeout_ms = Math.min(1.5 * timeout_ms);
   });
 }
 

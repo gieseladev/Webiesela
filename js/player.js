@@ -431,7 +431,7 @@ function playerHandlePlayerInformation(player) {
     current_progress = current_entry.progress;
     song_duration = current_entry.duration;
 
-    setProgress(current_progress / song_duration)
+    setProgress(current_progress / song_duration);
 
     if (!song_duration) {
       player_progress_bar.style.display = "none";
@@ -462,6 +462,62 @@ function playerHandlePlayerInformation(player) {
 
   if (sub_page === "home") {
     handleQueue();
+  }
+}
+
+function playerHandleUpdate(update) {
+  "use strict";
+
+  if (update.state !== undefined) {
+    var footer = document.getElementById("player");
+    var play_pause = document.getElementById("button_play_pause");
+
+    clearInterval(ticker);
+
+    if ([1, 2].indexOf(update.state) >= 0) {
+      footer.style.display = "";
+    } else {
+      footer.style.display = "none";
+    }
+
+    if (update.state === 2) {
+      play_pause.classList.add("paused");
+    } else {
+      play_pause.classList.remove("paused");
+      ticker = setInterval(updateProgress, 1000);
+    }
+  }
+
+  if (update.volume !== undefined) {
+    setVolume(update.volume);
+  }
+
+  if (update.repeat_state !== undefined) {
+    var button_repeat = document.getElementById("button_repeat");
+
+    switch (update.repeat_state) {
+      case 1:
+        button_repeat.className = "repeat_all";
+        break;
+      case 2:
+        button_repeat.className = "repeat_single";
+        break;
+      default:
+        button_repeat.className = "";
+    }
+  }
+
+  if (update.progress !== undefined) {
+    var player_progress_bar = document.getElementById("player_progress_bar");
+
+    current_progress = update.progress;
+    setProgress(current_progress / song_duration);
+
+    if (!song_duration) {
+      player_progress_bar.style.display = "none";
+    } else {
+      player_progress_bar.style.display = "";
+    }
   }
 }
 
