@@ -66,7 +66,7 @@ function pictureFrameHandlePlayerInformation(player) {
     var entry = player.entry;
     transitionBackground(entry.thumbnail ? entry.thumbnail : default_background);
 
-    if (entry.thumbnail_brightness && entry.thumbnail_brightness >= 127.5) {
+    if (entry.thumbnail_brightness && entry.thumbnail_brightness >= 150) {
       console.log("[PICTURE FRAME - CONTRAST] Background pretty bright, switching to dark text");
       document.getElementById("song_information").classList.add("dark");
     } else {

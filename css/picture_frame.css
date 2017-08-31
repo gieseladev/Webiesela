@@ -91,7 +91,7 @@
 }
 
 .artist_name {
-  color: #C0C0C0;
+  color: rgba(255, 255, 255, .45);
 }
 
 .song_information.dark .artist_name {

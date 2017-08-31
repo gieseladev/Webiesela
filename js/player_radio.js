@@ -10,10 +10,13 @@ function radioStationContextClick(radioId, action) {
 
   console.log("[Radio] action", action, "on radio station", radioId);
 
+  var msg = (action === "now") ? "Now listening to " + radioId.bold() : "Added " + radioId.bold() + " to the queue";
+  var failMsg = (action === "now") ? "Can't stream " + radioId.bold() : "Couldn't add " + radioId.bold() + " to the queue";
+
   sendCommand("play_radio", {
     "mode": action,
     "id": radioId
-  }, "Success msg", "fail msg");
+  }, msg, failMsg);
 }
 
 function playRadio(radioId) {
