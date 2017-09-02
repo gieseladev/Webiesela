@@ -421,7 +421,7 @@ function playerHandlePlayerInformation(player) {
       button_repeat.className = "";
   }
 
-  if ([1, 2].indexOf(player.state) >= 0) { //is the player either paused or playing
+  if ([1, 2].indexOf(player.state) >= 0 && player.entry) { //is the player either paused or playing
     footer.style.display = "";
 
     current_entry = player.entry;
