@@ -163,9 +163,9 @@ function onClose(evt) {
   "use strict";
   console.log("[WEBSOCKET] disconnected");
 
-  if (!evt.wasClean) {
-    return;
-  }
+  // if (!evt.wasClean) {
+  //   return;
+  // }
 
   doReconnect(evt);
 }
@@ -282,7 +282,7 @@ function onError(evt) {
   console.log("[WEBSOCKET] Error ", evt);
   websocket.close();
 
-  doReconnect(evt);
+  // doReconnect(evt);
 }
 
 function doReconnect() {
