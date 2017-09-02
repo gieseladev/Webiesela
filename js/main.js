@@ -159,11 +159,15 @@ function onOpen( /*evt*/ ) {
   }
 }
 
-function onClose( /*evt*/ ) {
+function onClose(evt) {
   "use strict";
-  console.log("[WEBSOCKET] disconnected. Reconnecting in", timeout_ms / 1000);
+  console.log("[WEBSOCKET] disconnected");
 
-  doReconnect();
+  if (!evt.wasClean) {
+    return;
+  }
+
+  doReconnect(evt);
 }
 
 function onMessage(evt) {
@@ -275,18 +279,20 @@ function parseInformation(info) {
 
 function onError(evt) {
   "use strict";
-  console.log("[WEBSOCKET] Error ", evt, ". Reconnecting in " + timeout_ms / 1000 + " seconds");
+  console.log("[WEBSOCKET] Error ", evt);
   websocket.close();
 
-  doReconnect();
+  doReconnect(evt);
 }
 
 function doReconnect() {
   "use strict";
 
+  console.log("[Websocket] reconnecting in", formatSeconds(timeout_ms / 1000));
+
   loadPage("loading_screen", function() { //switch back to the loading screen and connect again
     setTimeout(doConnect, timeout_ms);
-    timeout_ms = Math.min(1.5 * timeout_ms);
+    timeout_ms = Math.min(1.5 * timeout_ms, (config.max_timeout_ms || 180000));
   });
 }
 
