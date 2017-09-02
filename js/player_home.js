@@ -121,7 +121,7 @@ function displayEntries(parentElement, entries) {
 function showLyrics(answer) {
   "use strict";
 
-  current_lyrics_title = current_entry.title;
+  current_lyrics_title = (current_entry) ? current_entry.title : undefined;
 
   var lyrics_display_parent = document.getElementById("lyrics_display");
   var lyrics_display = lyrics_display_parent.getElementsByClassName("text")[0];
