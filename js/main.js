@@ -301,4 +301,11 @@ function doSend(message) {
   websocket.send(message);
 }
 
-init();
+function main() {
+  Raven.config("https://3b40b56e8ae541aabbdd449223228f77@sentry.io/229538").install();
+  Raven.context(function() {
+    init();
+  });
+}
+
+main();
