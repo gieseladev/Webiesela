@@ -157,7 +157,7 @@ function cycleRepeat() {
   sendCommand("cycle_repeat", null, null, "Couldn't change repeat mode");
 }
 
-function clear() {
+function clear_queue() {
   "use strict";
 
   sendCommand("clear", null, "Cleared the Queue", "Couldn't clear the Queue");
