@@ -43,6 +43,7 @@
   text-align: center;
   white-space: pre-wrap;
   width: 30vmax;
+  margin: auto;
 }
 
 #lyrics_display .text.info {
