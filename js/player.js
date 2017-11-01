@@ -122,6 +122,7 @@ function sendCommand(cmd, data, onSuccess, onError) {
   }
 }
 
+
 function finishVolumeSlide(value) {
   "use strict";
 
@@ -154,6 +155,12 @@ function cycleRepeat() {
   "use strict";
 
   sendCommand("cycle_repeat", null, null, "Couldn't change repeat mode");
+}
+
+function clear() {
+  "use strict";
+
+  sendCommand("clear", null, "Cleared the Queue", "Couldn't clear the Queue");
 }
 
 function shuffle() {

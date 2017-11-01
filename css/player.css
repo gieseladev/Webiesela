@@ -59,10 +59,6 @@
   flex-grow: 1;
 }
 
-#picture_frame_switch {
-  margin-bottom: 2vmin;
-}
-
 .navbar_navigator * {
   color: #A0A0A0;
   margin-bottom: .6vmax;
@@ -81,6 +77,37 @@
 
 .navbar_navigator>.active {
   color: #7289DA;
+}
+
+#icon_bar {
+  height: 6vmin;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#icon_bar * {
+  height: .8vmax;
+  width: .8vmax;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all .1s cubic-bezier(.3, 0, .7, 1);
+  border: none;
+}
+
+#icon_bar *:hover {
+  filter: brightness(150%);
+}
+
+#navbar_add_entry {
+  background-image: url("../images/icons/plus.png");
+}
+
+#navbar_clear_queue {
+  background-image: url("../images/icons/trash.png");
 }
 
 #user_information {
