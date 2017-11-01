@@ -42,6 +42,7 @@
 #lyrics_display .text {
   text-align: center;
   white-space: pre-wrap;
+  width: 30vmax;
 }
 
 #lyrics_display .text.info {
