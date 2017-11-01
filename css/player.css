@@ -237,6 +237,7 @@
 
 #cover_image {
   background-size: cover;
+  background-position: center;
   height: 3vmax;
   width: 3vmax;
   box-shadow: 0 0 .5vmax rgba(0, 0, 0, .3);
