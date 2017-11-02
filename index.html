@@ -12,6 +12,12 @@
 </head>
 
 <body>
+	<div id="notification_bar" style="transform: translateY(-100%);">
+		<div class="notification_container">
+			<span class="text">This is a notification!</span>
+			<div class="close_notification"></div>
+		</div>
+	</div>
 	<div id="window">
 		<div id="loading_screen">
 			<p>Connecting</p>
@@ -32,10 +38,12 @@
 </body>
 <script type="text/javascript" src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 <script type="text/javascript" src="https://cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
 
 <script type="text/javascript" src="js/cookies.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/contextMenu.js"></script>
+<script type="text/javascript" src="js/notification_bar.js"></script>
 <script type="text/javascript" src="js/picture_frame.js"></script>
 <script type="text/javascript" src="js/player.js"></script>
 <script type="text/javascript" src="js/player_home.js"></script>

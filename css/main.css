@@ -26,6 +26,38 @@ body {
   overflow-x: hidden;
 }
 
+#notification_bar {
+  z-index: 50;
+  position: absolute;
+  width: 100vmax;
+  height: 3.25vmax;
+  background-color: #7289DA;
+  transition: transform .4s cubic-bezier(.79,.14,.15,.86);
+}
+
+#notification_bar .notification_container {
+  margin: 1vmax 2vmax;
+  display: flex;
+  align-items: center;
+}
+
+#notification_bar .text {
+  color: #FFFFFF;
+  font-size: .8vmax;
+  letter-spacing: .05vmax;
+  flex-grow: 1;
+}
+
+#notification_bar .close_notification {
+  height: .75vmax;
+  width: .75vmax;
+  background-image: url("../images/icons/cancel.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
 #window {
   height: 100vh;
 }
