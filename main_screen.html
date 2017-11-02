@@ -180,3 +180,15 @@
 		</li>
 	</ul>
 </nav>
+
+<div id="tf-prompt" style="display: none;">
+	<div class="holder">
+		<button class="cancel" onClick="_promptCancel()"></button>
+		<span class="question">Are you feeling alright?</span>
+		<div class="answers">
+			<div class="false unselectable" onClick="_promptFalse()">No why would I?</div>
+			<div class="spacing unselectable"></div>
+			<div class="true unselectable" onClick="_promptTrue()">Yes</div>
+		</div>
+	</div>
+</div>

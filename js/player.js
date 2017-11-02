@@ -16,6 +16,8 @@ var ticker;
 var progress_bar_slider;
 var volume_slider;
 
+let currentPrompt;
+
 
 function onNotificationClick(element) {
   "use strict";
@@ -27,6 +29,58 @@ function onNotificationClick(element) {
       element.parentElement.removeChild(element);
     }, 500);
   }
+}
+
+function promptClose() {
+  "use strict";
+
+  let tfPrompt = document.getElementById("tf-prompt");
+
+  tfPrompt.style.display = "none";
+}
+
+function _promptCancel() {
+  "use strict";
+
+  currentPrompt.cancel();
+  promptClose();
+}
+
+function _promptTrue() {
+  "use strict";
+
+  currentPrompt.true();
+  promptClose();
+}
+
+function _promptFalse() {
+  "use strict";
+
+  currentPrompt.false();
+  promptClose();
+}
+
+function promptTrueFalse(question, trueCallback, falseCallback, cancelCallback, trueOption, falseOption) {
+  "use strict";
+
+  trueOption = trueOption || "yes";
+  falseOption = falseOption || "no";
+
+  cancelCallback = cancelCallback || falseCallback;
+
+  currentPrompt = {
+    cancel: cancelCallback,
+    true: trueCallback,
+    false: falseCallback
+  };
+
+  let tfPrompt = document.getElementById("tf-prompt");
+
+  tfPrompt.getElementsByClassName("question")[0].innerHTML = question;
+  tfPrompt.getElementsByClassName("true")[0].innerHTML = trueOption;
+  tfPrompt.getElementsByClassName("false")[0].innerHTML = falseOption;
+
+  tfPrompt.style.display = "";
 }
 
 function displayPushNotification(msg, waitTime) {
@@ -160,7 +214,11 @@ function cycleRepeat() {
 function clear_queue() {
   "use strict";
 
-  sendCommand("clear", null, "Cleared the Queue", "Couldn't clear the Queue");
+  let yesCB = function() {
+    sendCommand("clear", null, "Cleared the Queue", "Couldn't clear the Queue");
+  };
+
+  promptTrueFalse("Remove all entries from the Queue?", yesCB, function() {}, null, "yes", "no");
 }
 
 function shuffle() {
