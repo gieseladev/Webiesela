@@ -4,7 +4,7 @@
   width: 90%;
   display: flex;
   flex-wrap: wrap;
-  align-content: space-around;
+  align-content: center;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
