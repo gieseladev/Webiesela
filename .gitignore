@@ -2,7 +2,9 @@ _notes
 _compareTemp
 _build
 configs/
+keybase.txt
 dwsync.xml
 dw_php_codehinting.config
 *.mno
 *.ste
+.htaccess

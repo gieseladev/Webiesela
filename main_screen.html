@@ -28,8 +28,9 @@
 					</div>
 				</div>
 				<div id="menu_space_padder"></div>
-				<div id="picture_frame_switch" class="navbar_navigator" onClick="switchToPictureFrame();">
-					<span>Switch to Picture Frame</span>
+				<div id="icon_bar">
+					<button id="navbar_add_entry" title="Add an entry" onClick="alert('WIP!')"></button>
+					<button id="navbar_clear_queue" title="Clear the queue" onClick="clear_queue()"></button>
 				</div>
 				<div id="user_information" class="group">
 					<div id="user_avatar" style="background-image: url('https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png')"></div>
@@ -179,3 +180,15 @@
 		</li>
 	</ul>
 </nav>
+
+<div id="tf-prompt" style="display: none;">
+	<div class="holder">
+		<button class="cancel" onClick="_promptCancel()"></button>
+		<span class="question">Are you feeling alright?</span>
+		<div class="answers">
+			<div class="false unselectable" onClick="_promptFalse()">No why would I?</div>
+			<div class="spacing unselectable"></div>
+			<div class="true unselectable" onClick="_promptTrue()">Yes</div>
+		</div>
+	</div>
+</div>

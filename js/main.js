@@ -8,6 +8,8 @@ var waitingForAnswer = {};
 
 var config;
 
+let notificationBar;
+
 
 function onPopState(event) {
   "use strict";
@@ -74,6 +76,7 @@ function onPopState(event) {
 function init() {
   "use strict";
   //window.removeEventListener("load", init, false);
+  notificationBar = new NotificationBar();
 
   var request = new XMLHttpRequest();
   request.open("GET", "config.json", false);
@@ -196,6 +199,7 @@ function onMessage(evt) {
         doSend(JSON.stringify({
           "request": "register"
         }));
+        notificationBar.show("Token was rejected", 5000);
       });
       return;
     }
@@ -211,6 +215,11 @@ function onMessage(evt) {
     document.getElementById("register_screen_command").innerHTML = command_prefix + "register";
     document.getElementById("register_screen_token").innerHTML = registration_token;
     document.getElementById("register_screen_token_tutorial").innerHTML = registration_token;
+
+    let cb = new Clipboard(".click_copy");
+    cb.on("success", function(e) {
+      notificationBar.show("Comand copied to Clipboard", 3000);
+    });
   }
 
   if (data.token) {

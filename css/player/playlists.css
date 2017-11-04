@@ -4,7 +4,7 @@
   width: 90%;
   display: flex;
   flex-wrap: wrap;
-  align-content: space-around;
+  align-content: center;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
@@ -36,7 +36,8 @@
   width: inherit;
   height: inherit;
   background-size: cover;
-  box-shadow: 0 0 .6vmax rgba(0, 0, 0, .3);
+  background-position: center;
+  filter: drop-shadow(0 0 .6vmax rgba(0, 0, 0, .3));
 }
 
 .playlist .play_button {

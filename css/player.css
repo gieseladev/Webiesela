@@ -22,6 +22,96 @@
   background-image: linear-gradient(to bottom, rgba(42, 63, 110, .4), rgb(4, 6, 11) 85%);
 }
 
+#tf-prompt {
+  position: absolute;
+  width: 100vmax;
+  height: 100vmin;
+  background-color: rgba(0, 0, 0, .85);
+}
+
+#tf-prompt .holder {
+  margin: auto;
+  display: flex;
+  height: 100%;
+  width: 50%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#tf-prompt .holder .question, .cancel {
+  margin-bottom: 3vmax;
+}
+
+#tf-prompt .cancel {
+  width: 2vmax;
+  height: 2vmax;
+  padding: 0 2vmax;
+  background-color: transparent;
+  border: none;
+  background-image: url("../images/icons/cancel.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all .15s ease;
+}
+
+#tf-prompt .cancel:hover {
+  transform: scale(1.02);
+}
+
+#tf-prompt .cancel:active {
+  transform: scale(.97);
+}
+
+#tf-prompt .question {
+  font-size: 2.5vmax;
+  letter-spacing: .2vmax;
+  text-align: center;
+}
+
+#tf-prompt .answers {
+  display: flex;
+  justify-content: center;
+  width: 30vmax;
+}
+
+#tf-prompt .answers *:not(.spacing) {
+  cursor: pointer;
+  color: #FFFFFF;
+  padding: .8vmax 3vmax;
+  background-color: transparent;
+  border-radius: 3vmax;
+  transition: all .15s ease;
+  text-transform: uppercase;
+  letter-spacing: .1vmax;
+}
+
+#tf-prompt .answers *:not(.spacing):hover {
+  transform: scale(1.05);
+}
+
+#tf-prompt .answers *:not(.spacing):active {
+  transform: scale(.95);
+}
+
+#tf-prompt .answers .spacing {
+  width: 2vmax;
+}
+
+#tf-prompt .answers .true {
+  background: #7289DA;
+}
+
+#tf-prompt .answers .false {
+  background: hsla(0, 0%, 9%, .7);
+  border: .01vmax solid #A0A0A0;
+}
+
+#tf-prompt .answers .false:hover {
+  border: .01vmax solid #FFFFFF;
+}
+
 #menu_left {
   width: 12vmax;
   background-color: rgba(0, 0, 0, 0.50);
@@ -59,10 +149,6 @@
   flex-grow: 1;
 }
 
-#picture_frame_switch {
-  margin-bottom: 2vmin;
-}
-
 .navbar_navigator * {
   color: #A0A0A0;
   margin-bottom: .6vmax;
@@ -81,6 +167,37 @@
 
 .navbar_navigator>.active {
   color: #7289DA;
+}
+
+#icon_bar {
+  height: 6vmin;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#icon_bar * {
+  height: .8vmax;
+  width: .8vmax;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all .1s cubic-bezier(.3, 0, .7, 1);
+  border: none;
+}
+
+#icon_bar *:hover {
+  filter: brightness(150%);
+}
+
+#navbar_add_entry {
+  background-image: url("../images/icons/plus.png");
+}
+
+#navbar_clear_queue {
+  background-image: url("../images/icons/trash.png");
 }
 
 #user_information {
@@ -237,6 +354,7 @@
 
 #cover_image {
   background-size: cover;
+  background-position: center;
   height: 3vmax;
   width: 3vmax;
   box-shadow: 0 0 .5vmax rgba(0, 0, 0, .3);
