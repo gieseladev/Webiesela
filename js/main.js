@@ -199,6 +199,7 @@ function onMessage(evt) {
         doSend(JSON.stringify({
           "request": "register"
         }));
+        notificationBar.show("Token was rejected", 5000);
       });
       return;
     }
