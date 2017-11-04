@@ -4,8 +4,6 @@ class NotificationBar {
     this.notificationText = this.elem.getElementsByClassName("text")[0];
     this.notificationClose = this.elem.getElementsByClassName("close_notification")[0];
 
-    console.log(this.notificationClose);
-
     this.notificationClose.addEventListener("click", function(that) {
       return function() {
         that.hide();
