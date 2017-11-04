@@ -27,6 +27,7 @@ body {
 }
 
 #notification_bar {
+  top: 0;
   z-index: 50;
   position: absolute;
   width: 100vmax;
