@@ -241,10 +241,20 @@ class SpotifySearcher extends Searcher {
 
 class Browser {
   constructor(defaultSearcher) {
+    //TODO!
+    this.urlMatcher = [
+      [/youtube.com/g, YoutubeSearcher],
+      [/spotify.com/g, SpotifySearcher]
+    ];
+
     this.searcher = defaultSearcher;
   }
 
   switchSearcher(newSearcher) {
+    if (!(newSearcher.prototype instanceof Searcher)) {
+      throw "Can only switch to Searchers";
+    }
+
     this.searcher = newSearcher;
   }
 
