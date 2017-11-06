@@ -170,9 +170,65 @@ class SpotifySearcher extends Searcher {
     });
   }
 
-  static search(query) {}
+  static rawFetch(url) {
+    return new Promise(function(resolve, reject) {
+      const re = /(track|user\/(\w+)\/(playlist))\/([A-Za-z0-9\-_]{18,})/g;
+      let res = re.exec(url);
 
-  static getUrl(url) {}
+      if (res) {
+        SpotifySearcher.accessHeader.then(function(header) {
+          let kind = res[3] || res[1];
+          let id = res[4];
+
+          switch (kind) {
+            case "track":
+              Searcher.get("https://api.spotify.com/v1/tracks/" + id, [header]).then(resolve);
+              break;
+            case "playlist":
+              let userId = res[2];
+              Searcher.get("https://api.spotify.com/v1/users/" + userId + "/playlists/" + id, [header]).then(resolve);
+              break;
+          }
+        });
+      } else {
+        reject(Error("Can't parse this url!"));
+      }
+    });
+  }
+
+  static itemBuilder(obj) {
+    switch (obj.type) {
+      case "track":
+        return new Entry(obj.name, obj.artists[0].name, obj.album.images[0].url, obj.duration_ms / 1000, "https://open.spotify.com/track/" + obj.id);
+        break;
+      case "playlist":
+        return new Playlist(obj.name, obj.owner.display_name, obj.images[0].url, obj.tracks.total, "https://open.spotify.com/user/" + obj.owner.id + "/playlist/" + obj.id);
+        break;
+    }
+  }
+
+  static search(query) {
+    return new Promise(function(resolve, reject) {
+      SpotifySearcher.accessHeader.then(function(header) {
+        Searcher.get("https://api.spotify.com/v1/search?type=track&q=" + encodeURI(query), [header]).then(JSON.parse).then(function(result) {
+          let tracks = result.tracks.items;
+          let results = [];
+
+          for (var i = 0; i < tracks.length; i++) {
+            results.push(SpotifySearcher.itemBuilder(tracks[i]));
+          }
+
+          resolve(results);
+        });
+      });
+    });
+  }
+
+  static getUrl(url) {
+    return new Promise(function(resolve, reject) {
+      SpotifySearcher.rawFetch(url).then(JSON.parse).then(SpotifySearcher.itemBuilder).then(resolve);
+    });
+  }
 
   static featured() {
     return new Promise(function(resolve, reject) {
