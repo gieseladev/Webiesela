@@ -1,4 +1,6 @@
-class Entry {
+class PlayableItem {}
+
+class Entry extends PlayableItem {
   constructor(title, artist, image, duration, url) {
     this.title = title;
     this.artist = artist;
@@ -9,7 +11,7 @@ class Entry {
 }
 
 
-class Playlist {
+class Playlist extends PlayableItem {
   constructor(name, author, image, entries, url) {
     this.name = name;
     this.author = author;
@@ -64,10 +66,24 @@ class Searcher {
     });
   }
 
+  /**
+   * Return a list of Playlists or Entrys based on a query
+   * @param {string} query - The query to search for
+   * @returns {Promise} Promise object represents the search results PlayableItem[]
+   */
   static search(query) {}
 
+  /**
+   * Return a single PlayableItem object based on the url
+   * @param {string} url - the url for the PlayableItem
+   * @returns {Promise} Promise object represents the result PlayableItem
+   */
   static getUrl(url) {}
 
+  /**
+   * Return a list of PlayableItem which represent the current featured items for the searcher
+   * @returns {Promise} Promise object represents the featured items PlayableItem[]
+   */
   static featured() {}
 }
 
@@ -162,7 +178,7 @@ class SpotifySearcher extends Searcher {
         resolve(["Authorization", "Bearer " + SpotifySearcher.accessToken.access_token]);
       } else {
         console.log("[SpotifySearcher] getting new token");
-        Searcher.get("http://utils.giesela.org/tokens/spotify", ["Access-Control-Allow-Origin", true]).then(JSON.parse).then(function(accessToken) {
+        Searcher.get("https://utils.giesela.org/tokens/spotify").then(JSON.parse).then(function(accessToken) {
           SpotifySearcher.accessToken = accessToken;
           resolve(["Authorization", "Bearer " + SpotifySearcher.accessToken.access_token]);
         });
@@ -233,7 +249,16 @@ class SpotifySearcher extends Searcher {
   static featured() {
     return new Promise(function(resolve, reject) {
       SpotifySearcher.accessHeader.then(function(header) {
-        Searcher.get("https://api.spotify.com/v1/browse/featured-playlists", [header]).then(resolve);
+        Searcher.get("https://api.spotify.com/v1/browse/featured-playlists", [header]).then(JSON.parse).then(function(result) {
+          let items = result.playlists.items;
+          let results = [];
+
+          for (var i = 0; i < items.length; i++) {
+            results.push(SpotifySearcher.itemBuilder(items[i]));
+          }
+
+          resolve(results);
+        });;
       });
     });
   }
