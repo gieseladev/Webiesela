@@ -31,11 +31,11 @@ class Entry extends PlayableItem {
 
 
 class Playlist extends PlayableItem {
-  constructor(name, author, image, entries, url) {
+  constructor(title, artist, image, entries, url) {
     super("playlist", url);
 
-    this.name = name;
-    this.author = author;
+    this.title = title;
+    this.artist = artist;
     this.image = image;
     this.entries = entries;
   }

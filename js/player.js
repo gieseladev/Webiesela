@@ -31,58 +31,6 @@ function onNotificationClick(element) {
   }
 }
 
-function promptClose() {
-  "use strict";
-
-  let tfPrompt = document.getElementById("tf-prompt");
-
-  tfPrompt.style.display = "none";
-}
-
-function _promptCancel() {
-  "use strict";
-
-  currentPrompt.cancel();
-  promptClose();
-}
-
-function _promptTrue() {
-  "use strict";
-
-  currentPrompt.true();
-  promptClose();
-}
-
-function _promptFalse() {
-  "use strict";
-
-  currentPrompt.false();
-  promptClose();
-}
-
-function promptTrueFalse(question, trueCallback, falseCallback, cancelCallback, trueOption, falseOption) {
-  "use strict";
-
-  trueOption = trueOption || "yes";
-  falseOption = falseOption || "no";
-
-  cancelCallback = cancelCallback || falseCallback;
-
-  currentPrompt = {
-    cancel: cancelCallback,
-    true: trueCallback,
-    false: falseCallback
-  };
-
-  let tfPrompt = document.getElementById("tf-prompt");
-
-  tfPrompt.getElementsByClassName("question")[0].innerHTML = question;
-  tfPrompt.getElementsByClassName("true")[0].innerHTML = trueOption;
-  tfPrompt.getElementsByClassName("false")[0].innerHTML = falseOption;
-
-  tfPrompt.style.display = "";
-}
-
 function displayPushNotification(msg, waitTime) {
   "use strict";
 
@@ -218,7 +166,11 @@ function clear_queue() {
     sendCommand("clear", null, "Cleared the Queue", "Couldn't clear the Queue");
   };
 
-  promptTrueFalse("Remove all entries from the Queue?", yesCB, function() {}, null, "yes", "no");
+  let prompt = new PromptTrueFalse("Remove all entries from the Queue?", "yes", "no");
+
+  prompt.whenTrue().then(yesCB);
+
+  popupManager.add(prompt);
 }
 
 function shuffle() {
@@ -291,11 +243,29 @@ function switchDurationDisplay() {
 function _disableAllActive() {
   "use strict";
 
+  document.getElementById("navbar_search").classList.remove("active");
   document.getElementById("navbar_home").classList.remove("active");
   document.getElementById("navbar_playlists").classList.remove("active");
   document.getElementById("navbar_radio_stations").classList.remove("active");
 
   window.removeEventListener("scroll", scrollWaiterFunc, true);
+}
+
+function switchToSearch(noHistory) {
+  "use strict";
+
+  _disableAllActive();
+  document.getElementById("navbar_search").classList.add("active");
+
+  if (!noHistory) {
+    history.pushState({
+      "id": "main-search"
+    }, "search", "#search");
+  }
+
+  loadSubPage("search", () => {
+    showFeatured();
+  });
 }
 
 function switchToHome(noHistory) {

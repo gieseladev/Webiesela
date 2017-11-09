@@ -22,6 +22,11 @@
 				<div id="giesela_logo">giesela</div>
 				<div class="group">
 					<div class="navbar_navigator">
+						<div id="navbar_search" onClick="switchToSearch()">Search</div>
+					</div>
+				</div>
+				<div class="group">
+					<div class="navbar_navigator">
 						<div id="navbar_home" onClick="switchToHome()" class="active">Home</div>
 						<div id="navbar_playlists" onClick="switchToPlaylists()">Playlists</div>
 						<div id="navbar_radio_stations" onClick="switchToRadio()">Radio Stations</div>
@@ -29,7 +34,7 @@
 				</div>
 				<div id="menu_space_padder"></div>
 				<div id="icon_bar">
-					<button id="navbar_add_entry" title="Add an entry" onClick="alert('WIP!')"></button>
+					<button id="navbar_add_entry" title="Add an entry" onClick="alert('I don\'t know that I\'m gonna do with this button now...')"></button>
 					<button id="navbar_clear_queue" title="Clear the queue" onClick="clear_queue()"></button>
 				</div>
 				<div id="user_information" class="group">
@@ -134,6 +139,21 @@
 	</footer>
 </div>
 
+
+<nav id="search-context-menu" class="context-menu">
+	<ul class="context-menu__items">
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="play_now">Play now</span>
+		</li>
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="play_next">Play next</span>
+		</li>
+		<li class="context-menu__item">
+			<span class="context-menu__link" data-action="play_queue">Append to Queue</span>
+		</li>
+	</ul>
+</nav>
+
 <nav id="playlist-context-menu" class="context-menu">
 	<ul class="context-menu__items">
 		<li class="context-menu__item">
@@ -181,14 +201,16 @@
 	</ul>
 </nav>
 
-<div id="tf-prompt" style="display: none;">
-	<div class="holder">
-		<button class="cancel" onClick="_promptCancel()"></button>
-		<span class="question">Are you feeling alright?</span>
-		<div class="answers">
-			<div class="false unselectable" onClick="_promptFalse()">No why would I?</div>
-			<div class="spacing unselectable"></div>
-			<div class="true unselectable" onClick="_promptTrue()">Yes</div>
+<div id="prompt_holder">
+	<div id="tf-prompt" style="display: none;">
+		<div class="holder">
+			<button class="cancel" onClick="_promptCancel()"></button>
+			<span class="question">Are you feeling alright?</span>
+			<div class="answers">
+				<div class="false unselectable" onClick="_promptFalse()">No why would I?</div>
+				<div class="spacing unselectable"></div>
+				<div class="true unselectable" onClick="_promptTrue()">Yes</div>
+			</div>
 		</div>
 	</div>
 </div>

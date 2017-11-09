@@ -22,6 +22,11 @@ function onPopState(event) {
 
     if (site_id) {
       switch (site_id) {
+        case "main-search":
+          loadPage("main_screen", function() {
+            switchToSearch(true);
+          });
+          break;
         case "main-home":
           loadPage("main_screen", function() {
             _disableAllActive();
@@ -32,7 +37,6 @@ function onPopState(event) {
               switchHomePage("queue");
             });
           });
-
           break;
         case "main-playlists":
           var playlistId = state.focus;
@@ -56,7 +60,6 @@ function onPopState(event) {
               switchToPlaylists(true);
             });
           }
-
           break;
         case "main-radio_stations":
           loadPage("main_screen", function() {
@@ -317,4 +320,4 @@ function main() {
   });
 }
 
-main();
+document.addEventListener("DOMContentLoaded", main);

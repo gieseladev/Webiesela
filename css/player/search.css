@@ -1,0 +1,63 @@
+.input_field {
+  caret-color: #7289DA;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.6vmax;
+  line-height: 1.6;
+}
+
+.input_header {
+  padding-top: 1.5vmax;
+  padding-bottom: 1.5vmax;
+  margin-bottom: .5vmax;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.input_parent {
+  width: 60vmax;
+  margin: auto;
+}
+
+.result_container {
+  width: 100%;
+}
+
+.result_type_selector {
+  margin: .5vmax auto 0;
+  width: 15vmax;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 3.5vmax;
+}
+
+.result_type_selector * {
+  text-transform: uppercase;
+  letter-spacing: .08vmax;
+  color: hsla(0, 0%, 100%, .65);
+  font-weight: 900;
+  font-size: .6vmax;
+  transition: color .2s;
+}
+
+.result_type_selector *:hover {
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+.result_type_selector .selected {
+  color: #FFFFFF;
+}
+
+.result_type_selector .selected::after {
+  content: "";
+  margin: 0 auto;
+  display: block;
+  width: 1.5vmax;
+  height: .1vmax;
+  background-color: #7289DA;
+}
