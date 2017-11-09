@@ -28,6 +28,10 @@ function searchQuery(query) {
 
 
 function displayItems(items) {
+  if (items.length < 1) {
+    alert("This is the wip message for when there are no results. k?");
+  }
+
   getContextMenu("#search-context-menu", "entry", searchEntryContextMenu);
 
   currentResults = items;
