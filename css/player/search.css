@@ -62,6 +62,6 @@
   background-color: #7289DA;
 }
 
-#result_display * {
+#result_display > * {
   margin: auto;
 }
