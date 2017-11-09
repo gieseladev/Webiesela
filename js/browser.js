@@ -1,23 +1,43 @@
-class PlayableItem {}
+class PlayableItem {
+  constructor(kind, url) {
+    this.kind = kind;
+    this.url = url;
+  }
+
+  play(mode = "queue") {
+    return new Promise((resolve, reject) => {
+      let data = {
+        item: this,
+        kind: this.kind,
+        url: this.url,
+        mode: mode
+      };
+
+      sendCommand("play", data, resolve, reject);
+    });
+  }
+}
 
 class Entry extends PlayableItem {
   constructor(title, artist, image, duration, url) {
+    super("entry", url);
+
     this.title = title;
     this.artist = artist;
     this.image = image;
     this.duration = duration;
-    this.url = url;
   }
 }
 
 
 class Playlist extends PlayableItem {
   constructor(name, author, image, entries, url) {
+    super("playlist", url);
+
     this.name = name;
     this.author = author;
     this.image = image;
     this.entries = entries;
-    this.url = url;
   }
 }
 
@@ -35,7 +55,7 @@ class Searcher {
       request.open("GET", url);
 
       if (headers) {
-        for (var i = 0; i < headers.length; i++) {
+        for (let i = 0; i < headers.length; i++) {
           request.setRequestHeader(headers[i][0], headers[i][1]);
         }
       }
@@ -57,7 +77,7 @@ class Searcher {
       request.open("POST", url);
 
       if (headers) {
-        for (var i = 0; i < headers.length; i++) {
+        for (let i = 0; i < headers.length; i++) {
           request.setRequestHeader(headers[i][0], headers[i][1]);
         }
       }
@@ -69,20 +89,20 @@ class Searcher {
   /**
    * Return a list of Playlists or Entrys based on a query
    * @param {string} query - The query to search for
-   * @returns {Promise} Promise object represents the search results PlayableItem[]
+   * @returns {Promise<PlayableItem[]>} Promise object represents the search results
    */
   static search(query) {}
 
   /**
    * Return a single PlayableItem object based on the url
    * @param {string} url - the url for the PlayableItem
-   * @returns {Promise} Promise object represents the result PlayableItem
+   * @returns {Promise<PlayableItem>} Promise object represents the result
    */
   static getUrl(url) {}
 
   /**
    * Return a list of PlayableItem which represent the current featured items for the searcher
-   * @returns {Promise} Promise object represents the featured items PlayableItem[]
+   * @returns {Promise<PlayableItem[]>} Promise object represents the featured items
    */
   static featured() {}
 }
@@ -110,7 +130,7 @@ class YoutubeSearcher extends Searcher {
             break;
         }
       } else {
-        reject(Error("Can't parse this url!"));
+        reject(Error("[YoutubeSearcher] Can't parse this url!"));
       }
     });
   }
@@ -133,7 +153,7 @@ class YoutubeSearcher extends Searcher {
       YoutubeSearcher.rawSearch(query).then(JSON.parse).then(function(response) {
         let results = [];
 
-        for (var i = 0; i < response.items.length; i++) {
+        for (let i = 0; i < response.items.length; i++) {
           results.push(YoutubeSearcher.itemBuilder(response.items[i]));
         }
 
@@ -161,7 +181,7 @@ class YoutubeSearcher extends Searcher {
       Searcher.get(url).then(JSON.parse).then(function(response) {
         let results = [];
 
-        for (var i = 0; i < response.items.length; i++) {
+        for (let i = 0; i < response.items.length; i++) {
           results.push(YoutubeSearcher.itemBuilder(response.items[i]));
         }
 
@@ -207,7 +227,7 @@ class SpotifySearcher extends Searcher {
           }
         });
       } else {
-        reject(Error("Can't parse this url!"));
+        reject(Error("[SpotifySearcher] Can't parse this url!"));
       }
     });
   }
@@ -230,7 +250,7 @@ class SpotifySearcher extends Searcher {
           let tracks = result.tracks.items;
           let results = [];
 
-          for (var i = 0; i < tracks.length; i++) {
+          for (let i = 0; i < tracks.length; i++) {
             results.push(SpotifySearcher.itemBuilder(tracks[i]));
           }
 
@@ -253,7 +273,7 @@ class SpotifySearcher extends Searcher {
           let items = result.playlists.items;
           let results = [];
 
-          for (var i = 0; i < items.length; i++) {
+          for (let i = 0; i < items.length; i++) {
             results.push(SpotifySearcher.itemBuilder(items[i]));
           }
 
@@ -266,7 +286,7 @@ class SpotifySearcher extends Searcher {
 
 class Browser {
   constructor(defaultSearcher) {
-    //TODO!
+    // TODO: this is lazy. plz improve!
     this.urlMatcher = [
       [/youtube.com/g, YoutubeSearcher],
       [/spotify.com/g, SpotifySearcher]
@@ -288,7 +308,16 @@ class Browser {
   }
 
   getUrl(url) {
-    return this.searcher.getUrl(url);
+    let searcher = this.searcher;
+
+    for (let i = 0; i < this.urlMatcher.length; i++) {
+      if (url.match(this.urlMatcher[i][0])) {
+        searcher = this.urlMatcher[i][1];
+        break;
+      }
+    }
+
+    return searcher.getUrl(url);
   }
 
   featured() {
