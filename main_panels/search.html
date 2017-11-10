@@ -4,7 +4,17 @@
 <div class="input_header">
   <div class="input_parent">
     <span>Search for tracks/playlists or just enter a url directly.</span>
-    <input id="input_bar" class="input_field" placeholder="Type something..." type="text" oninput="searchInputOnChange(event);"></input>
+    <div class="search_bar">
+      <div class="searcher_container">
+        <div id="searcher_icon" style="background-image: url();" onclick="openSearcherDropDown();"></div>
+        <div id="searcher_dropdown_menu" style="visibility: hidden;"></div>
+        <div id="searcher_template" class="searcher" style="display: none;">
+          <div class="icon" style="background-image: url();"></div>
+          <span class="name">name</span>
+        </div>
+      </div>
+      <input id="input_bar" class="input_field" placeholder="Type something..." type="text" oninput="searchInputOnChange(event);"></input>
+    </div>
   </div>
 </div>
 <div class="result_container">

@@ -143,7 +143,7 @@ class YoutubeSearcher extends Searcher {
         return new Entry(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
         break;
       case "youtube#playlist":
-        return new Playlist(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, result.contentDetails.itemCount, "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id));
+        return new Playlist(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, (result.contentDetails ? result.contentDetails.itemCount : null), "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id));
         break;
     }
   }
@@ -286,18 +286,62 @@ class SpotifySearcher extends Searcher {
 
 class Browser {
   constructor(defaultSearcher) {
-    // TODO: this is lazy. plz improve!
-    this.urlMatcher = [
-      [/youtube.com/g, YoutubeSearcher],
-      [/spotify.com/g, SpotifySearcher]
-    ];
+    this.searchers = [{
+      serviceName: "Youtube",
+      handler: YoutubeSearcher,
+      icon: "https://i.imgur.com/kdQW0bK.png",
+      urlMatcher: /youtube.com/g
+    }, {
+      serviceName: "Spotify",
+      handler: SpotifySearcher,
+      icon: "https://i.imgur.com/72uEwCM.png",
+      urlMatcher: /spotify.com/g
+    }];
 
+    this._searcher;
     this.searcher = defaultSearcher;
   }
 
+  get searcherInformation() {
+    return this._searcher;
+  }
+
+  get searcher() {
+    return this._searcher.handler;
+  }
+
+  set searcher(val) {
+    for (let i = 0; i < this.searchers.length; i++) {
+      let s = this.searchers[i];
+
+      if (val === s.handler) {
+        this._searcher = s;
+        return;
+      }
+    }
+
+    throw "Can't set searcher to this";
+  }
+
   switchSearcher(newSearcher) {
-    if (!(newSearcher.prototype instanceof Searcher)) {
-      throw "Can only switch to Searchers";
+    if (typeof newSearcher === "string" || newSearcher instanceof String) {
+      let found = false;
+
+      for (let i = 0; i < this.searchers.length; i++) {
+        let s = this.searchers[i];
+
+        if (newSearcher === s.serviceName) {
+          newSearcher = s.handler;
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        throw "Couldn't map <" + newSearcher + "> to a valid searcher";
+      }
+    } else if (!(newSearcher.prototype instanceof Searcher)) {
+      throw "Can only switch to known Searchers";
     }
 
     this.searcher = newSearcher;
@@ -307,12 +351,26 @@ class Browser {
     return this.searcher.search(query);
   }
 
+  isUrl(url) {
+    for (let i = 0; i < this.searchers.length; i++) {
+      let s = this.searchers[i];
+
+      if (url.match(s.urlMatcher)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   getUrl(url) {
     let searcher = this.searcher;
 
-    for (let i = 0; i < this.urlMatcher.length; i++) {
-      if (url.match(this.urlMatcher[i][0])) {
-        searcher = this.urlMatcher[i][1];
+    for (let i = 0; i < this.searchers.length; i++) {
+      let s = this.searchers[i];
+
+      if (url.match(s.urlMatcher)) {
+        searcher = s.handler;
         break;
       }
     }

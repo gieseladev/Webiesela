@@ -264,7 +264,7 @@ function switchToSearch(noHistory) {
   }
 
   loadSubPage("search", () => {
-    showFeatured();
+    setupSearch();
   });
 }
 
