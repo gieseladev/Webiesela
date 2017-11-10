@@ -30,21 +30,6 @@
   cursor: pointer;
 }
 
-#searcher_icon::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 110%;
-  transform: translateX(-50%);
-  display: block;
-  width: 1vmax;
-  height: .175vmax;
-  background-image: url("../../images/icons/arrow_down.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 #searcher_dropdown_menu.active {
   opacity: 1;
 }
