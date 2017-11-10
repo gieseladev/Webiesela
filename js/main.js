@@ -81,14 +81,12 @@ function init() {
   //window.removeEventListener("load", init, false);
   notificationBar = new NotificationBar();
 
-  var request = new XMLHttpRequest();
-  request.open("GET", "config.json", false);
-  request.send(null);
+  Searcher.get("config.json").then(JSON.parse).then(data => {
+    config = data;
+    window.onpopstate = onPopState;
 
-  config = JSON.parse(request.responseText);
-  window.onpopstate = onPopState;
-
-  doConnect();
+    doConnect();
+  });
 }
 
 function loadPage(page_name, on_ready) {
