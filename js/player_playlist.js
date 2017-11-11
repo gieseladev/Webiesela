@@ -118,11 +118,6 @@ function displayPlaylists() {
     parentElement.removeChild(parentElement.firstChild);
   }
 
-  var playlist_template = document.getElementById("playlist_template").cloneNode(true);
-
-  playlist_template.removeAttribute("id");
-  playlist_template.removeAttribute("style");
-
   var hoverClick = function(playlistId) {
     return function(event) {
       if (!event.target.classList.contains("play_button")) {
@@ -138,19 +133,19 @@ function displayPlaylists() {
   };
 
   for (var playlist of playlists) {
-    var playlist_element = playlist_template.cloneNode(true);
+    let playlistElement = HTMLTemplate.get("playlist");
 
-    playlist_element.setAttribute("data-id", playlist.id);
+    playlistElement.setAttribute("data-id", playlist.id);
 
-    playlist_element.getElementsByClassName("cover")[0].style.backgroundImage = "url('" + playlist.cover + "')";
-    playlist_element.getElementsByClassName("title")[0].innerHTML = playlist.name;
+    playlistElement.getElementsByClassName("cover")[0].style.backgroundImage = "url('" + playlist.cover + "')";
+    playlistElement.getElementsByClassName("title")[0].innerHTML = playlist.name;
 
-    playlist_element.getElementsByClassName("author")[0].innerHTML = "by " + playlist.author.display_name;
+    playlistElement.getElementsByClassName("author")[0].innerHTML = "by " + playlist.author.display_name;
 
-    playlist_element.addEventListener("click", hoverClick(playlist.id));
-    playlist_element.getElementsByClassName("play_button")[0].addEventListener("click", playClick(playlist.id));
+    playlistElement.addEventListener("click", hoverClick(playlist.id));
+    playlistElement.getElementsByClassName("play_button")[0].addEventListener("click", playClick(playlist.id));
 
-    parentElement.appendChild(playlist_element);
+    parentElement.appendChild(playlistElement);
   }
 
   getContextMenu("#playlist-context-menu", "playlist", menuItemClick);

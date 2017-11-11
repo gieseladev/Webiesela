@@ -42,11 +42,6 @@ function displayRadioStations() {
     parentElement.removeChild(parentElement.firstChild);
   }
 
-  var radioStationTemplate = document.getElementById("radio_station_template").cloneNode(true);
-
-  radioStationTemplate.removeAttribute("id");
-  radioStationTemplate.removeAttribute("style");
-
   var playClick = function(radioId) {
     return function() {
       playRadio(radioId);
@@ -54,7 +49,7 @@ function displayRadioStations() {
   };
 
   for (var radioStation of radioStations) {
-    var radioStationElement = radioStationTemplate.cloneNode(true);
+    let radioStationElement = HTMLTemplate.get("radio_station");
 
     radioStationElement.setAttribute("data-id", radioStation.id);
 

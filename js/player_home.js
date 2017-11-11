@@ -89,31 +89,26 @@ function displayEntries(parentElement, entries) {
     parentElement.removeChild(parentElement.firstChild);
   }
 
-  var entry_template = document.getElementById("entry_template").cloneNode(true);
-
-  entry_template.removeAttribute("id");
-  entry_template.removeAttribute("style");
-
   var index = 1;
 
   for (var entry of entries) {
-    var entry_element = entry_template.cloneNode(true);
+    let entryElement = HTMLTemplate.get("entry");
 
-    entry_element.getElementsByClassName("index")[0].innerHTML = index;
-    entry_element.getElementsByClassName("title")[0].innerHTML = entry.title;
+    entryElement.getElementsByClassName("index")[0].innerHTML = index;
+    entryElement.getElementsByClassName("title")[0].innerHTML = entry.title;
 
-    entry_element.setAttribute("data-id", index - 1);
+    entryElement.setAttribute("data-id", index - 1);
 
     if (entry.album && entry.artist) {
-      entry_element.getElementsByClassName("album")[0].innerHTML = entry.album;
-      entry_element.getElementsByClassName("artist")[0].innerHTML = entry.artist;
+      entryElement.getElementsByClassName("album")[0].innerHTML = entry.album;
+      entryElement.getElementsByClassName("artist")[0].innerHTML = entry.artist;
     } else {
-      entry_element.getElementsByClassName("name")[0].removeChild(entry_element.getElementsByClassName("origin")[0]);
+      entryElement.getElementsByClassName("name")[0].removeChild(entryElement.getElementsByClassName("origin")[0]);
     }
 
-    entry_element.getElementsByClassName("duration")[0].innerHTML = formatSeconds(entry.duration);
+    entryElement.getElementsByClassName("duration")[0].innerHTML = formatSeconds(entry.duration);
 
-    parentElement.appendChild(entry_element);
+    parentElement.appendChild(entryElement);
     index++;
   }
 }

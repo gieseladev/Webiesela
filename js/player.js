@@ -36,15 +36,13 @@ function displayPushNotification(msg, waitTime) {
 
   var waitTime = waitTime || 2000;
 
-  var new_notification = document.getElementById("push_notification_template").cloneNode(true);
-  new_notification.removeAttribute("id");
-  new_notification.removeAttribute("style");
+  let newNotification = HTMLTemplate.get("push_notification");
 
-  new_notification.getElementsByClassName("message")[0].innerHTML = msg;
+  newNotification.getElementsByClassName("message")[0].innerHTML = msg;
 
   var parentElement = document.getElementById("notifications");
 
-  parentElement.insertBefore(new_notification, parentElement.firstChild);
+  parentElement.insertBefore(newNotification, parentElement.firstChild);
 
   setTimeout(function(element) {
     function removeElement() {
@@ -53,7 +51,7 @@ function displayPushNotification(msg, waitTime) {
       }
     };
     return removeElement;
-  }(new_notification), waitTime);
+  }(newNotification), waitTime);
 }
 
 function loadSubPage(page_name, on_ready) {

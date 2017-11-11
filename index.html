@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="js/browser.js"></script>
 	<script type="text/javascript" src="js/cookies.js"></script>
 	<script type="text/javascript" src="js/contextMenu.js"></script>
+	<script type="text/javascript" src="js/html_templates.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/notification_bar.js"></script>
 	<script type="text/javascript" src="js/player.js"></script>
@@ -51,6 +52,56 @@
 	<div id="bg">
 		<img id="thumbnail" src="https://source.unsplash.com/random/1920x1080?music" alt="Thumbnail">
 		<img id="thumbnail_old" src="" alt="Thumbnail">
+	</div>
+
+	<div id="html_templates">
+
+		<div id="radio_station_template" class="radio_station" data-id="capitalfm">
+			<div class="hover_target">
+				<div class="cover" style="background-image: url()"></div>
+				<button class="play_button"></button>
+			</div>
+			<div class="title">Station Name</div>
+		</div>
+
+		<div id="entry_template" class="entry">
+			<div class="outer">
+				<div class="index">index</div>
+			</div>
+			<div class="name">
+				<div class="title">Song Title</div>
+				<div class="origin">
+					<div class="artist">Song Artist</div>
+					<span class="seperator">•</span>
+					<div class="album">Album</div>
+				</div>
+			</div>
+			<div class="special_container no_close" onclick="_entryRightClick(event)">
+				<div class="special no_close"></div>
+			</div>
+			<div class="duration">duration</div>
+		</div>
+
+		<div id="playlist_template" class="playlist" data-id="quality">
+			<div class="hover_target">
+				<div class="cover" style="background-image: url()"></div>
+				<button class="play_button"></button>
+			</div>
+			<div class="name">
+				<div class="title">Playlist Title</div>
+				<div class="author">by Author</div>
+			</div>
+		</div>
+
+		<div id="searcher_template" class="searcher">
+			<div class="icon" style="background-image: url();"></div>
+			<span class="name">name</span>
+		</div>
+
+		<div id="push_notification_template" class="notification" onclick="onNotificationClick(this)">
+			<div class="message">This is a notification</div>
+		</div>
+
 	</div>
 </body>
 

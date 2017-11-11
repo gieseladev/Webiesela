@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/player/entry.css">
+<link rel="stylesheet" type="text/css" href="css/player/playlists.css">
 <link rel="stylesheet" type="text/css" href="css/player/search.css">
 
 <div class="input_header">
@@ -8,10 +9,6 @@
       <div class="searcher_container">
         <div id="searcher_icon" style="background-image: url();" onclick="openSearcherDropDown();"></div>
         <div id="searcher_dropdown_menu" style="visibility: hidden;"></div>
-        <div id="searcher_template" class="searcher" style="display: none;">
-          <div class="icon" style="background-image: url();"></div>
-          <span class="name">name</span>
-        </div>
       </div>
       <input id="input_bar" class="input_field" placeholder="Type something..." type="text" oninput="searchInputOnChange(event);"></input>
     </div>
@@ -24,22 +21,4 @@
   </div>
   <div id="result_display">
   </div>
-</div>
-
-<div id="entry_template" class="entry" style="display: none;">
-  <div class="outer">
-    <div class="index">1</div>
-  </div>
-  <div class="name">
-    <div class="title">Shape of You</div>
-    <div class="origin">
-      <div class="artist">Ed Sheeran</div>
-      <span class="seperator">•</span>
-      <div class="album">Divide</div>
-    </div>
-  </div>
-  <div class="special_container no_close" onclick="_entryRightClick(event)">
-    <div class="special no_close"></div>
-  </div>
-  <div class="duration">4:15</div>
 </div>

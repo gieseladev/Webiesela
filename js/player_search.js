@@ -64,14 +64,9 @@ function displayItems(items) {
     resultDisplay.removeChild(resultDisplay.firstChild);
   }
 
-  let entryPrefab = document.getElementById("entry_template").cloneNode(true);
-
-  entryPrefab.removeAttribute("id");
-  entryPrefab.removeAttribute("style");
-
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
-    let entryElement = entryPrefab.cloneNode(true);
+    let entryElement = HTMLTemplate.get("entry");
 
     entryElement.getElementsByClassName("index")[0].innerHTML = i + 1;
     entryElement.getElementsByClassName("title")[0].innerHTML = item.title;
@@ -96,13 +91,9 @@ function buildSearcherDropDown() {
     elementHolder.removeChild(elementHolder.firstChild);
   }
 
-  let template = document.getElementById("searcher_template").cloneNode(true);
-  template.removeAttribute("id");
-  template.removeAttribute("style");
-
   for (let i = 0; i < browser.searchers.length; i++) {
     let searcher = browser.searchers[i];
-    let searcherEl = template.cloneNode(true);
+    let searcherEl = HTMLTemplate.get("searcher");
 
     searcherEl.getElementsByClassName("icon")[0].style.backgroundImage = "url('" + searcher.icon + "')";
     searcherEl.getElementsByClassName("name")[0].innerHTML = searcher.serviceName;
