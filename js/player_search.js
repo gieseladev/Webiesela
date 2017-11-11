@@ -66,13 +66,29 @@ function displayItems(items) {
 
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
-    let entryElement = HTMLTemplate.get("entry");
+    let element;
 
-    entryElement.getElementsByClassName("index")[0].innerHTML = i + 1;
-    entryElement.getElementsByClassName("title")[0].innerHTML = item.title;
-    entryElement.getElementsByClassName("artist")[0].innerHTML = item.artist;
+    switch (item.constructor.name) {
+      case "Playlist":
+        element = HTMLTemplate.build("playlist", {
+          ".title": item.title,
+          ".author": item.artist,
+          ".cover": element => element.setAttribute("style", "background-image: url(\"" + item.image + "\");")
+        });
+        break;
 
-    resultDisplay.appendChild(entryElement);
+      case "Entry":
+        element = HTMLTemplate.build("entry", {
+          ".index": i + 1,
+          ".title": item.title,
+          ".artist": item.artist,
+          ".album, .seperator, .duration": false,
+        });
+
+        break;
+    }
+
+    resultDisplay.appendChild(element);
   }
 }
 

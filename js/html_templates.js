@@ -41,18 +41,22 @@ let HTMLTemplate = (function() {
 
         let targets = element.querySelectorAll(key);
 
-        if (targets) {
+        if (targets.length > 0) {
           for (var j = 0; j < targets.length; j++) {
             let target = targets[j];
 
             if (value) {
-              target.innerHTML = value;
+              if (typeof value === "function") {
+                value(target);
+              } else {
+                target.innerHTML = value;
+              }
             } else {
               target.parentElement.removeChild(target);
             }
           }
         } else {
-          console.warn("Couldn't find key <" + key + "> in template <" + template + ">");
+          console.warn("Couldn't match <" + key + "> in template <" + template + ">");
         }
       }
 
