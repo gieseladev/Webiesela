@@ -140,7 +140,7 @@ function displayPlaylists() {
     playlistElement.getElementsByClassName("cover")[0].style.backgroundImage = "url('" + playlist.cover + "')";
     playlistElement.getElementsByClassName("title")[0].innerHTML = playlist.name;
 
-    playlistElement.getElementsByClassName("author")[0].innerHTML = "by " + playlist.author.display_name;
+    playlistElement.getElementsByClassName("author")[0].innerHTML = playlist.author.display_name;
 
     playlistElement.addEventListener("click", hoverClick(playlist.id));
     playlistElement.getElementsByClassName("play_button")[0].addEventListener("click", playClick(playlist.id));

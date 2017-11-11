@@ -78,6 +78,10 @@
   color: #A0A0A0;
 }
 
+.playlist .author::before {
+  content: "by ";
+}
+
 .centered {
   margin: auto;
   top: 0;
