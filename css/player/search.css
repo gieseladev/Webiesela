@@ -88,11 +88,10 @@
 }
 
 .result_type_selector {
-  margin: .5vmax auto 0;
+  margin: .5vmax auto;
   width: 15vmax;
   display: flex;
-  justify-content: space-between;
-  padding-bottom: 3.5vmax;
+  justify-content: space-around;
 }
 
 .result_type_selector * {
@@ -113,6 +112,10 @@
   color: #FFFFFF;
 }
 
+.result_type_selector :not(.possible) {
+  display: none;
+}
+
 .result_type_selector .selected::after {
   content: "";
   margin: 0 auto;
@@ -122,6 +125,21 @@
   background-color: #7289DA;
 }
 
-#result_display>* {
+#result_display>:not(.active) {
+  display: none;
+}
+
+#result_display_tracks .entry {
   margin: auto;
+}
+
+#result_display_playlists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#result_display_playlists .playlist.Youtube {
+  width: 17.7vmax;
 }

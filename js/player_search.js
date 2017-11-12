@@ -3,6 +3,10 @@ const searchDelay = 500;
 let currentResults;
 let searchTimeout;
 
+let resultDisplayTracks;
+let resultDisplayPlaylists;
+let resultSelectorTracks;
+let resultSelectorPlaylists;
 
 function searchEntryContextMenu() {
   console.log("context menu");
@@ -21,7 +25,6 @@ function onInput(query) {
   }
 }
 
-
 function openSearcherDropDown() {
   document.addEventListener("click", closeSearcherDropDown);
 
@@ -30,14 +33,12 @@ function openSearcherDropDown() {
   searcherDM.style.opacity = 1;
 }
 
-
 function closeSearcherDropDown(evt) {
   if (evt.target.id !== "searcher_icon") {
     document.removeEventListener("click", closeSearcherDropDown);
     document.getElementById("searcher_dropdown_menu").style.opacity = 0;
   }
 }
-
 
 function clickSearcher(searcher) {
   browser.switchSearcher(searcher.handler);
@@ -47,22 +48,78 @@ function clickSearcher(searcher) {
   onInput(document.getElementById("input_bar").value);
 }
 
+function clearResults() {
+  let resultDisplayTracks = document.getElementById("result_display_tracks");
+  let resultDisplayPlaylists = document.getElementById("result_display_playlists");
+
+  while (resultDisplayTracks.firstChild) {
+    resultDisplayTracks.removeChild(resultDisplayTracks.firstChild);
+  }
+
+  while (resultDisplayPlaylists.firstChild) {
+    resultDisplayPlaylists.removeChild(resultDisplayPlaylists.firstChild);
+  }
+}
+
+function hideSelectors() {
+  resultSelectorTracks.classList.remove("selected");
+  resultSelectorPlaylists.classList.remove("selected");
+
+  resultDisplayTracks.classList.remove("active");
+  resultDisplayPlaylists.classList.remove("active");
+}
+
+function showPlaylists() {
+  hideSelectors();
+
+  resultDisplayPlaylists.classList.add("active");
+  resultSelectorPlaylists.classList.add("selected");
+}
+
+function showTracks() {
+  hideSelectors();
+
+  resultDisplayTracks.classList.add("active");
+  resultSelectorTracks.classList.add("selected");
+}
+
+function showAppropriate() {
+  if (resultDisplayTracks.firstChild) {
+    resultSelectorTracks.classList.add("possible");
+  } else {
+    resultSelectorTracks.classList.remove("possible");
+  }
+
+  if (resultDisplayPlaylists.firstChild) {
+    resultSelectorPlaylists.classList.add("possible");
+  } else {
+    resultSelectorPlaylists.classList.remove("possible");
+  }
+
+  const target = document.querySelector(".result_type_selector .possible");
+
+  if (target) {
+    target.onclick();
+  } else {
+    hideSelectors();
+    alert("no results found bruh");
+  }
+
+}
 
 function displayItems(items) {
-  //TODO everything
-  if (items.length < 1) {
-    alert("This is the wip message for when there are no results. k?");
-  }
+  clearResults();
+
+  resultDisplayTracks = document.getElementById("result_display_tracks");
+  resultDisplayPlaylists = document.getElementById("result_display_playlists");
+
+  resultSelectorTracks = document.getElementById("result_type_selector_tracks");
+  resultSelectorPlaylists = document.getElementById("result_type_selector_playlists");
 
   getContextMenu("#search-context-menu", "entry", searchEntryContextMenu);
+  getContextMenu("#search-context-menu", "playlist", searchEntryContextMenu);
 
   currentResults = items;
-
-  let resultDisplay = document.getElementById("result_display");
-
-  while (resultDisplay.firstChild) {
-    resultDisplay.removeChild(resultDisplay.firstChild);
-  }
 
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
@@ -70,26 +127,29 @@ function displayItems(items) {
 
     switch (item.constructor.name) {
       case "Playlist":
-        element = HTMLTemplate.build("playlist", {
+        let element = HTMLTemplate.build("playlist", {
           ".title": item.title,
           ".author": item.artist,
           ".cover": element => element.setAttribute("style", "background-image: url(\"" + item.image + "\");")
         });
+
+        element.classList.add(browser.searcherInformation.serviceName);
+
+        resultDisplayPlaylists.appendChild(element);
         break;
 
       case "Entry":
-        element = HTMLTemplate.build("entry", {
+        resultDisplayTracks.appendChild(HTMLTemplate.build("entry", {
           ".index": i + 1,
           ".title": item.title,
           ".artist": item.artist,
           ".album, .seperator, .duration": false,
-        });
-
+        }));
         break;
     }
-
-    resultDisplay.appendChild(element);
   }
+
+  showAppropriate();
 }
 
 function showCurrentSearcher() {
@@ -98,7 +158,6 @@ function showCurrentSearcher() {
 
   searcherIcon.style.backgroundImage = "url('" + currentSearcher.icon + "')";
 }
-
 
 function buildSearcherDropDown() {
   let elementHolder = document.getElementById("searcher_dropdown_menu");
@@ -120,11 +179,9 @@ function buildSearcherDropDown() {
   }
 }
 
-
 function searchQuery(query) {
   browser.search(query).then(displayItems);
 }
-
 
 function showFeatured() {
   browser.featured().then(displayItems);
@@ -142,4 +199,5 @@ function setupSearch() {
   showCurrentSearcher();
 
   showFeatured();
+  document.getElementById("input_bar").value = "";
 }

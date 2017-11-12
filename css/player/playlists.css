@@ -11,12 +11,14 @@
 }
 
 .playlist {
-  margin: 2vmax .5vmax;
+  width: 10vmax;
+  margin: 2vmax .5vmax 0;
   cursor: pointer;
 }
 
 .playlist .hover_target {
-  width: 10vmax;
+  position: relative;
+  width: inherit;
   height: 10vmax;
   padding-bottom: .5vmax;
 }

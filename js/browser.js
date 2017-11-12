@@ -135,15 +135,26 @@ class YoutubeSearcher extends Searcher {
     });
   }
 
+  static findBestThumbnail(thumnails) {
+    // Prefer medium because it's actually 16:9. standard, high and default are 4:3
+    for (let key of ["maxres", "medium", "standard", "high", "default"]) {
+      let thumbnail = thumnails[key];
+
+      if (thumbnail) {
+        return thumbnail.url;
+      }
+    }
+  }
+
   static itemBuilder(result) {
     let kind = result.id.kind || result.kind;
 
     switch (kind) {
       case "youtube#video":
-        return new Entry(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
+        return new Entry(result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
         break;
       case "youtube#playlist":
-        return new Playlist(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, (result.contentDetails ? result.contentDetails.itemCount : null), "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id));
+        return new Playlist(result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), (result.contentDetails ? result.contentDetails.itemCount : null), "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id));
         break;
     }
   }
