@@ -3,13 +3,17 @@ const searchDelay = 500;
 let currentResults;
 let searchTimeout;
 
+let resultDisplayMessage;
 let resultDisplayTracks;
 let resultDisplayPlaylists;
+let resultDisplayFocused;
+
 let resultSelectorTracks;
 let resultSelectorPlaylists;
 
 function searchEntryContextMenu() {
   console.log("context menu");
+  //TODO
 }
 
 function searchInputOnChange(evt) {
@@ -19,7 +23,13 @@ function searchInputOnChange(evt) {
 
 function onInput(query) {
   if (query) {
-    searchQuery(query);
+    const urlHandler = browser.isUrl(query);
+    if (urlHandler) {
+      clickSearcher(urlHandler, true);
+      urlHandler.handler.getUrl(query).then(displayFocused).catch(() => displayMessage("I don't know what to do with this url\nSORRY :("));
+    } else {
+      searchQuery(query);
+    }
   } else {
     showFeatured();
   }
@@ -40,17 +50,28 @@ function closeSearcherDropDown(evt) {
   }
 }
 
-function clickSearcher(searcher) {
+function clickSearcher(searcher, noUpdateInput) {
   browser.switchSearcher(searcher.handler);
   localStorage.setItem("searcher", searcher.serviceName);
 
   showCurrentSearcher();
-  onInput(document.getElementById("input_bar").value);
+  if (!noUpdateInput) {
+    onInput(document.getElementById("input_bar").value);
+  }
 }
 
 function clearResults() {
-  let resultDisplayTracks = document.getElementById("result_display_tracks");
-  let resultDisplayPlaylists = document.getElementById("result_display_playlists");
+  resultDisplayMessage = document.getElementById("result_display_message");
+  resultDisplayTracks = document.getElementById("result_display_tracks");
+  resultDisplayPlaylists = document.getElementById("result_display_playlists");
+  resultDisplayFocused = document.getElementById("result_display_focused");
+
+  resultSelectorTracks = document.getElementById("result_type_selector_tracks");
+  resultSelectorPlaylists = document.getElementById("result_type_selector_playlists");
+
+  while (resultDisplayMessage.firstChild) {
+    resultDisplayMessage.removeChild(resultDisplayMessage.firstChild);
+  }
 
   while (resultDisplayTracks.firstChild) {
     resultDisplayTracks.removeChild(resultDisplayTracks.firstChild);
@@ -58,6 +79,10 @@ function clearResults() {
 
   while (resultDisplayPlaylists.firstChild) {
     resultDisplayPlaylists.removeChild(resultDisplayPlaylists.firstChild);
+  }
+
+  while (resultDisplayFocused.firstChild) {
+    resultDisplayFocused.removeChild(resultDisplayFocused.firstChild);
   }
 }
 
@@ -83,7 +108,7 @@ function showTracks() {
   resultSelectorTracks.classList.add("selected");
 }
 
-function showAppropriate() {
+function showPossibleSelectors() {
   if (resultDisplayTracks.firstChild) {
     resultSelectorTracks.classList.add("possible");
   } else {
@@ -95,26 +120,51 @@ function showAppropriate() {
   } else {
     resultSelectorPlaylists.classList.remove("possible");
   }
+}
+
+function showAppropriate() {
+  showPossibleSelectors();
 
   const target = document.querySelector(".result_type_selector .possible");
 
   if (target) {
     target.onclick();
   } else {
-    hideSelectors();
-    alert("no results found bruh");
+    displayMessage("No results found");
   }
 
 }
 
+function displayMessage(msg) {
+  clearResults();
+  hideSelectors();
+  showPossibleSelectors();
+
+  resultDisplayMessage.innerHTML = msg;
+
+  resultDisplayMessage.classList.add("active");
+}
+
+function displayFocused(item) {
+  clearResults();
+  hideSelectors();
+  showPossibleSelectors();
+
+  let element = HTMLTemplate.build("playlist", {
+    ".title": item.title,
+    ".author": item.artist,
+    ".cover": element => element.setAttribute("style", "background-image: url(\"" + item.image + "\");")
+  });
+
+  element.classList.add(browser.searcherInformation.serviceName);
+
+  resultDisplayFocused.appendChild(element);
+
+  resultDisplayFocused.classList.add("active");
+}
+
 function displayItems(items) {
   clearResults();
-
-  resultDisplayTracks = document.getElementById("result_display_tracks");
-  resultDisplayPlaylists = document.getElementById("result_display_playlists");
-
-  resultSelectorTracks = document.getElementById("result_type_selector_tracks");
-  resultSelectorPlaylists = document.getElementById("result_type_selector_playlists");
 
   getContextMenu("#search-context-menu", "entry", searchEntryContextMenu);
   getContextMenu("#search-context-menu", "playlist", searchEntryContextMenu);
@@ -123,7 +173,6 @@ function displayItems(items) {
 
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
-    let element;
 
     switch (item.constructor.name) {
       case "Playlist":

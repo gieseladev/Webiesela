@@ -70,7 +70,7 @@ function showPlaylist(playlist_id, noHistory) {
 
   document.getElementById("focused_playlist_cover").style.backgroundImage = "url('" + playlist.cover + "')";
   document.getElementById("playlist_title").innerHTML = playlist.name;
-  document.getElementById("playlist_author").innerHTML = "by " + playlist.author.display_name;
+  document.getElementById("playlist_author").innerHTML = playlist.author.display_name;
   document.getElementById("playlist_description").innerHTML = (playlist.description || "This playlist doesn't have a description").replace(/(\*\*|__)(.+?)\1/, "<b>$2</b>").replace(/(\*|_)(.+?)\1/, "<i>$2</i>").replace(/(`|_)(.+?)\1/, "<code>$2</code>");
   document.getElementById("playlist_entry_amount").innerHTML = playlist.entries.length + " songs";
   document.getElementById("playlist_playtime").innerHTML = playlist.human_dur;

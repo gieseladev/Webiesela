@@ -86,6 +86,10 @@ class Searcher {
     });
   }
 
+  static getFallbackThumbnail(query) {
+    return "https://source.unsplash.com/1920x1080/?" + encodeURI(query.replace(/[^\sa-zA-Z]/g, ""));
+  }
+
   /**
    * Return a list of Playlists or Entrys based on a query
    * @param {string} query - The query to search for
@@ -135,10 +139,14 @@ class YoutubeSearcher extends Searcher {
     });
   }
 
-  static findBestThumbnail(thumnails) {
+  static findBestThumbnail(thumbnails) {
+    if (!thumbnails) {
+      return null;
+    }
+
     // Prefer medium because it's actually 16:9. standard, high and default are 4:3
     for (let key of ["maxres", "medium", "standard", "high", "default"]) {
-      let thumbnail = thumnails[key];
+      let thumbnail = thumbnails[key];
 
       if (thumbnail) {
         return thumbnail.url;
@@ -154,7 +162,12 @@ class YoutubeSearcher extends Searcher {
         return new Entry(result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
         break;
       case "youtube#playlist":
-        return new Playlist(result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), (result.contentDetails ? result.contentDetails.itemCount : null), "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id));
+        return new Playlist(result.snippet.title,
+          result.snippet.channelTitle,
+          this.findBestThumbnail(result.snippet.thumbnails) || Searcher.getFallbackThumbnail(result.snippet.title),
+          (result.contentDetails ? result.contentDetails.itemCount : null),
+          "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id)
+        );
         break;
     }
   }
@@ -179,7 +192,7 @@ class YoutubeSearcher extends Searcher {
         let result = YoutubeSearcher.itemBuilder(response.items[0]);
 
         resolve(result);
-      });
+      }).catch(reject);
     });
   }
 
@@ -367,7 +380,7 @@ class Browser {
       let s = this.searchers[i];
 
       if (url.match(s.urlMatcher)) {
-        return true;
+        return s;
       }
     }
 

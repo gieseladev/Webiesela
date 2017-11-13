@@ -129,6 +129,13 @@
   display: none;
 }
 
+#result_display_message {
+  text-align: center;
+  font-size: 2vmax;
+  margin-top: 3vmax;
+  white-space: pre-wrap;
+}
+
 #result_display_tracks .entry {
   margin: auto;
 }
@@ -140,6 +147,11 @@
   align-items: flex-start;
 }
 
-#result_display_playlists .playlist.Youtube {
+#result_display_focused {
+  display: flex;
+  justify-content: center;
+}
+
+#result_display .playlist.Youtube {
   width: 17.7vmax;
 }
