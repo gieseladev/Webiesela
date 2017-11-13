@@ -1,0 +1,28 @@
+<link rel="stylesheet" type="text/css" href="css/player/entry.css">
+<link rel="stylesheet" type="text/css" href="css/player/playlists.css">
+<link rel="stylesheet" type="text/css" href="css/player/search.css">
+
+<div class="input_header">
+  <div class="input_parent">
+    <span>Search for tracks/playlists or just enter a url directly.</span>
+    <div class="search_bar">
+      <div class="searcher_container">
+        <div id="searcher_icon" style="background-image: url();" onclick="openSearcherDropDown();"></div>
+        <div id="searcher_dropdown_menu" style="visibility: hidden;"></div>
+      </div>
+      <input id="input_bar" class="input_field" placeholder="Type something..." type="text" oninput="searchInputOnChange(event);"></input>
+    </div>
+  </div>
+</div>
+<div class="result_container">
+  <div class="result_type_selector">
+    <div id="result_type_selector_tracks" onclick="showTracks();">Tracks</div>
+    <div id="result_type_selector_playlists" onclick="showPlaylists();">Playlists</div>
+  </div>
+  <div id="result_display">
+    <div id="result_display_message"></div>
+    <div id="result_display_tracks"></div>
+    <div id="result_display_playlists"></div>
+    <div id="result_display_focused"></div>
+  </div>
+</div>

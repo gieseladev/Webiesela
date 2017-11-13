@@ -9,6 +9,24 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Roboto:400,900" rel="stylesheet">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+
+	<script type="text/javascript" src="//rubaxa.github.io/Sortable/Sortable.js"></script>
+	<script type="text/javascript" src="https://cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+
+	<script type="text/javascript" src="js/browser.js"></script>
+	<script type="text/javascript" src="js/cookies.js"></script>
+	<script type="text/javascript" src="js/contextMenu.js"></script>
+	<script type="text/javascript" src="js/html_templates.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/notification_bar.js"></script>
+	<script type="text/javascript" src="js/player.js"></script>
+	<script type="text/javascript" src="js/player_home.js"></script>
+	<script type="text/javascript" src="js/player_playlist.js"></script>
+	<script type="text/javascript" src="js/player_radio.js"></script>
+	<script type="text/javascript" src="js/player_search.js"></script>
+	<script type="text/javascript" src="js/popup.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
 </head>
 
 <body>
@@ -32,24 +50,59 @@
 		</div>
 	</div>
 	<div id="bg">
-		<img id="thumbnail" src="images/default_background.jpg" alt="Thumbnail">
-		<img id="thumbnail_old" src="images/default_background.jpg" alt="Thumbnail">
+		<img id="thumbnail" src="https://source.unsplash.com/random/1920x1080?music" alt="Thumbnail">
+		<img id="thumbnail_old" src="" alt="Thumbnail">
+	</div>
+
+	<div id="html_templates">
+
+		<div id="radio_station_template" class="radio_station" data-id="station_id">
+			<div class="hover_target">
+				<div class="cover" style="background-image: url()"></div>
+				<button class="play_button"></button>
+			</div>
+			<div class="title">Station Name</div>
+		</div>
+
+		<div id="entry_template" class="entry">
+			<div class="outer">
+				<div class="index">index</div>
+			</div>
+			<div class="name">
+				<div class="title">Song Title</div>
+				<div class="origin">
+					<div class="artist">Song Artist</div>
+					<span class="seperator">•</span>
+					<div class="album">Album</div>
+				</div>
+			</div>
+			<div class="special_container no_close" onclick="_entryRightClick(event)">
+				<div class="special no_close"></div>
+			</div>
+			<div class="duration">duration</div>
+		</div>
+
+		<div id="playlist_template" class="playlist" data-id="playlist_id">
+			<div class="hover_target">
+				<div class="cover" style="background-image: url()"></div>
+				<button class="play_button"></button>
+			</div>
+			<div class="name">
+				<div class="title">Playlist Title</div>
+				<div class="author">by Author</div>
+			</div>
+		</div>
+
+		<div id="searcher_template" class="searcher">
+			<div class="icon" style="background-image: url();"></div>
+			<span class="name">name</span>
+		</div>
+
+		<div id="push_notification_template" class="notification" onclick="onNotificationClick(this)">
+			<div class="message">This is a notification</div>
+		</div>
+
 	</div>
 </body>
-<script type="text/javascript" src="//rubaxa.github.io/Sortable/Sortable.js"></script>
-<script type="text/javascript" src="https://cdn.ravenjs.com/3.18.1/raven.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
-
-<script type="text/javascript" src="js/cookies.js"></script>
-<script type="text/javascript" src="js/browser.js"></script>
-<script type="text/javascript" src="js/utils.js"></script>
-<script type="text/javascript" src="js/contextMenu.js"></script>
-<script type="text/javascript" src="js/notification_bar.js"></script>
-<script type="text/javascript" src="js/picture_frame.js"></script>
-<script type="text/javascript" src="js/player.js"></script>
-<script type="text/javascript" src="js/player_home.js"></script>
-<script type="text/javascript" src="js/player_playlist.js"></script>
-<script type="text/javascript" src="js/player_radio.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
 
 </html>

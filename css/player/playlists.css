@@ -11,12 +11,14 @@
 }
 
 .playlist {
-  margin: 2vmax .5vmax;
+  width: 10vmax;
+  margin: 2vmax .5vmax 0;
   cursor: pointer;
 }
 
 .playlist .hover_target {
-  width: 10vmax;
+  position: relative;
+  width: inherit;
   height: 10vmax;
   padding-bottom: .5vmax;
 }
@@ -78,6 +80,10 @@
   color: #A0A0A0;
 }
 
+.playlist .author::before {
+  content: "by ";
+}
+
 .centered {
   margin: auto;
   top: 0;
@@ -106,6 +112,10 @@
   font-size: .7vmax;
 }
 
+#playlist_cover {
+  width: 12vmax;
+}
+
 #focused_display .left {
   margin-right: 3vmax;
   width: 15vmax;
@@ -113,11 +123,10 @@
 }
 
 #focused_display .left .playlist {
-  margin: auto 0;
+  margin: auto;
 }
 
 #focused_display .left .playlist .hover_target {
-  width: 12vmax;
   height: 12vmax;
 }
 
@@ -144,6 +153,10 @@
   font-weight: 300;
   font-size: .6vmax;
   margin-bottom: 1.5vmax;
+}
+
+#focused_display .centered #playlist_author::before {
+  content: "by ";
 }
 
 #focused_display .centered #playlist_description {

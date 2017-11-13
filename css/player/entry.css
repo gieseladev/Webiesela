@@ -67,7 +67,7 @@
 .entry .special {
   height: 35%;
   visibility: hidden;
-  background-image: url("../../images/icons/Special.png");
+  background-image: url("../../images/icons/special.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

@@ -1,21 +1,43 @@
-class Entry {
+class PlayableItem {
+  constructor(kind, url) {
+    this.kind = kind;
+    this.url = url;
+  }
+
+  play(mode = "queue") {
+    return new Promise((resolve, reject) => {
+      let data = {
+        item: this,
+        kind: this.kind,
+        url: this.url,
+        mode: mode
+      };
+
+      sendCommand("play", data, resolve, reject);
+    });
+  }
+}
+
+class Entry extends PlayableItem {
   constructor(title, artist, image, duration, url) {
+    super("entry", url);
+
     this.title = title;
     this.artist = artist;
     this.image = image;
     this.duration = duration;
-    this.url = url;
   }
 }
 
 
-class Playlist {
-  constructor(name, author, image, entries, url) {
-    this.name = name;
-    this.author = author;
+class Playlist extends PlayableItem {
+  constructor(title, artist, image, entries, url) {
+    super("playlist", url);
+
+    this.title = title;
+    this.artist = artist;
     this.image = image;
     this.entries = entries;
-    this.url = url;
   }
 }
 
@@ -33,7 +55,7 @@ class Searcher {
       request.open("GET", url);
 
       if (headers) {
-        for (var i = 0; i < headers.length; i++) {
+        for (let i = 0; i < headers.length; i++) {
           request.setRequestHeader(headers[i][0], headers[i][1]);
         }
       }
@@ -55,7 +77,7 @@ class Searcher {
       request.open("POST", url);
 
       if (headers) {
-        for (var i = 0; i < headers.length; i++) {
+        for (let i = 0; i < headers.length; i++) {
           request.setRequestHeader(headers[i][0], headers[i][1]);
         }
       }
@@ -64,10 +86,28 @@ class Searcher {
     });
   }
 
+  static getFallbackThumbnail(query) {
+    return "https://source.unsplash.com/1920x1080/?" + encodeURI(query.replace(/[^\sa-zA-Z]/g, ""));
+  }
+
+  /**
+   * Return a list of Playlists or Entrys based on a query
+   * @param {string} query - The query to search for
+   * @returns {Promise<PlayableItem[]>} Promise object represents the search results
+   */
   static search(query) {}
 
+  /**
+   * Return a single PlayableItem object based on the url
+   * @param {string} url - the url for the PlayableItem
+   * @returns {Promise<PlayableItem>} Promise object represents the result
+   */
   static getUrl(url) {}
 
+  /**
+   * Return a list of PlayableItem which represent the current featured items for the searcher
+   * @returns {Promise<PlayableItem[]>} Promise object represents the featured items
+   */
   static featured() {}
 }
 
@@ -94,9 +134,24 @@ class YoutubeSearcher extends Searcher {
             break;
         }
       } else {
-        reject(Error("Can't parse this url!"));
+        reject(Error("[YoutubeSearcher] Can't parse this url!"));
       }
     });
+  }
+
+  static findBestThumbnail(thumbnails) {
+    if (!thumbnails) {
+      return null;
+    }
+
+    // Prefer medium because it's actually 16:9. standard, high and default are 4:3
+    for (let key of ["maxres", "medium", "standard", "high", "default"]) {
+      let thumbnail = thumbnails[key];
+
+      if (thumbnail) {
+        return thumbnail.url;
+      }
+    }
   }
 
   static itemBuilder(result) {
@@ -104,10 +159,15 @@ class YoutubeSearcher extends Searcher {
 
     switch (kind) {
       case "youtube#video":
-        return new Entry(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
+        return new Entry(result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
         break;
       case "youtube#playlist":
-        return new Playlist(result.snippet.title, result.snippet.channelTitle, result.snippet.thumbnails.high.url, result.contentDetails.itemCount, "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id));
+        return new Playlist(result.snippet.title,
+          result.snippet.channelTitle,
+          this.findBestThumbnail(result.snippet.thumbnails) || Searcher.getFallbackThumbnail(result.snippet.title),
+          (result.contentDetails ? result.contentDetails.itemCount : null),
+          "https://www.youtube.com/playlist?list=" + (result.id.playlistId || result.id)
+        );
         break;
     }
   }
@@ -117,7 +177,7 @@ class YoutubeSearcher extends Searcher {
       YoutubeSearcher.rawSearch(query).then(JSON.parse).then(function(response) {
         let results = [];
 
-        for (var i = 0; i < response.items.length; i++) {
+        for (let i = 0; i < response.items.length; i++) {
           results.push(YoutubeSearcher.itemBuilder(response.items[i]));
         }
 
@@ -132,7 +192,7 @@ class YoutubeSearcher extends Searcher {
         let result = YoutubeSearcher.itemBuilder(response.items[0]);
 
         resolve(result);
-      });
+      }).catch(reject);
     });
   }
 
@@ -145,7 +205,7 @@ class YoutubeSearcher extends Searcher {
       Searcher.get(url).then(JSON.parse).then(function(response) {
         let results = [];
 
-        for (var i = 0; i < response.items.length; i++) {
+        for (let i = 0; i < response.items.length; i++) {
           results.push(YoutubeSearcher.itemBuilder(response.items[i]));
         }
 
@@ -162,7 +222,7 @@ class SpotifySearcher extends Searcher {
         resolve(["Authorization", "Bearer " + SpotifySearcher.accessToken.access_token]);
       } else {
         console.log("[SpotifySearcher] getting new token");
-        Searcher.get("http://utils.giesela.org/tokens/spotify", ["Access-Control-Allow-Origin", true]).then(JSON.parse).then(function(accessToken) {
+        Searcher.get("https://utils.giesela.org/tokens/spotify").then(JSON.parse).then(function(accessToken) {
           SpotifySearcher.accessToken = accessToken;
           resolve(["Authorization", "Bearer " + SpotifySearcher.accessToken.access_token]);
         });
@@ -191,7 +251,7 @@ class SpotifySearcher extends Searcher {
           }
         });
       } else {
-        reject(Error("Can't parse this url!"));
+        reject(Error("[SpotifySearcher] Can't parse this url!"));
       }
     });
   }
@@ -214,7 +274,7 @@ class SpotifySearcher extends Searcher {
           let tracks = result.tracks.items;
           let results = [];
 
-          for (var i = 0; i < tracks.length; i++) {
+          for (let i = 0; i < tracks.length; i++) {
             results.push(SpotifySearcher.itemBuilder(tracks[i]));
           }
 
@@ -233,7 +293,16 @@ class SpotifySearcher extends Searcher {
   static featured() {
     return new Promise(function(resolve, reject) {
       SpotifySearcher.accessHeader.then(function(header) {
-        Searcher.get("https://api.spotify.com/v1/browse/featured-playlists", [header]).then(resolve);
+        Searcher.get("https://api.spotify.com/v1/browse/featured-playlists", [header]).then(JSON.parse).then(function(result) {
+          let items = result.playlists.items;
+          let results = [];
+
+          for (let i = 0; i < items.length; i++) {
+            results.push(SpotifySearcher.itemBuilder(items[i]));
+          }
+
+          resolve(results);
+        });;
       });
     });
   }
@@ -241,18 +310,62 @@ class SpotifySearcher extends Searcher {
 
 class Browser {
   constructor(defaultSearcher) {
-    //TODO!
-    this.urlMatcher = [
-      [/youtube.com/g, YoutubeSearcher],
-      [/spotify.com/g, SpotifySearcher]
-    ];
+    this.searchers = [{
+      serviceName: "Youtube",
+      handler: YoutubeSearcher,
+      icon: "https://i.imgur.com/kdQW0bK.png",
+      urlMatcher: /youtube.com/g
+    }, {
+      serviceName: "Spotify",
+      handler: SpotifySearcher,
+      icon: "https://i.imgur.com/72uEwCM.png",
+      urlMatcher: /spotify.com/g
+    }];
 
+    this._searcher;
     this.searcher = defaultSearcher;
   }
 
+  get searcherInformation() {
+    return this._searcher;
+  }
+
+  get searcher() {
+    return this._searcher.handler;
+  }
+
+  set searcher(val) {
+    for (let i = 0; i < this.searchers.length; i++) {
+      let s = this.searchers[i];
+
+      if (val === s.handler) {
+        this._searcher = s;
+        return;
+      }
+    }
+
+    throw "Can't set searcher to this";
+  }
+
   switchSearcher(newSearcher) {
-    if (!(newSearcher.prototype instanceof Searcher)) {
-      throw "Can only switch to Searchers";
+    if (typeof newSearcher === "string" || newSearcher instanceof String) {
+      let found = false;
+
+      for (let i = 0; i < this.searchers.length; i++) {
+        let s = this.searchers[i];
+
+        if (newSearcher === s.serviceName) {
+          newSearcher = s.handler;
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        throw "Couldn't map <" + newSearcher + "> to a valid searcher";
+      }
+    } else if (!(newSearcher.prototype instanceof Searcher)) {
+      throw "Can only switch to known Searchers";
     }
 
     this.searcher = newSearcher;
@@ -262,8 +375,31 @@ class Browser {
     return this.searcher.search(query);
   }
 
+  isUrl(url) {
+    for (let i = 0; i < this.searchers.length; i++) {
+      let s = this.searchers[i];
+
+      if (url.match(s.urlMatcher)) {
+        return s;
+      }
+    }
+
+    return false;
+  }
+
   getUrl(url) {
-    return this.searcher.getUrl(url);
+    let searcher = this.searcher;
+
+    for (let i = 0; i < this.searchers.length; i++) {
+      let s = this.searchers[i];
+
+      if (url.match(s.urlMatcher)) {
+        searcher = s.handler;
+        break;
+      }
+    }
+
+    return searcher.getUrl(url);
   }
 
   featured() {

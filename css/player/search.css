@@ -1,0 +1,157 @@
+.input_header {
+  padding-top: 1.5vmax;
+  padding-bottom: 1.5vmax;
+  margin-bottom: .5vmax;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.input_parent {
+  width: 60vmax;
+  margin: auto;
+}
+
+.search_bar {
+  display: flex;
+  align-items: center;
+}
+
+.searcher_container {
+  position: relative;
+  margin-right: .5vmax;
+}
+
+#searcher_icon {
+  width: 1.6vmax;
+  height: 1.6vmax;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+#searcher_dropdown_menu.active {
+  opacity: 1;
+}
+
+#searcher_dropdown_menu {
+  opacity: 0;
+  position: absolute;
+  padding: .6vmax 0;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #282828;
+  transition: opacity .1s linear;
+}
+
+.searcher {
+  display: flex;
+  padding: .25vmax 1.2vmax;
+  align-items: center;
+  color: #A0A0A0;
+  cursor: pointer;
+}
+
+.searcher:hover {
+  color: #FFFFFF;
+  background-color: #333333;
+}
+
+.searcher .name {
+  color: inherit;
+}
+
+.searcher .icon {
+  width: 1vmax;
+  height: 1vmax;
+  margin-right: .4vmax;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.input_field {
+  caret-color: #7289DA;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.6vmax;
+  line-height: 1.6;
+}
+
+.result_container {
+  width: 100%;
+}
+
+.result_type_selector {
+  margin: .5vmax auto;
+  width: 15vmax;
+  display: flex;
+  justify-content: space-around;
+}
+
+.result_type_selector * {
+  text-transform: uppercase;
+  letter-spacing: .08vmax;
+  color: hsla(0, 0%, 100%, .65);
+  font-weight: 900;
+  font-size: .6vmax;
+  transition: color .2s;
+}
+
+.result_type_selector *:hover {
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+.result_type_selector .selected {
+  color: #FFFFFF;
+}
+
+.result_type_selector :not(.possible) {
+  display: none;
+}
+
+.result_type_selector .selected::after {
+  content: "";
+  margin: 0 auto;
+  display: block;
+  width: 1.5vmax;
+  height: .1vmax;
+  background-color: #7289DA;
+}
+
+#result_display>:not(.active) {
+  display: none;
+}
+
+#result_display_message {
+  text-align: center;
+  font-size: 2vmax;
+  margin-top: 3vmax;
+  white-space: pre-wrap;
+}
+
+#result_display_tracks .entry {
+  margin: auto;
+}
+
+#result_display_playlists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#result_display_focused {
+  display: flex;
+  justify-content: center;
+}
+
+#result_display .playlist.Youtube {
+  width: 17.7vmax;
+}

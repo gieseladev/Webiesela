@@ -44,8 +44,8 @@
 
 #register_screen_tutorial * {
   display: inline-block;
-  color: #99AAB5;
-  font-size: 2.2vmin;
+  color: #A0A0A0;
+  font-size: 2.8vmin;
   text-shadow: 0.1em 0.1em 0.3em #000000;
 }
 

@@ -22,6 +22,11 @@ function onPopState(event) {
 
     if (site_id) {
       switch (site_id) {
+        case "main-search":
+          loadPage("main_screen", function() {
+            switchToSearch(true);
+          });
+          break;
         case "main-home":
           loadPage("main_screen", function() {
             _disableAllActive();
@@ -32,7 +37,6 @@ function onPopState(event) {
               switchHomePage("queue");
             });
           });
-
           break;
         case "main-playlists":
           var playlistId = state.focus;
@@ -56,7 +60,6 @@ function onPopState(event) {
               switchToPlaylists(true);
             });
           }
-
           break;
         case "main-radio_stations":
           loadPage("main_screen", function() {
@@ -78,14 +81,12 @@ function init() {
   //window.removeEventListener("load", init, false);
   notificationBar = new NotificationBar();
 
-  var request = new XMLHttpRequest();
-  request.open("GET", "config.json", false);
-  request.send(null);
+  Searcher.get("config.json").then(JSON.parse).then(data => {
+    config = data;
+    window.onpopstate = onPopState;
 
-  config = JSON.parse(request.responseText);
-  window.onpopstate = onPopState;
-
-  doConnect();
+    doConnect();
+  });
 }
 
 function loadPage(page_name, on_ready) {
@@ -317,4 +318,24 @@ function main() {
   });
 }
 
-main();
+function transitionBackground(new_background_url) {
+  "use strict";
+  var bg_parent = document.getElementById("bg");
+  var old_thumbnail = document.getElementById("thumbnail_old");
+  var thumbnail = document.getElementById("thumbnail");
+  if (new_background_url === thumbnail.src) {
+    console.log("[BACKGROUND] Background image is the same as before, not transitioning!");
+    return;
+  }
+  old_thumbnail.src = thumbnail.src;
+  thumbnail.src = new_background_url;
+  bg_parent.classList.add("transition");
+  var callfunction = function() {
+    bg_parent.classList.remove("transition");
+  };
+  bg_parent.addEventListener("webkitAnimationEnd", callfunction, false);
+  bg_parent.addEventListener("animationend", callfunction, false);
+  bg_parent.addEventListener("oanimationend", callfunction, false);
+}
+
+document.addEventListener("DOMContentLoaded", main);

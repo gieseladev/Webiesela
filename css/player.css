@@ -130,7 +130,7 @@
 }
 
 #menu_left .group {
-  border-top: .07vmax solid #3a3a3a;
+  border-top: .07vmax solid hsla(0, 0%, 100%, .25);
   padding-top: .4vmax;
 }
 
