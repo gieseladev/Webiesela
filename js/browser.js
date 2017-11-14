@@ -219,7 +219,7 @@ class SoundcloudSearcher extends Searcher {
   static rawSearch(query) {
     return super.get("https://api.soundcloud.com/tracks?q=" + encodeURI(query) + "&format=json&client_id=" + config.scApiKey);
   }
-    
+
   static rawFetch(query) {
     return super.get("https://api.soundcloud.com/resolve?url=" + encodeURIComponent(query) + "&client_id=" + config.scApiKey);
   }
@@ -270,13 +270,13 @@ class SoundcloudSearcher extends Searcher {
         let results = [];
 
         for (let i = 0; i < response.collection.length; i++) {
-          results.push(SoundcloudSearcher.itemBuilder(response.collection[i].track));        
+          results.push(SoundcloudSearcher.itemBuilder(response.collection[i].track));
         }
 
         resolve(results);
       });
     });
-  }   
+  }
 }
 
 class SpotifySearcher extends Searcher {
