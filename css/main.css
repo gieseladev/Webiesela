@@ -17,7 +17,7 @@
   }
 }
 
-button:focus {
+*:focus {
   outline: 0;
 }
 
