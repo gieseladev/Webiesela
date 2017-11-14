@@ -215,6 +215,54 @@ class YoutubeSearcher extends Searcher {
   }
 }
 
+class SoundcloudSearcher extends Searcher {
+  static rawSearch(query) {
+    return super.get("https://api.soundcloud.com/tracks?q=" + encodeURI(query) + "&format=json&client_id=" + config.scApiKey);
+  }
+    
+  static rawFetch(query) {
+    return super.get("https://api.soundcloud.com/resolve?url=" + encodeURIComponent(query) + "&client_id=" + config.scApiKey);
+  }
+
+  static itemBuilder(result) {
+    let kind = result.kind;
+
+    switch (kind) {
+      case "track":
+        return new Entry(result.title, result.user.username, result.artwork_url, null, result.permalink_url);
+        break;
+      case "playlist":
+         return new Playlist(result.title,
+          result.user.username,
+          result.artwork_url,
+          (result.track_count ? result.track_count : null),
+          result.permalink_url
+        );
+        break;
+    }
+  }
+
+  static search(query) {
+    return new Promise(function(resolve, reject) {
+      SoundcloudSearcher.rawSearch(query).then(JSON.parse).then(function(response) {
+        let results = [];
+
+        for (let i = 0; i < response.items.length; i++) {
+          results.push(SoundcloudSearcher.itemBuilder(response.items[i]));
+        }
+
+        resolve(results);
+      });
+    });
+  }
+
+  static getUrl(url) {
+    return new Promise(function(resolve, reject) {
+      SoundcloudSearcher.rawFetch(url).then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
+    });
+  }
+}
+
 class SpotifySearcher extends Searcher {
   static get accessHeader() {
     return new Promise(function(resolve, reject) {
@@ -320,6 +368,11 @@ class Browser {
       handler: SpotifySearcher,
       icon: "https://i.imgur.com/72uEwCM.png",
       urlMatcher: /spotify.com/g
+    }, {
+      serviceName: "SoundCloud",
+      handler: SoundcloudSearcher,
+      icon: "https://i.imgur.com/6uZz7cm.png",
+      urlMatcher: /soundcloud.com/g
     }];
 
     this._searcher;
