@@ -261,12 +261,22 @@ class SoundcloudSearcher extends Searcher {
       SoundcloudSearcher.rawFetch(url).then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
     });
   }
-  // temporary doesn't do anything important, don't want sentry to yell :P
+  // trending, all genres
   static featured() {
     return new Promise(function(resolve, reject) {
-      SoundcloudSearcher.rawFetch("https://soundcloud.com/shikhir-arora/sets/lucadotdj").then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
+      let url = "https://api-v2.soundcloud.com/charts?kind=trending&genre=soundcloud%3Agenres%3Aall-music&client_id=" + config.scApiKey + "&limit=20&offset=0";
+
+      Searcher.get(url).then(JSON.parse).then(function(response) {
+        let results = [];
+
+        for (let i = 0; i < response.collection.length; i++) {
+          results.push(SoundcloudSearcher.itemBuilder(response.collection[i].track));        
+        }
+
+        resolve(results);
+      });
     });
-  }    
+  }   
 }
 
 class SpotifySearcher extends Searcher {
