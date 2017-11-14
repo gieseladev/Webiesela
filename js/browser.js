@@ -234,7 +234,7 @@ class SoundcloudSearcher extends Searcher {
       case "playlist":
         return new Playlist(result.title,
           result.user.username,
-          result.artwork_url,
+          (result.artwork_url != null ? result.artwork_url : result.user.avatar_url),
           (result.track_count ? result.track_count : null),
           result.permalink_url
         );
@@ -261,7 +261,7 @@ class SoundcloudSearcher extends Searcher {
       SoundcloudSearcher.rawFetch(url).then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
     });
   }
-  // temporary
+  // temporary doesn't do anything important, don't want sentry to yell :P
   static featured() {
     return new Promise(function(resolve, reject) {
       SoundcloudSearcher.rawFetch("https://soundcloud.com/shikhir-arora/sets/lucadotdj").then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
