@@ -229,7 +229,7 @@ class SoundcloudSearcher extends Searcher {
 
     switch (kind) {
       case "track":
-        return new Entry(result.title, result.user.username, result.artwork_url, null, result.permalink_url);
+        return new Entry(result.title, result.user.username, (result.artwork_url != null ? result.artwork_url : result.user.avatar_url), null, result.permalink_url);
         break;
       case "playlist":
         return new Playlist(result.title,
