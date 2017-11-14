@@ -232,7 +232,7 @@ class SoundcloudSearcher extends Searcher {
         return new Entry(result.title, result.user.username, result.artwork_url, null, result.permalink_url);
         break;
       case "playlist":
-         return new Playlist(result.title,
+        return new Playlist(result.title,
           result.user.username,
           result.artwork_url,
           (result.track_count ? result.track_count : null),
@@ -247,8 +247,8 @@ class SoundcloudSearcher extends Searcher {
       SoundcloudSearcher.rawSearch(query).then(JSON.parse).then(function(response) {
         let results = [];
 
-        for (let i = 0; i < response.items.length; i++) {
-          results.push(SoundcloudSearcher.itemBuilder(response.items[i]));
+        for (let i = 0; i < response.length; i++) {
+          results.push(SoundcloudSearcher.itemBuilder(response[i]));
         }
 
         resolve(results);
@@ -261,6 +261,12 @@ class SoundcloudSearcher extends Searcher {
       SoundcloudSearcher.rawFetch(url).then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
     });
   }
+  // temporary
+  static featured() {
+    return new Promise(function(resolve, reject) {
+      SoundcloudSearcher.rawFetch("https://soundcloud.com/shikhir-arora/sets/lucadotdj").then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
+    });
+  }    
 }
 
 class SpotifySearcher extends Searcher {
