@@ -1,4 +1,5 @@
 {
+  "schedule":"weekly",
   "ignoredFiles":[
     "_designs/*"
   ]
