@@ -1,5 +1,5 @@
 {
-  "websocket_address": "ws://api.giesela.org:8000",
+  "websocket_address": "ws://localhost:8000",
   "max_timeout_ms": 180000,
   "googleApiKey": "AIzaSyDb9eZgqs86NlNtekfFHKWN5jaaR-eZFQY",
   "scApiKey": "368b0c85751007cd588d869d3ae61ac0"
