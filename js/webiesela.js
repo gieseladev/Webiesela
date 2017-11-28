@@ -9,6 +9,8 @@ class Webiesela {
     this._authorised = false;
     this.address = address;
 
+    this._token = JSON.parse(localStorage.getItem("webiesela_token"));
+
     this.listeners = {
       connect: [],
       disconnect: [],
@@ -23,8 +25,25 @@ class Webiesela {
     this.waitingForAnswer = {};
   }
 
+  get token() {
+    return this._token;
+  }
+
+  set token(value) {
+    this._token = value;
+    localStorage.setItem("webiesela_token", JSON.stringify(value));
+  }
+
+  get hasToken() {
+    return Boolean(this.token);
+  }
+
+  get tokenValid() {
+    return this.token.expires_at > (Date.now() / 1000);
+  }
+
   get connected() {
-    return Boolean(this.websocket && this.readyState == 1);
+    return Boolean(this.websocket) && this.websocket.readyState == 1;
   }
 
   get authorised() {
@@ -93,7 +112,6 @@ class Webiesela {
   }
 
   _send(data) {
-    console.log(this.connected, "connected");
     if (this.connected) {
       Webiesela.log("sending message", data);
       let serData = JSON.stringify(data);
@@ -157,13 +175,19 @@ class Webiesela {
     });
   }
 
+  waitForId(uid) {
+    return new Promise(resolve => {
+      this.waitingForAnswer[uid] = msg => resolve(msg);
+    });
+  }
+
   waitForAnswer(msg) {
     return new Promise(resolve => {
       // TODO write new uniqueNum gen
       let uid = uniqueNumber();
       msg.id = uid;
 
-      this.waitingForAnswer[uid] = msg => resolve(msg);
+      this.waitForId(uid).then(resolve);
       this._send(msg);
     });
   }
@@ -174,23 +198,40 @@ class Webiesela {
     }
   }
 
-  register() {
-    return new Promise(resolve => {
-      this._connect().then(() => {
+  register(gotRegistrationToken, gotToken) {
+    this._connect().then(
+      () => {
+        this.waitForAnswer({
+            request: "register"
+          })
+          .then(msg => {
+            let registrationToken = msg.registration_token;
 
-      });
-    });
+            this.waitForId(msg.id).then(msg => {
+              let token = msg.token;
+              Webiesela.log("got token", token);
+
+              this.token = token;
+
+              gotToken(token);
+            });
+
+            gotRegistrationToken(registrationToken);
+          });
+      }
+    );
   }
 
-  authorise(token) {
+  authorise() {
     return new Promise((resolve, reject) => {
       this._connect().then(
         () => {
           this.waitForAnswer({
-            request: "authorise"
+            request: "authorise",
+            token: this.token.token
           }).then(resolve);
         }
-      )
+      );
     });
   }
 }
