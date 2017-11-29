@@ -1,10 +1,49 @@
-class Webiesela {
+const WebieselaErrorCodes = {
+  GENERAL: 0,
+  MISSINGPARAMS: 1000,
+  PARAMERROR: 1001,
+
+  AUTHREQUIRED: 2001,
+  TOKENUNKNOWN: 2002,
+  TOKENEXPIRED: 2003,
+};
+
+
+class WebieselaEndpoints {
+  volume(value) {
+    let data = {
+      command: "volume",
+      value: value
+    };
+
+    return this._sendCommand(data);
+  }
+
+  _sendCommand(data) {
+    return new Promise((resolve, reject) => {
+      this.waitForAnswer(data)
+        .then(msg => {
+          if (msg.success) {
+            resolve(msg);
+          } else {
+            reject(msg.error);
+          }
+        });
+    });
+  }
+}
+
+
+
+class Webiesela extends WebieselaEndpoints {
   static log(...msg) {
     let prefix = "[Webiesela]";
     console.log(prefix, ...msg);
   }
 
   constructor(address) {
+    super();
+
     this.websocket = null;
     this._authorised = false;
     this.address = address;
@@ -39,7 +78,7 @@ class Webiesela {
   }
 
   get tokenValid() {
-    return this.token.expires_at > (Date.now() / 1000);
+    return this.hasToken && this.token.expires_at > (Date.now() / 1000);
   }
 
   get connected() {
@@ -48,6 +87,14 @@ class Webiesela {
 
   get authorised() {
     return this._authorised;
+  }
+
+  set authorised(value) {
+    this._authorised = value;
+
+    if (value) {
+      this._emit("authorised");
+    }
   }
 
   _connect() {
@@ -111,7 +158,7 @@ class Webiesela {
     this._emit("message", msg);
   }
 
-  _send(data) {
+  send(data) {
     if (this.connected) {
       Webiesela.log("sending message", data);
       let serData = JSON.stringify(data);
@@ -188,7 +235,7 @@ class Webiesela {
       msg.id = uid;
 
       this.waitForId(uid).then(resolve);
-      this._send(msg);
+      this.send(msg);
     });
   }
 
@@ -212,6 +259,7 @@ class Webiesela {
               Webiesela.log("got token", token);
 
               this.token = token;
+              this.authorised = true;
 
               gotToken(token);
             });
@@ -224,14 +272,25 @@ class Webiesela {
 
   authorise() {
     return new Promise((resolve, reject) => {
-      this._connect().then(
-        () => {
+      this._connect()
+        .then(() => {
           this.waitForAnswer({
-            request: "authorise",
-            token: this.token.token
-          }).then(resolve);
-        }
-      );
+              request: "authorise",
+              token: this.token.token
+            })
+            .then(msg => {
+              if (msg.success) {
+                Webiesela.log("authorised!");
+                this.token = msg.token;
+                this.authorised = true;
+                resolve();
+              } else {
+                let error = msg.error;
+                Webiesela.log("couldn't authorise!", error);
+                reject(error);
+              }
+            });
+        });
     });
   }
 }
