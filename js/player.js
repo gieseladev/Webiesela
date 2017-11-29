@@ -566,7 +566,7 @@ function setUser() {
   user_avatar.style.backgroundImage = "url(\"" + user.avatar_url + "\")";
 }
 
-function breakDown() {
+function breakDown_main_screen() {
   "use strict";
 
   if (ticker) {
@@ -576,7 +576,7 @@ function breakDown() {
   window.removeEventListener("selectstart", preventSelection);
 }
 
-function setup() {
+function setup_main_screen() {
   "use strict";
 
   history.replaceState({

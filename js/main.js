@@ -99,11 +99,11 @@ function init() {
 }
 
 async function register() {
-  console.log("registering!");
+  console.debug("[Main] registering");
 
   let showToken = async token => {
     await loadPage("register_screen");
-    console.log("showing token", token);
+    console.debug("[Main] got token", token);
 
     document.getElementById("register_screen_token").innerHTML = token.token;
     document.getElementById("register_screen_token_tutorial").innerHTML = token.token;
@@ -115,64 +115,43 @@ async function register() {
   webiesela.register(showToken, authorised);
 }
 
-function authorised() {
-  console.log("authorised, hey!");
+async function authorised() {
+  console.info("[Main] Authorised!");
+
+  await loadPage("main_screen");
+  // TODO setup!
+}
+
+function _callFunc(...name) {
+  let func = window[name.join("_")];
+
+  if (func) {
+    console.debug("Calling", name);
+    func();
+  }
 }
 
 async function loadPage(name) {
-  if (currentPage === name) { // no need to reload current site
+  // no need to reload current site
+  if (currentPage === name) {
     return;
   }
 
-  console.log("[PAGE] switching from " + currentPage + " to " + name);
+  console.debug("[Main] switching from " + currentPage + " to " + name);
+
+  _callFunc("preLoad", name);
 
   let html = await http("GET", name + ".html");
 
-  // TODO do I still need this?
-  if (currentPage === "main_screen") {
-    breakDown();
-  }
-  if (currentPage === "main_screen") {
-    setup();
-  }
-  // end
+  _callFunc("close", currentPage);
 
   document.getElementById("window").innerHTML = html;
   currentPage = name;
 
-  console.log("[PAGE] successfully loaded " + name);
+  _callFunc("open", currentPage);
+
+  console.info("[Main] successfully loaded " + name);
   return;
-}
-
-
-function onOpen( /*evt*/ ) {
-  "use strict";
-  console.log("[WEBSOCKET] connected to Giesela");
-  timeout_ms = 2000; //set timeout back to default value
-  if (token !== "") {
-    console.log("[WEBSOCKET] found token in cookies, asking for init information");
-    loadPage("main_screen", function() {
-      getInformation();
-    });
-  } else {
-    console.log("[WEBSOCKET] no token, requesting registration");
-    loadPage("register_screen", function() {
-      doSend(JSON.stringify({
-        "request": "register"
-      }));
-    });
-  }
-}
-
-function onClose(evt) {
-  "use strict";
-  console.log("[WEBSOCKET] disconnected");
-
-  // if (!evt.wasClean) {
-  //   return;
-  // }
-
-  doReconnect(evt);
 }
 
 function onMessage(evt) {
@@ -247,26 +226,6 @@ function onMessage(evt) {
   }
 }
 
-function waitForAnswer(message_object, handler) {
-  "use strict";
-
-  var request_id = uniqueNumber();
-
-  waitingForAnswer[request_id] = handler;
-
-  message_object.id = request_id;
-  message_object.token = token;
-  doSend(JSON.stringify(message_object));
-}
-
-function getInformation() {
-  "use strict";
-  doSend(JSON.stringify({
-    "token": token,
-    "request": "send_information"
-  }));
-}
-
 function parseInformation(info) {
   "use strict";
   if (info.user) {
@@ -304,13 +263,7 @@ function doReconnect() {
   });
 }
 
-function doSend(message) {
-  "use strict";
-  websocket.send(message);
-}
-
 function transitionBackground(new_background_url) {
-  "use strict";
   var bg_parent = document.getElementById("bg");
   var old_thumbnail = document.getElementById("thumbnail_old");
   var thumbnail = document.getElementById("thumbnail");
@@ -332,5 +285,6 @@ function transitionBackground(new_background_url) {
   bg_parent.addEventListener("animationend", callfunction, false);
   bg_parent.addEventListener("oanimationend", callfunction, false);
 }
+
 
 document.addEventListener("DOMContentLoaded", _init);
