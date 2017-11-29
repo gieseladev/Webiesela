@@ -83,9 +83,25 @@ class WebieselaEndpoints {
 
 
 class Webiesela extends WebieselaEndpoints {
-  static log(...msg) {
+  static _log(logger, ...msg) {
     let prefix = "[Webiesela]";
-    console.log(prefix, ...msg);
+    logger(prefix, ...msg);
+  }
+
+  static debug(...msg) {
+    Webiesela._log(console.debug, ...msg);
+  }
+
+  static info(...msg) {
+    Webiesela._log(console.info, ...msg);
+  }
+
+  static log(...msg) {
+    Webiesela._log(console.log, ...msg);
+  }
+
+  static warn(...msg) {
+    Webiesela._log(console.warn, ...msg);
   }
 
   constructor(address) {
@@ -144,9 +160,13 @@ class Webiesela extends WebieselaEndpoints {
     }
   }
 
+  get user() {
+    return this.authorised ? this.token.webiesela_user : null;
+  }
+
   _connect() {
     return new Promise((resolve, reject) => {
-      Webiesela.log("trying to connect");
+      Webiesela.debug("trying to connect");
       this.websocket = new WebSocket(this.address);
 
       this.websocket.onopen = evt => {
@@ -167,17 +187,17 @@ class Webiesela extends WebieselaEndpoints {
     this.websocket.onerror = evt => this._onError(evt);
     this.websocket.onmessage = evt => this._onMessage(evt);
 
-    Webiesela.log("connected!");
+    Webiesela.info("connected!");
     this._emit("connect", evt);
   }
 
   _onClose(evt) {
-    Webiesela.log("disconnected");
+    Webiesela.info("disconnected");
     this._emit("disconnect", evt);
   }
 
   _onError(evt) {
-    Webiesela.log("error", evt);
+    Webiesela.warn("error", evt);
     this._emit("error", evt);
   }
 
@@ -185,7 +205,7 @@ class Webiesela extends WebieselaEndpoints {
     let rawMessage = evt.data;
 
     let msg = JSON.parse(rawMessage);
-    Webiesela.log("received message", msg);
+    Webiesela.debug("received message", msg);
     this._emit("anymessage", msg);
 
     if (msg.id) {
@@ -196,7 +216,7 @@ class Webiesela extends WebieselaEndpoints {
 
         handler(msg);
       } else {
-        Webiesela.log("Message has id, but no handler found", msg);
+        Webiesela.warn("Message has id, but no handler found", msg);
       }
 
       return;
@@ -207,7 +227,7 @@ class Webiesela extends WebieselaEndpoints {
 
   send(data) {
     if (this.connected) {
-      Webiesela.log("sending message", data);
+      Webiesela.debug("sending message", data);
       let serData = JSON.stringify(data);
       this.websocket.send(serData);
 
@@ -226,7 +246,7 @@ class Webiesela extends WebieselaEndpoints {
         try {
           listeners[i](...data);
         } catch (e) {
-          Webiesela.log("Error while emitting \"" + evt + "\" (", listeners[i], ")\n", e);
+          Webiesela.warn("Error while emitting \"" + evt + "\" (", listeners[i], ")\n", e);
         }
       }
       return true;
@@ -303,7 +323,7 @@ class Webiesela extends WebieselaEndpoints {
 
             this.waitForId(msg.id).then(msg => {
               let token = msg.token;
-              Webiesela.log("got token", token);
+              Webiesela.info("got token", token);
 
               this.token = token;
               this.authorised = true;
@@ -327,13 +347,13 @@ class Webiesela extends WebieselaEndpoints {
             })
             .then(msg => {
               if (msg.success) {
-                Webiesela.log("authorised!");
+                Webiesela.info("authorised!");
                 this.token = msg.token;
                 this.authorised = true;
                 resolve();
               } else {
                 let error = msg.error;
-                Webiesela.log("couldn't authorise!", error);
+                Webiesela.warn("couldn't authorise!", error);
                 reject(error);
               }
             });
