@@ -42,48 +42,12 @@ class Playlist extends PlayableItem {
 }
 
 class Searcher {
-  static get(url, headers) {
-    return new Promise(function(resolve, reject) {
-      let request = new XMLHttpRequest();
-
-      function respHandler() {
-        resolve(this.response);
-      }
-
-      request.addEventListener("load", respHandler);
-
-      request.open("GET", url);
-
-      if (headers) {
-        for (let i = 0; i < headers.length; i++) {
-          request.setRequestHeader(headers[i][0], headers[i][1]);
-        }
-      }
-
-      request.send();
-    });
+  static async get(url, headers) {
+    return await http("GET", url, headers);
   }
 
-  static post(url, headers) {
-    return new Promise(function(resolve, reject) {
-      let request = new XMLHttpRequest();
-
-      function respHandler() {
-        resolve(this.response);
-      }
-
-      request.addEventListener("load", respHandler);
-
-      request.open("POST", url);
-
-      if (headers) {
-        for (let i = 0; i < headers.length; i++) {
-          request.setRequestHeader(headers[i][0], headers[i][1]);
-        }
-      }
-
-      request.send();
-    });
+  static async post(url, headers) {
+    return await http("POST", url, headers);
   }
 
   static getFallbackThumbnail(query) {
