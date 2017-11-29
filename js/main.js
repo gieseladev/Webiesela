@@ -1,14 +1,10 @@
-var timeout_ms = 2000;
-var websocket = null;
-var token = getCookie("token");
-var user = null;
-var current_page = "loading_screen";
+let currentPage = "loading_screen";
 
-var waitingForAnswer = {};
-
-var config;
-
+let webiesela;
 let notificationBar;
+let config;
+
+let timeoutMs = 2000;
 
 
 function onPopState(event) {
@@ -76,73 +72,78 @@ function onPopState(event) {
   }
 }
 
+function _init() {
+  Raven.config("https://3b40b56e8ae541aabbdd449223228f77@sentry.io/229538").install();
+  Raven.context(function() {
+    init();
+  });
+}
+
 function init() {
-  "use strict";
-  //window.removeEventListener("load", init, false);
+  window.onpopstate = onPopState;
   notificationBar = new NotificationBar();
 
   Searcher.get("config.json").then(JSON.parse).then(data => {
     config = data;
-    window.onpopstate = onPopState;
 
-    doConnect();
+    webiesela = new Webiesela(config.websocket_address);
+
+    if (webiesela.tokenValid) {
+      webiesela.authorise()
+        .then(authorised)
+        .catch(register);
+    } else {
+      register();
+    }
   });
 }
 
-function loadPage(page_name, on_ready) {
-  "use strict";
-  if (current_page === page_name) { // no need to reload current site
-    on_ready();
+async function register() {
+  console.log("registering!");
+
+  let showToken = async token => {
+    await loadPage("register_screen");
+    console.log("showing token", token);
+
+    document.getElementById("register_screen_token").innerHTML = token.token;
+    document.getElementById("register_screen_token_tutorial").innerHTML = token.token;
+
+    let cb = new Clipboard(".click_copy");
+    cb.on("success", () => notificationBar.show("Comand copied to Clipboard", 3000));
+  }
+
+  webiesela.register(showToken, authorised);
+}
+
+function authorised() {
+  console.log("authorised, hey!");
+}
+
+async function loadPage(name) {
+  if (currentPage === name) { // no need to reload current site
     return;
   }
 
-  console.log("[PAGE] switching from " + current_page + " to " + page_name + "...");
-  var xhttp = new XMLHttpRequest();
+  console.log("[PAGE] switching from " + currentPage + " to " + name);
 
-  xhttp.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      if (current_page === "main_screen") {
-        breakDown();
-      } else if (current_page === "picture_frame") {
-        clearTimeout(activeTimer);
-        document.body.classList.remove("hideCursor");
-      }
+  let html = await http("GET", name + ".html");
 
-      document.getElementById("window").innerHTML = this.responseText;
-      current_page = page_name;
+  // TODO do I still need this?
+  if (currentPage === "main_screen") {
+    breakDown();
+  }
+  if (currentPage === "main_screen") {
+    setup();
+  }
+  // end
 
-      if (current_page === "main_screen") {
-        setup();
-      } else if (current_page === "picture_frame") {
-        setupPictureFrame();
-      }
+  document.getElementById("window").innerHTML = html;
+  currentPage = name;
 
-      console.log("[PAGE] successfully loaded " + page_name);
-
-      on_ready();
-    }
-  };
-  xhttp.open("GET", page_name + ".html", true);
-  xhttp.send();
+  console.log("[PAGE] successfully loaded " + name);
+  return;
 }
 
-function doConnect() {
-  "use strict";
-  console.log("[WEBSOCKET] trying to connect");
-  websocket = new WebSocket(config.websocket_address);
-  websocket.onopen = function(evt) {
-    onOpen(evt);
-  };
-  websocket.onclose = function(evt) {
-    onClose(evt);
-  };
-  websocket.onmessage = function(evt) {
-    onMessage(evt);
-  };
-  websocket.onerror = function(evt) {
-    onError(evt);
-  };
-}
 
 function onOpen( /*evt*/ ) {
   "use strict";
@@ -240,7 +241,7 @@ function onMessage(evt) {
   if (data.update) {
     console.log("[Websocket] received an update");
 
-    if (current_page === "main_screen") {
+    if (currentPage === "main_screen") {
       playerHandleUpdate(data.update);
     }
   }
@@ -272,15 +273,12 @@ function parseInformation(info) {
     console.log("[WEBSOCKET] got information about user ", info.user);
     user = info.user;
 
-    if (current_page === "main_screen") {
+    if (currentPage === "main_screen") {
       setUser();
     }
   }
   var player = info.player;
-  switch (current_page) {
-    case "picture_frame":
-      pictureFrameHandlePlayerInformation(player);
-      break;
+  switch (currentPage) {
     case "main_screen":
       playerHandlePlayerInformation(player);
       break;
@@ -311,31 +309,28 @@ function doSend(message) {
   websocket.send(message);
 }
 
-function main() {
-  Raven.config("https://3b40b56e8ae541aabbdd449223228f77@sentry.io/229538").install();
-  Raven.context(function() {
-    init();
-  });
-}
-
 function transitionBackground(new_background_url) {
   "use strict";
   var bg_parent = document.getElementById("bg");
   var old_thumbnail = document.getElementById("thumbnail_old");
   var thumbnail = document.getElementById("thumbnail");
+
   if (new_background_url === thumbnail.src) {
     console.log("[BACKGROUND] Background image is the same as before, not transitioning!");
     return;
   }
+
   old_thumbnail.src = thumbnail.src;
   thumbnail.src = new_background_url;
   bg_parent.classList.add("transition");
+
   var callfunction = function() {
     bg_parent.classList.remove("transition");
   };
+
   bg_parent.addEventListener("webkitAnimationEnd", callfunction, false);
   bg_parent.addEventListener("animationend", callfunction, false);
   bg_parent.addEventListener("oanimationend", callfunction, false);
 }
 
-document.addEventListener("DOMContentLoaded", main);
+document.addEventListener("DOMContentLoaded", _init);

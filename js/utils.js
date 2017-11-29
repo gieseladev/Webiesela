@@ -2,11 +2,16 @@ function http(method, url, headers) {
   return new Promise(function(resolve, reject) {
     let request = new XMLHttpRequest();
 
-    function respHandler() {
+    function resHandler() {
       resolve(this.response);
     }
 
-    request.addEventListener("load", respHandler);
+    function rejHandler() {
+      reject(this.response);
+    }
+
+    request.addEventListener("load", resHandler);
+    request.addEventListener("error", rejHandler);
 
     request.open(method.toUpperCase(), url);
 
