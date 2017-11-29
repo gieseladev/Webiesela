@@ -214,7 +214,7 @@ class Webiesela extends WebieselaEndpoints {
       return true;
     }
 
-    throw "Can't send messages when not connected";
+    throw new Error("Can't send messages when not connected");
   }
 
   _emit(evt, ...data) {
@@ -232,7 +232,7 @@ class Webiesela extends WebieselaEndpoints {
       return true;
     }
 
-    throw "Can't emit event \"" + evt + "\"";
+    throw new Error("Can't emit event \"" + evt + "\"");
   }
 
   on(evt, listener) {
@@ -244,7 +244,7 @@ class Webiesela extends WebieselaEndpoints {
       return this;
     }
 
-    throw "Can't add a listener to event \"" + evt + "\"";
+    throw new Error("Can't add a listener to event \"" + evt + "\"");
   }
 
   once(evt) {
@@ -265,7 +265,7 @@ class Webiesela extends WebieselaEndpoints {
         return this;
       }
 
-      throw "Can't add a one-time listener to event \"" + evt + "\"";
+      throw new Error("Can't add a one-time listener to event \"" + evt + "\"");
     });
   }
 
