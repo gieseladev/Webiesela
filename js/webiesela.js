@@ -10,10 +10,57 @@ const WebieselaErrorCodes = {
 
 
 class WebieselaEndpoints {
+  // COMMANDS!
+
   volume(value) {
     let data = {
       command: "volume",
       value: value
+    };
+
+    return this._sendCommand(data);
+  }
+
+  shuffle() {
+    let data = {
+      command: "shuffle"
+    };
+
+    return this._sendCommand(data);
+  }
+
+  clear() {
+    let data = {
+      command: "clear"
+    };
+
+    return this._sendCommand(data);
+  }
+
+  move(from_index, to_index) {
+    let data = {
+      command: "move",
+      from_index: from_index,
+      to_index: to_index
+    };
+
+    return this._sendCommand(data);
+  }
+
+  replay(index) {
+    let data = {
+      command: "replay",
+      index: index
+    };
+
+    return this._sendCommand(data);
+  }
+
+  // REQUESTS!
+
+  getQueue() {
+    let data = {
+      request: "get_queue"
     };
 
     return this._sendCommand(data);
