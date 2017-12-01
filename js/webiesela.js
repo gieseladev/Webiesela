@@ -9,6 +9,20 @@ const WebieselaErrorCodes = {
 };
 
 
+class WebieselaRequest {
+  constructor(request) {
+    this.request = request;
+  }
+}
+
+
+class WebieselaCommand {
+  constructor(command, extra) {
+    this.command = command;
+  }
+}
+
+
 class WebieselaEndpoints {
   // COMMANDS!
 
@@ -242,13 +256,14 @@ class Webiesela extends WebieselaEndpoints {
     let listeners = this.listeners[evtName];
 
     if (listeners) {
-      for (var i = 0; i < listeners.length; i++) {
+      for (let i = 0; i < listeners.length; i++) {
         try {
           listeners[i](...data);
         } catch (e) {
           Webiesela.warn("Error while emitting \"" + evt + "\" (", listeners[i], ")\n", e);
         }
       }
+
       return true;
     }
 

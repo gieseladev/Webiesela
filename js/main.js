@@ -10,11 +10,11 @@ let timeoutMs = 2000;
 function onPopState(event) {
   "use strict";
 
-  var state = event.state;
+  let state = event.state;
   console.log("[HISTORY] going back to ", state);
 
   if (state) {
-    var site_id = state.id;
+    let site_id = state.id;
 
     if (site_id) {
       switch (site_id) {
@@ -35,7 +35,7 @@ function onPopState(event) {
           });
           break;
         case "main-playlists":
-          var playlistId = state.focus;
+          let playlistId = state.focus;
 
           if (playlistId) {
             loadPage("main_screen", function() {
@@ -86,16 +86,31 @@ function init() {
   Searcher.get("config.json").then(JSON.parse).then(data => {
     config = data;
 
-    webiesela = new Webiesela(config.websocket_address);
-
-    if (webiesela.tokenValid) {
-      webiesela.authorise()
-        .then(authorised)
-        .catch(register);
-    } else {
-      register();
-    }
+    connect();
   });
+}
+
+function connect() {
+  webiesela = new Webiesela(config.websocket_address)
+  .on("disconnect", reconnect)
+  .on("error", onError);
+
+  if (webiesela.tokenValid) {
+    webiesela.authorise()
+      .then(authorised)
+      .catch(register);
+  } else {
+    register();
+  }
+}
+
+function reconnect() {
+  console.warn("[Main] reconnecting in " + formatSeconds(timeoutMs / 1000) + " seconds!");
+
+  webiesela.disconnect();
+
+  setTimeout(connect, timeoutMs);
+  timeoutMs = Math.min(1.5 * timeoutMs, config.max_timeout_ms);
 }
 
 async function register() {
@@ -139,7 +154,7 @@ async function loadPage(name) {
 
   console.debug("[Main] switching from " + currentPage + " to " + name);
 
-  _callFunc("preLoad", name);
+  await _callFunc("preLoad", name);
 
   let html = await http("GET", name + ".html");
 
@@ -154,13 +169,19 @@ async function loadPage(name) {
   return;
 }
 
+
+function onError(evt) {
+  webiesela.disconnect();
+}
+
+
 function onMessage(evt) {
   "use strict";
-  var data = JSON.parse(evt.data);
+  let data = JSON.parse(evt.data);
   console.log("[WEBSOCKET] got message ", data);
 
   if (data.request_id) {
-    var handler = waitingForAnswer[data.request_id];
+    let handler = waitingForAnswer[data.request_id];
     if (handler) {
       delete waitingForAnswer[data.request_id];
 
@@ -188,8 +209,8 @@ function onMessage(evt) {
   }
 
   if (data.registration_token) {
-    var registration_token = data.registration_token;
-    var command_prefix = data.command_prefix;
+    let registration_token = data.registration_token;
+    let command_prefix = data.command_prefix;
 
     console.log("[WEBSOCKET] received my very own registration token: " + registration_token, "with command prefix", command_prefix);
 
@@ -236,20 +257,12 @@ function parseInformation(info) {
       setUser();
     }
   }
-  var player = info.player;
+  let player = info.player;
   switch (currentPage) {
     case "main_screen":
       playerHandlePlayerInformation(player);
       break;
   }
-}
-
-function onError(evt) {
-  "use strict";
-  console.log("[WEBSOCKET] Error ", evt);
-  websocket.close();
-
-  // doReconnect(evt);
 }
 
 function doReconnect() {
@@ -263,10 +276,14 @@ function doReconnect() {
   });
 }
 
+
+
+
+
 function transitionBackground(new_background_url) {
-  var bg_parent = document.getElementById("bg");
-  var old_thumbnail = document.getElementById("thumbnail_old");
-  var thumbnail = document.getElementById("thumbnail");
+  let bg_parent = document.getElementById("bg");
+  let old_thumbnail = document.getElementById("thumbnail_old");
+  let thumbnail = document.getElementById("thumbnail");
 
   if (new_background_url === thumbnail.src) {
     console.log("[BACKGROUND] Background image is the same as before, not transitioning!");
@@ -277,7 +294,7 @@ function transitionBackground(new_background_url) {
   thumbnail.src = new_background_url;
   bg_parent.classList.add("transition");
 
-  var callfunction = function() {
+  let callfunction = function() {
     bg_parent.classList.remove("transition");
   };
 
