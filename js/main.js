@@ -107,8 +107,6 @@ function connect() {
 function reconnect() {
   console.warn("[Main] reconnecting in " + formatSeconds(timeoutMs / 1000) + " seconds!");
 
-  webiesela.disconnect();
-
   setTimeout(connect, timeoutMs);
   timeoutMs = Math.min(1.5 * timeoutMs, config.max_timeout_ms);
 }
@@ -173,6 +171,7 @@ async function loadPage(name) {
 function onError(evt) {
   webiesela.disconnect();
 }
+
 
 
 function onMessage(evt) {

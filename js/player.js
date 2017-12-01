@@ -6,5 +6,5 @@ async function preLoad_main_screen() {
 }
 
 function open_main_screen() {
-  //TODO get regerences to dom
+  //TODO get references to dom
 }

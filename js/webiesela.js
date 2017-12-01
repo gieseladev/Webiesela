@@ -188,6 +188,11 @@ class Webiesela extends WebieselaEndpoints {
         this._onOpen(evt);
       };
 
+      this.websocket.onclose = evt => {
+        reject();
+        this._onClose(evt);
+      };
+
       this.websocket.onerror = evt => {
         reject();
         this._onError(evt);
@@ -328,8 +333,8 @@ class Webiesela extends WebieselaEndpoints {
   }
 
   register(gotRegistrationToken, gotToken) {
-    this._connect().then(
-      () => {
+    this._connect()
+      .then(() => {
         this.waitForAnswer({
             request: "register"
           })
@@ -348,8 +353,7 @@ class Webiesela extends WebieselaEndpoints {
 
             gotRegistrationToken(registrationToken);
           });
-      }
-    );
+      });
   }
 
   authorise() {
