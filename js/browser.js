@@ -264,7 +264,7 @@ class SoundcloudSearcher extends Searcher {
   // trending, all genres
   static featured() {
     return new Promise(function(resolve, reject) {
-      let url = "https://cors-anywhere.herokuapp.com/https://api-v2.soundcloud.com/charts?kind=trending&genre=soundcloud%3Agenres%3Aall-music&client_id=" + config.scApiKey + "&limit=20&offset=0";
+      let url = "http://proxy.giesela.stream/https://api-v2.soundcloud.com/charts?kind=trending&genre=soundcloud%3Agenres%3Aall-music&client_id=" + config.scApiKey + "&limit=20&offset=0";
 
       Searcher.get(url).then(JSON.parse).then(function(response) {
         let results = [];
