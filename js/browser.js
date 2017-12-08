@@ -1,7 +1,8 @@
 class PlayableItem {
-  constructor(kind, url) {
+  constructor(kind, url, searcher) {
     this.kind = kind;
     this.url = url;
+    this.searcher = searcher;
   }
 
   play(mode = "queue") {
@@ -9,6 +10,7 @@ class PlayableItem {
       let data = {
         item: this,
         kind: this.kind,
+        searcher: this.searcher.name,
         url: this.url,
         mode: mode
       };
@@ -19,8 +21,8 @@ class PlayableItem {
 }
 
 class Entry extends PlayableItem {
-  constructor(title, artist, image, duration, url) {
-    super("entry", url);
+  constructor(searcher, title, artist, image, duration, url) {
+    super("entry", url, searcher);
 
     this.title = title;
     this.artist = artist;
@@ -31,8 +33,8 @@ class Entry extends PlayableItem {
 
 
 class Playlist extends PlayableItem {
-  constructor(title, artist, image, entries, url) {
-    super("playlist", url);
+  constructor(searcher, title, artist, image, entries, url) {
+    super("playlist", url, searcher);
 
     this.title = title;
     this.artist = artist;
@@ -159,10 +161,10 @@ class YoutubeSearcher extends Searcher {
 
     switch (kind) {
       case "youtube#video":
-        return new Entry(result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
+        return new Entry(this, result.snippet.title, result.snippet.channelTitle, this.findBestThumbnail(result.snippet.thumbnails), null, "https://www.youtube.com/watch?v=" + (result.id.videoId || result.id));
         break;
       case "youtube#playlist":
-        return new Playlist(result.snippet.title,
+        return new Playlist(this, result.snippet.title,
           result.snippet.channelTitle,
           this.findBestThumbnail(result.snippet.thumbnails) || Searcher.getFallbackThumbnail(result.snippet.title),
           (result.contentDetails ? result.contentDetails.itemCount : null),
@@ -229,10 +231,10 @@ class SoundcloudSearcher extends Searcher {
 
     switch (kind) {
       case "track":
-        return new Entry(result.title, result.user.username, (result.artwork_url != null ? result.artwork_url : result.user.avatar_url), result.duration / 1000, result.permalink_url);
+        return new Entry(this, result.title, result.user.username, (result.artwork_url != null ? result.artwork_url : result.user.avatar_url), result.duration / 1000, result.permalink_url);
         break;
       case "playlist":
-        return new Playlist(result.title,
+        return new Playlist(this, result.title,
           result.user.username,
           (result.artwork_url != null ? result.artwork_url : result.user.avatar_url),
           (result.track_count ? result.track_count : null),
@@ -323,10 +325,10 @@ class SpotifySearcher extends Searcher {
   static itemBuilder(obj) {
     switch (obj.type) {
       case "track":
-        return new Entry(obj.name, obj.artists[0].name, obj.album.images[0].url, obj.duration_ms / 1000, "https://open.spotify.com/track/" + obj.id);
+        return new Entry(this, obj.name, obj.artists[0].name, obj.album.images[0].url, obj.duration_ms / 1000, "https://open.spotify.com/track/" + obj.id);
         break;
       case "playlist":
-        return new Playlist(obj.name, obj.owner.display_name, obj.images[0].url, obj.tracks.total, "https://open.spotify.com/user/" + obj.owner.id + "/playlist/" + obj.id);
+        return new Playlist(this, obj.name, obj.owner.display_name, obj.images[0].url, obj.tracks.total, "https://open.spotify.com/user/" + obj.owner.id + "/playlist/" + obj.id);
         break;
     }
   }
