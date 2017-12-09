@@ -172,6 +172,7 @@ function displayFocused(item) {
   });
 
   element.classList.add(browser.searcherInformation.serviceName);
+  element.classList.add("clickable");
   element.setAttribute("data-result-index", 0);
   element.addEventListener("click", () => playEntry(0));
 
@@ -221,6 +222,7 @@ function displayItems(items) {
 
     element.setAttribute("data-result-index", i);
     element.addEventListener("click", () => playEntry(i));
+    element.classList.add("clickable");
 
     parent.appendChild(element);
   }
