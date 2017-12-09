@@ -172,6 +172,8 @@ function displayFocused(item) {
   });
 
   element.classList.add(browser.searcherInformation.serviceName);
+  element.setAttribute("data-result-index", 0);
+  element.addEventListener("click", () => playEntry(0));
 
   resultDisplayFocused.appendChild(element);
 
