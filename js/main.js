@@ -108,10 +108,16 @@ function reconnect() {
   console.warn("[Main] reconnecting in " + formatSeconds(timeoutMs / 1000) + " seconds!");
 
   setTimeout(connect, timeoutMs);
-  timeoutMs = Math.min(1.5 * timeoutMs, config.max_timeout_ms);
+  timeoutMs = Math.min(2 * timeoutMs, config.max_timeout_ms);
 }
 
 async function register() {
+  if (!webiesela.connected) {
+    console.error("[Main] Couldn't reach Giesela!");
+    reconnect();
+    return;
+  }
+
   console.debug("[Main] registering");
 
   let showToken = async token => {

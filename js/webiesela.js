@@ -376,7 +376,8 @@ class Webiesela extends WebieselaEndpoints {
                 reject(error);
               }
             });
-        });
+        })
+        .catch(reject);
     });
   }
 }
