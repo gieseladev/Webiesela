@@ -260,7 +260,7 @@ class SoundcloudSearcher extends Searcher {
 
   static getUrl(url) {
     return new Promise(function(resolve, reject) {
-      SoundcloudSearcher.rawFetch(url).then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve);
+      SoundcloudSearcher.rawFetch(url).then(JSON.parse).then(SoundcloudSearcher.itemBuilder).then(resolve).catch(reject);
     });
   }
   // trending, all genres
@@ -352,7 +352,7 @@ class SpotifySearcher extends Searcher {
 
   static getUrl(url) {
     return new Promise(function(resolve, reject) {
-      SpotifySearcher.rawFetch(url).then(JSON.parse).then(SpotifySearcher.itemBuilder).then(resolve);
+      SpotifySearcher.rawFetch(url).then(JSON.parse).then(SpotifySearcher.itemBuilder).then(resolve).catch(reject);
     });
   }
 

@@ -21,7 +21,7 @@ function playEntry(element, method = "queue") {
     index = element.getAttribute("data-result-index");
   }
   let result = currentResults[index];
-  result.play(method).then(() => displayPushNotification("Adding " + result.title), () => displayPushNotification("Couldn't add " + result.title));
+  result.play(method).then(() => displayPushNotification("Added <b>" + result.title + "</b>"), () => displayPushNotification("Couldn't add <b>" + result.title + "</b>"));
 }
 
 function searchEntryContextMenu(_, action) {
