@@ -11,9 +11,22 @@ let resultDisplayFocused;
 let resultSelectorTracks;
 let resultSelectorPlaylists;
 
-function searchEntryContextMenu() {
-  console.log("context menu");
-  //TODO
+
+function playEntry(element, method = "queue") {
+  let index;
+
+  if (Number.isInteger(element)) {
+    index = element;
+  } else {
+    index = element.getAttribute("data-result-index");
+  }
+  let result = currentResults[index];
+  result.play(method).then(() => displayPushNotification("Added <b>" + result.title + "</b>"), () => displayPushNotification("Couldn't add <b>" + result.title + "</b>"));
+}
+
+function searchEntryContextMenu(_, action) {
+  let targetEl = this.taskItemInContext;
+  playEntry(targetEl, action);
 }
 
 function searchInputOnChange(evt) {
@@ -150,6 +163,8 @@ function displayFocused(item) {
   hideSelectors();
   showPossibleSelectors();
 
+  currentResults = [item];
+
   let element = HTMLTemplate.build("playlist", {
     ".title": item.title,
     ".author": item.artist,
@@ -157,6 +172,9 @@ function displayFocused(item) {
   });
 
   element.classList.add(browser.searcherInformation.serviceName);
+  element.classList.add("clickable");
+  element.setAttribute("data-result-index", 0);
+  element.addEventListener("click", () => playEntry(0));
 
   resultDisplayFocused.appendChild(element);
 
@@ -173,29 +191,40 @@ function displayItems(items) {
 
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
+    let element;
+    let parent;
 
     switch (item.constructor.name) {
       case "Playlist":
-        let element = HTMLTemplate.build("playlist", {
+        parent = resultDisplayPlaylists;
+
+        element = HTMLTemplate.build("playlist", {
           ".title": item.title,
           ".author": item.artist,
           ".cover": element => element.setAttribute("style", "background-image: url(\"" + item.image + "\");")
         });
 
         element.classList.add(browser.searcherInformation.serviceName);
-
-        resultDisplayPlaylists.appendChild(element);
         break;
 
       case "Entry":
-        resultDisplayTracks.appendChild(HTMLTemplate.build("entry", {
+        parent = resultDisplayTracks;
+
+        element = HTMLTemplate.build("entry", {
           ".index": i + 1,
           ".title": item.title,
           ".artist": item.artist,
           ".album, .seperator, .duration": false,
-        }));
+        });
+
         break;
     }
+
+    element.setAttribute("data-result-index", i);
+    element.addEventListener("click", () => playEntry(i));
+    element.classList.add("clickable");
+
+    parent.appendChild(element);
   }
 
   showAppropriate();

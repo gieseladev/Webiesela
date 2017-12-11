@@ -27,8 +27,25 @@
   cursor: default;
 }
 
+.entry .play {
+  display: none;
+}
+
+.entry.clickable:hover .play {
+  display: block;
+}
+
+.entry.clickable:hover .index {
+  display: none;
+}
+
 .entry .index::after {
   content: ".";
+}
+
+.entry .play::after {
+  color: white;
+  content: "▶";
 }
 
 .entry .name {
