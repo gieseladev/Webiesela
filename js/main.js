@@ -160,7 +160,7 @@ async function loadPage(name) {
 
   await _callFunc("preLoad", name);
 
-  let html = await http("GET", name + ".html");
+  let html = await WebieselaUtils.http("GET", name + ".html");
 
   _callFunc("close", currentPage);
 
@@ -269,18 +269,6 @@ function parseInformation(info) {
       break;
   }
 }
-
-function doReconnect() {
-  "use strict";
-
-  console.log("[Websocket] reconnecting in", formatSeconds(timeout_ms / 1000));
-
-  loadPage("loading_screen", function() { //switch back to the loading screen and connect again
-    setTimeout(doConnect, timeout_ms);
-    timeout_ms = Math.min(1.5 * timeout_ms, (config.max_timeout_ms || 180000));
-  });
-}
-
 
 
 

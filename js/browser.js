@@ -43,11 +43,11 @@ class Playlist extends PlayableItem {
 
 class Searcher {
   static async get(url, headers) {
-    return await http("GET", url, headers);
+    return await WebieselaUtils.http("GET", url, headers);
   }
 
   static async post(url, headers) {
-    return await http("POST", url, headers);
+    return await WebieselaUtils.http("POST", url, headers);
   }
 
   static getFallbackThumbnail(query) {

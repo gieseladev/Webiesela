@@ -1,11 +1,11 @@
 const WebieselaErrorCodes = {
-  GENERAL: 0,
-  MISSINGPARAMS: 1000,
-  PARAMERROR: 1001,
+  0000: "GENERAL",
+  1000: "MISSINGPARAMS",
+  1001: "PARAMERROR",
 
-  AUTHREQUIRED: 2001,
-  TOKENUNKNOWN: 2002,
-  TOKENEXPIRED: 2003,
+  2001: "AUTHREQUIRED",
+  2002: "TOKENUNKNOWN",
+  2003: "TOKENEXPIRED"
 };
 
 
@@ -317,8 +317,7 @@ class Webiesela extends WebieselaEndpoints {
 
   waitForAnswer(msg) {
     return new Promise(resolve => {
-      // TODO write new uniqueNum gen
-      let uid = uniqueNumber();
+      let uid = WebieselaUtils.uniqueNumber();
       msg.id = uid;
 
       this.waitForId(uid).then(resolve);
