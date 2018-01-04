@@ -45,15 +45,15 @@ class WebieselaUtils {
   }
 
   static uniqueNumber() {
-    var date = Date.now();
+    var stamp = Date.now();
 
-    if (date <= uniqueNumber.previous) {
-      date = ++uniqueNumber.previous;
+    if (stamp <= WebieselaUtils.uniqueNumber.previous) {
+      stamp = ++WebieselaUtils.uniqueNumber.previous;
     } else {
-      uniqueNumber.previous = date;
+      WebieselaUtils.uniqueNumber.previous = stamp;
     }
 
-    return date;
+    return stamp;
   }
 
   static sleep(ms) {
