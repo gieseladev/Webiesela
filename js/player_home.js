@@ -45,6 +45,12 @@ function historyEntryContextMenuClick(entryIndex, action) {
     "index": parseInt(entryIndex)
   }, "Replaying " + queue.history[entryIndex].title.bold(), "Can't replay " + queue.history[entryIndex].title.bold());
 }
+  const prom = "promote"; // please xD don't ask
+ 
+  sendCommand(prom, {
+    "index": 0
+  }, null, "Promote");
+}
 
 function onEntryMove(evt, origEvt) {
   "use strict";
