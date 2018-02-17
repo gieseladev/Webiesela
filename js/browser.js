@@ -288,7 +288,8 @@ class SpotifySearcher extends Searcher {
         resolve(["Authorization", "Bearer " + SpotifySearcher.accessToken.access_token]);
       } else {
         console.log("[SpotifySearcher] getting new token");
-        Searcher.get("https://utils.giesela.org/tokens/spotify").then(JSON.parse).then(function(accessToken) {
+        let url = "https://gitils.giesela.io/tokens/spotify";  
+        Searcher.get(url).then(JSON.parse).then(function(accessToken) {
           SpotifySearcher.accessToken = accessToken;
           resolve(["Authorization", "Bearer " + SpotifySearcher.accessToken.access_token]);
         });
